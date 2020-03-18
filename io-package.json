@@ -1,0 +1,74 @@
+{
+    "common": {
+        "name": "panasonic-comfort-cloud",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Panasonic Comfort Cloud",
+        "titleLang": {
+            "en": "Panasonic Comfort Cloud",
+            "de": "Panasonic Comfort Cloud",
+            "ru": "Panasonic Comfort Cloud",
+            "pt": "Panasonic Comfort Cloud",
+            "nl": "Panasonic Comfort Cloud",
+            "fr": "Panasonic Comfort Cloud",
+            "it": "Panasonic Comfort Cloud",
+            "es": "Panasonic Comfort Cloud",
+            "pl": "Panasonic Comfort Cloud",
+            "zh-cn": "松下舒适云"
+        },
+        "desc": {
+            "en": "Adapter for Panasonic Comfort Cloud",
+            "de": "Adapter für Panasonic Comfort Cloud",
+            "ru": "Адаптер для Panasonic Comfort Cloud",
+            "pt": "Adaptador para Panasonic Comfort Cloud",
+            "nl": "Adapter voor Panasonic Comfort Cloud",
+            "fr": "Adaptateur pour Panasonic Comfort Cloud",
+            "it": "Adattatore per Panasonic Comfort Cloud",
+            "es": "Adaptador para Panasonic Comfort Cloud",
+            "pl": "Adapter do chmury Panasonic Comfort Cloud",
+            "zh-cn": "松下舒适云适配器"
+        },
+        "authors": [
+            "marc <lammers.marc@gmail.com>"
+        ],
+        "keywords": [
+            "template"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "panasonic-comfort-cloud.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
+        "readme": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "option1": true,
+        "option2": "42"
+    },
+    "objects": [],
+    "instanceObjects": []
+}
