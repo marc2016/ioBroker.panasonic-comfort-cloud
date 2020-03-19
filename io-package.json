@@ -1,6 +1,6 @@
 {
     "common": {
-        "name": "ioBroker.panasonic-comfort-cloud",
+        "name": "panasonic-comfort-cloud",
         "version": "0.0.1",
         "news": {
             "0.0.1": {
