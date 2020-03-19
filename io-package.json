@@ -1,6 +1,6 @@
 {
     "common": {
-        "name": "panasonic-comfort-cloud",
+        "name": "ioBroker.panasonic-comfort-cloud",
         "version": "0.0.1",
         "news": {
             "0.0.1": {
@@ -41,12 +41,8 @@
             "pl": "Adapter do chmury Panasonic Comfort Cloud",
             "zh-cn": "松下舒适云适配器"
         },
-        "authors": [
-            "marc <lammers.marc@gmail.com>"
-        ],
-        "keywords": [
-            "template"
-        ],
+        "authors": ["marc <lammers.marc@gmail.com>"],
+        "keywords": ["template"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
