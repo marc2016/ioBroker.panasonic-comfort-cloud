@@ -5,6 +5,13 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core'
+
+import { $enum } from "ts-enum-util";
+import { Device, Group, ComfortCloudClient } from 'panasonic-comfort-cloud-client'
+import { Parameters } from 'panasonic-comfort-cloud-client'
+import { stringify } from 'querystring'
+import * as _ from 'lodash'
+
 // Load your modules here, e.g.:
 // import * as fs from 'fs';
 
@@ -23,6 +30,8 @@ declare global {
         }
     }
 }
+
+const comfortCloudClient = new ComfortCloudClient()
 
 class PanasonicComfortCloud extends utils.Adapter {
 
@@ -45,50 +54,60 @@ class PanasonicComfortCloud extends utils.Adapter {
         // Initialize your adapter here
 
         // The adapters config (in the instance object everything under the attribute 'native') is accessible via
-        // this.config:
-        this.log.info('config option1: ' + this.config.option1);
-        this.log.info('config option2: ' + this.config.option2);
 
         /*
         For every state in the system there has to be also an object of type state
         Here a simple template for a boolean variable named 'testVariable'
         Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
         */
-        await this.setObjectAsync('testVariable', {
-            type: 'state',
-            common: {
-                name: 'testVariable',
-                type: 'boolean',
-                role: 'indicator',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
+
 
         // in this template all states changes inside the adapters namespace are subscribed
         this.subscribeStates('*');
 
-        /*
-        setState examples
-        you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-        */
-        // the variable testVariable is set to true as command (ack=false)
-        await this.setStateAsync('testVariable', true);
+        await comfortCloudClient.login(this.config.username, this.config.password, 6)
+        this.log.info("Login successful.")
 
-        // same thing, but the value is flagged 'ack'
-        // ack should be always set to true if the value is received from or acknowledged from the target system
-        await this.setStateAsync('testVariable', { val: true, ack: true });
+        const groups = await comfortCloudClient.getGroups()
+        this.createDevices(groups)
 
-        // same thing, but the state is deleted after 30s (getState will return null afterwards)
-        await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
+        // /*
+        // setState examples
+        // you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
+        // */
+        // // the variable testVariable is set to true as command (ack=false)
+        // await this.setStateAsync('testVariable', true);
 
-        // examples for the checkPassword/checkGroup functions
-        let result = await this.checkPasswordAsync('admin', 'iobroker');
-        this.log.info('check user admin pw ioboker: ' + result);
+        // // same thing, but the value is flagged 'ack'
+        // // ack should be always set to true if the value is received from or acknowledged from the target system
+        // await this.setStateAsync('testVariable', { val: true, ack: true });
 
-        result = await this.checkGroupAsync('admin', 'admin');
-        this.log.info('check group user admin group admin: ' + result);
+        // // same thing, but the state is deleted after 30s (getState will return null afterwards)
+        // await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
+
+        // // examples for the checkPassword/checkGroup functions
+        // let result = await this.checkPasswordAsync('admin', 'iobroker');
+        // this.log.info('check user admin pw ioboker: ' + result);
+
+        // result = await this.checkGroupAsync('admin', 'admin');
+        // this.log.info('check group user admin group admin: ' + result);
+    }
+
+    private createDevices(groups: Array<Group>) {
+        groups.forEach(group => {
+            var devices = group.devices
+            devices.forEach(device => {
+                this.createDevice(device.name)
+                this.createState(device.name, '', 'Operate', { role: 'state', states: { 0: Power[0], 1: Power[1] }, write: true, def: device.operate }, undefined)
+            })
+        });
+    }
+
+    private async updateDevice(name: string, state: ioBroker.State) {
+        const states = await this.getStatesOfAsync(name)
+        const guid = _.find(states, (v) => { v.common.name === 'guid' })
+
+        this.log.debug(`guid=${guid} state=${state}`)
     }
 
     /**
@@ -121,6 +140,9 @@ class PanasonicComfortCloud extends utils.Adapter {
      */
     private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
         if (state) {
+            const elements = id.split('.')
+            const deviceName = elements[elements.length - 2]
+            this.updateDevice(deviceName, state)
             // The state was changed
             this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
         } else {
