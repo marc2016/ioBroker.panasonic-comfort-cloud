@@ -41,12 +41,8 @@
             "pl": "Adapter do chmury Panasonic Comfort Cloud",
             "zh-cn": "松下舒适云适配器"
         },
-        "authors": [
-            "marc <lammers.marc@gmail.com>"
-        ],
-        "keywords": [
-            "template"
-        ],
+        "authors": ["marc <marc@lammers.dev>"],
+        "keywords": ["air condition"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
@@ -69,9 +65,7 @@
         "username": "",
         "password": ""
     },
-    "protectedNative": [
-        "password"
-    ],
+    "protectedNative": ["password"],
     "objects": [],
     "instanceObjects": []
 }
