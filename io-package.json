@@ -45,7 +45,7 @@
         "keywords": ["air condition"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
-        "main": "build/main.js",
+        "main": "build/src/main.js",
         "icon": "panasonic-comfort-cloud.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
