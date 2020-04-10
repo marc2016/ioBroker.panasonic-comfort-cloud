@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "0.0.3",
+        "version": "0.0.1",
         "news": {
-            "0.0.3": {
+            "0.0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
                 "ru": "Начальная версия",
