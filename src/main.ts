@@ -76,52 +76,60 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.createDevices(groups)
     }
 
+    private refreshDeviceStates(device: Device) {
+        this.setStateChangedAsync(`${device.name}.guid`, device.guid, true)
+        this.setStateChangedAsync(
+            `${device.name}.operate`,
+            device.operate,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.temperatureSet`,
+            device.temperatureSet,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.airSwingLR`,
+            device.airSwingLR,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.airSwingUD`,
+            device.airSwingUD,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.fanAutoMode`,
+            device.fanAutoMode,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.ecoMode`,
+            device.ecoMode,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.operationMode`,
+            device.operationMode,
+            true
+        )
+    }
+
+    private async refreshDevice(guid: string) {
+        const device = await comfortCloudClient.getDevice(guid)
+        if (!device) {
+            return
+        }
+        this.refreshDeviceStates(device)
+    }
+
     private async refreshDevices() {
         this.log.debug("refreshDevice was triggered.")
         const groups = await comfortCloudClient.getGroups()
         groups.forEach((group) => {
             var devices = group.devices
             devices.forEach((device) => {
-                this.setStateChangedAsync(
-                    `${device.name}.guid`,
-                    device.guid,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.operate`,
-                    device.operate,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.temperatureSet`,
-                    device.temperatureSet,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.airSwingLR`,
-                    device.airSwingLR,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.airSwingUD`,
-                    device.airSwingUD,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.fanAutoMode`,
-                    device.fanAutoMode,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.ecoMode`,
-                    device.ecoMode,
-                    true
-                )
-                this.setStateChangedAsync(
-                    `${device.name}.operationMode`,
-                    device.operationMode,
-                    true
-                )
+                this.refreshDeviceStates(device)
             })
         })
     }
@@ -258,6 +266,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         const parameters: Parameters = {}
         parameters[stateName] = state.val
         await comfortCloudClient.setParameters(guidState?.val, parameters)
+        this.refreshDevice(guidState?.val)
     }
 
     /**
