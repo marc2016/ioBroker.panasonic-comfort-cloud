@@ -125,27 +125,27 @@ class PanasonicComfortCloud extends utils.Adapter {
                 )
                 this.setStateChangedAsync(
                     `${device.name}.temperatureSet`,
-                    device.operate,
+                    device.temperatureSet,
                     true
                 )
                 this.setStateChangedAsync(
                     `${device.name}.airSwingLR`,
-                    device.operate,
+                    device.airSwingLR,
                     true
                 )
                 this.setStateChangedAsync(
                     `${device.name}.airSwingUD`,
-                    device.operate,
+                    device.airSwingUD,
                     true
                 )
                 this.setStateChangedAsync(
                     `${device.name}.fanAutoMode`,
-                    device.operate,
+                    device.fanAutoMode,
                     true
                 )
                 this.setStateChangedAsync(
                     `${device.name}.ecoMode`,
-                    device.operate,
+                    device.ecoMode,
                     true
                 )
             })
