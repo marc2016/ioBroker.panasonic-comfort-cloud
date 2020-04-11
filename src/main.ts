@@ -117,6 +117,11 @@ class PanasonicComfortCloud extends utils.Adapter {
                     device.ecoMode,
                     true
                 )
+                this.setStateChangedAsync(
+                    `${device.name}.operationMode`,
+                    device.operationMode,
+                    true
+                )
             })
         })
     }
