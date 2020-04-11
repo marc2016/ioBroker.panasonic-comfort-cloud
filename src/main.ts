@@ -55,7 +55,11 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     private async onReady(): Promise<void> {
-        var j = scheduleJob("*/5 * * * *", this.refreshDevices.bind(this))
+        const refreshInterval = this.config.refreshInterval ?? 5
+        var j = scheduleJob(
+            `*/${refreshInterval} * * * *`,
+            this.refreshDevices.bind(this)
+        )
 
         this.subscribeStates("*")
 
