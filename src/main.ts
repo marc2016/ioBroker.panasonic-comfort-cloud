@@ -18,7 +18,7 @@ import {
     EcoMode,
     OperationMode,
 } from "panasonic-comfort-cloud-client"
-import { scheduleJob } from "node-schedule"
+import { scheduleJob, Job } from "node-schedule"
 import * as _ from "lodash"
 
 declare global {
@@ -39,6 +39,8 @@ declare global {
 const comfortCloudClient = new ComfortCloudClient()
 
 class PanasonicComfortCloud extends utils.Adapter {
+    private refreshJob: Job | undefined
+
     public constructor(options: Partial<ioBroker.AdapterOptions> = {}) {
         super({
             ...options,
@@ -56,7 +58,7 @@ class PanasonicComfortCloud extends utils.Adapter {
      */
     private async onReady(): Promise<void> {
         const refreshInterval = this.config.refreshInterval ?? 5
-        var j = scheduleJob(
+        this.refreshJob = scheduleJob(
             `*/${refreshInterval} * * * *`,
             this.refreshDevices.bind(this)
         )
@@ -259,6 +261,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     private onUnload(callback: () => void): void {
         try {
             this.log.info("cleaned everything up...")
+            this.refreshJob?.cancel()
             callback()
         } catch (e) {
             callback()
