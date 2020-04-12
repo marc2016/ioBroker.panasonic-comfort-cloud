@@ -17,6 +17,7 @@ import {
     FanAutoMode,
     EcoMode,
     OperationMode,
+    FanSpeed,
 } from "panasonic-comfort-cloud-client"
 import { scheduleJob, Job } from "node-schedule"
 import * as _ from "lodash"

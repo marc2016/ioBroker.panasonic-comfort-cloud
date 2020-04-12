@@ -31,37 +31,34 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     onReady() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            // Initialize your adapter here
-            // The adapters config (in the instance object everything under the attribute 'native') is accessible via
-            /*
-            For every state in the system there has to be also an object of type state
-            Here a simple template for a boolean variable named 'testVariable'
-            Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-            */
-            var j = node_schedule_1.scheduleJob("*/5 * * * *", this.refreshDevices.bind(this));
-            // in this template all states changes inside the adapters namespace are subscribed
+            const refreshInterval = (_a = this.config.refreshInterval) !== null && _a !== void 0 ? _a : 5;
+            this.refreshJob = node_schedule_1.scheduleJob(`*/${refreshInterval} * * * *`, this.refreshDevices.bind(this));
             this.subscribeStates("*");
             yield comfortCloudClient.login(this.config.username, this.config.password, 6);
             this.log.info("Login successful.");
             const groups = yield comfortCloudClient.getGroups();
             this.createDevices(groups);
-            // /*
-            // setState examples
-            // you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-            // */
-            // // the variable testVariable is set to true as command (ack=false)
-            // await this.setStateAsync('testVariable', true);
-            // // same thing, but the value is flagged 'ack'
-            // // ack should be always set to true if the value is received from or acknowledged from the target system
-            // await this.setStateAsync('testVariable', { val: true, ack: true });
-            // // same thing, but the state is deleted after 30s (getState will return null afterwards)
-            // await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
-            // // examples for the checkPassword/checkGroup functions
-            // let result = await this.checkPasswordAsync('admin', 'iobroker');
-            // this.log.info('check user admin pw ioboker: ' + result);
-            // result = await this.checkGroupAsync('admin', 'admin');
-            // this.log.info('check group user admin group admin: ' + result);
+        });
+    }
+    refreshDeviceStates(device) {
+        this.setStateChangedAsync(`${device.name}.guid`, device.guid, true);
+        this.setStateChangedAsync(`${device.name}.operate`, device.operate, true);
+        this.setStateChangedAsync(`${device.name}.temperatureSet`, device.temperatureSet, true);
+        this.setStateChangedAsync(`${device.name}.airSwingLR`, device.airSwingLR, true);
+        this.setStateChangedAsync(`${device.name}.airSwingUD`, device.airSwingUD, true);
+        this.setStateChangedAsync(`${device.name}.fanAutoMode`, device.fanAutoMode, true);
+        this.setStateChangedAsync(`${device.name}.ecoMode`, device.ecoMode, true);
+        this.setStateChangedAsync(`${device.name}.operationMode`, device.operationMode, true);
+    }
+    refreshDevice(guid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const device = yield comfortCloudClient.getDevice(guid);
+            if (!device) {
+                return;
+            }
+            this.refreshDeviceStates(device);
         });
     }
     refreshDevices() {
@@ -71,13 +68,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             groups.forEach((group) => {
                 var devices = group.devices;
                 devices.forEach((device) => {
-                    this.setStateChangedAsync(`${device.name}.guid`, device.guid, true);
-                    this.setStateChangedAsync(`${device.name}.operate`, device.operate, true);
-                    this.setStateChangedAsync(`${device.name}.temperatureSet`, device.temperatureSet, true);
-                    this.setStateChangedAsync(`${device.name}.airSwingLR`, device.airSwingLR, true);
-                    this.setStateChangedAsync(`${device.name}.airSwingUD`, device.airSwingUD, true);
-                    this.setStateChangedAsync(`${device.name}.fanAutoMode`, device.fanAutoMode, true);
-                    this.setStateChangedAsync(`${device.name}.ecoMode`, device.ecoMode, true);
+                    this.refreshDeviceStates(device);
                 });
             });
         });
@@ -162,14 +153,17 @@ class PanasonicComfortCloud extends utils.Adapter {
             const parameters = {};
             parameters[stateName] = state.val;
             yield comfortCloudClient.setParameters(guidState === null || guidState === void 0 ? void 0 : guidState.val, parameters);
+            this.refreshDevice(guidState === null || guidState === void 0 ? void 0 : guidState.val);
         });
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
      */
     onUnload(callback) {
+        var _a;
         try {
             this.log.info("cleaned everything up...");
+            (_a = this.refreshJob) === null || _a === void 0 ? void 0 : _a.cancel();
             callback();
         }
         catch (e) {
