@@ -34,12 +34,6 @@
         "inlineSourceMap": false,
         "watch": false
     },
-    "include": [
-        "**/*.ts"
-    ],
-    "exclude": [
-        "build/**",
-        "node_modules/**",
-        "admin/**"
-    ]
+    "include": ["**/*.ts"],
+    "exclude": ["build/**", "node_modules/**", "admin/**"]
 }
