@@ -68,8 +68,7 @@ class PanasonicComfortCloud extends utils.Adapter {
 
         await comfortCloudClient.login(
             this.config.username,
-            this.config.password,
-            6
+            this.config.password
         )
         this.log.info("Login successful.")
 
@@ -78,6 +77,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private refreshDeviceStates(device: Device) {
+        this.log.debug(`Refresh device ${device.name}`)
         this.setStateChangedAsync(`${device.name}.guid`, device.guid, true)
         this.setStateChangedAsync(
             `${device.name}.operate`,
@@ -116,16 +116,19 @@ class PanasonicComfortCloud extends utils.Adapter {
         )
     }
 
-    private async refreshDevice(guid: string) {
+    private async refreshDevice(guid: string, deviceName: string) {
         const device = await comfortCloudClient.getDevice(guid)
         if (!device) {
             return
+        }
+        if (!device.name) {
+            device.name = deviceName
         }
         this.refreshDeviceStates(device)
     }
 
     private async refreshDevices() {
-        this.log.debug("refreshDevice was triggered.")
+        this.log.debug("Refresh all devices.")
         const groups = await comfortCloudClient.getGroups()
         groups.forEach((group) => {
             var devices = group.devices
@@ -135,10 +138,15 @@ class PanasonicComfortCloud extends utils.Adapter {
         })
     }
 
-    private createDevices(groups: Array<Group>) {
+    private async createDevices(groups: Array<Group>) {
+        const devices = await this.getDevicesAsync()
+        const names = _.map(devices, (value) => { return value.common.name })
         groups.forEach((group) => {
             var devices = group.devices
             devices.forEach((device) => {
+                if (_.includes(names, device.name)) {
+                    return
+                }
                 this.createDevice(device.name)
                 this.createState(
                     device.name,
@@ -253,6 +261,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     },
                     undefined
                 )
+                this.log.info(`Device ${device.name} created.`)
             })
         })
     }
@@ -262,12 +271,14 @@ class PanasonicComfortCloud extends utils.Adapter {
         stateName: string,
         state: ioBroker.State
     ) {
-        const guidState = await this.getStateAsync(`${deviceName}.guid`)
-        this.log.debug(`guid=${guidState?.val} state=${state}`)
-        const parameters: Parameters = {}
-        parameters[stateName] = state.val
-        await comfortCloudClient.setParameters(guidState?.val, parameters)
-        this.refreshDevice(guidState?.val)
+        if (!state.ack) {
+            const guidState = await this.getStateAsync(`${deviceName}.guid`)
+            this.log.debug(`Update device guid=${guidState?.val} state=${state}`)
+            const parameters: Parameters = {}
+            parameters[stateName] = state.val
+            await comfortCloudClient.setParameters(guidState?.val, parameters)
+            await this.refreshDevice(guidState?.val, deviceName)
+        }
     }
 
     /**
@@ -328,5 +339,5 @@ if (module.parent) {
         new PanasonicComfortCloud(options)
 } else {
     // otherwise start the instance directly
-    ;(() => new PanasonicComfortCloud())()
+    ; (() => new PanasonicComfortCloud())()
 }
