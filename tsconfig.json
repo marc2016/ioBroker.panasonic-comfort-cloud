@@ -35,5 +35,5 @@
         "watch": false
     },
     "include": ["**/*.ts"],
-    "exclude": ["build/**", "node_modules/**", "admin/**"]
+    "exclude": ["build/**", "node_modules/**", "admin/**", "./io-package.json"]
 }

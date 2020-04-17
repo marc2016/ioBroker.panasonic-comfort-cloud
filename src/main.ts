@@ -42,7 +42,7 @@ const comfortCloudClient = new ComfortCloudClient()
 class PanasonicComfortCloud extends utils.Adapter {
     private refreshJob: Job | undefined
 
-    public constructor(options: Partial<ioBroker.AdapterOptions> = {}) {
+    public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: "panasonic-comfort-cloud",
@@ -140,7 +140,9 @@ class PanasonicComfortCloud extends utils.Adapter {
 
     private async createDevices(groups: Array<Group>) {
         const devices = await this.getDevicesAsync()
-        const names = _.map(devices, (value) => { return value.common.name })
+        const names = _.map(devices, (value) => {
+            return value.common.name
+        })
         groups.forEach((group) => {
             var devices = group.devices
             devices.forEach((device) => {
@@ -273,11 +275,19 @@ class PanasonicComfortCloud extends utils.Adapter {
     ) {
         if (!state.ack) {
             const guidState = await this.getStateAsync(`${deviceName}.guid`)
-            this.log.debug(`Update device guid=${guidState?.val} state=${state}`)
+            this.log.debug(
+                `Update device guid=${guidState?.val} state=${state}`
+            )
             const parameters: Parameters = {}
             parameters[stateName] = state.val
-            await comfortCloudClient.setParameters(guidState?.val, parameters)
-            await this.refreshDevice(guidState?.val, deviceName)
+            if (!guidState?.val) {
+                return
+            }
+            await comfortCloudClient.setParameters(
+                guidState?.val as string,
+                parameters
+            )
+            await this.refreshDevice(guidState?.val as string, deviceName)
         }
     }
 
@@ -335,9 +345,9 @@ class PanasonicComfortCloud extends utils.Adapter {
 
 if (module.parent) {
     // Export the constructor in compact mode
-    module.exports = (options: Partial<ioBroker.AdapterOptions> | undefined) =>
+    module.exports = (options: Partial<utils.AdapterOptions> | undefined) =>
         new PanasonicComfortCloud(options)
 } else {
     // otherwise start the instance directly
-    ; (() => new PanasonicComfortCloud())()
+    ;(() => new PanasonicComfortCloud())()
 }
