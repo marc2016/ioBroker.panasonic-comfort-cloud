@@ -37,10 +37,15 @@ class PanasonicComfortCloud extends utils.Adapter {
             const refreshInterval = (_a = this.config.refreshInterval) !== null && _a !== void 0 ? _a : 5;
             this.refreshJob = node_schedule_1.scheduleJob(`*/${refreshInterval} * * * *`, this.refreshDevices.bind(this));
             this.subscribeStates("*");
-            yield comfortCloudClient.login(this.config.username, this.config.password);
-            this.log.info("Login successful.");
-            const groups = yield comfortCloudClient.getGroups();
-            this.createDevices(groups);
+            try {
+                yield comfortCloudClient.login(this.config.username, this.config.password);
+                this.log.info("Login successful.");
+                const groups = yield comfortCloudClient.getGroups();
+                this.createDevices(groups);
+            }
+            catch (error) {
+                this.handleClientError(error);
+            }
         });
     }
     refreshDeviceStates(device) {
@@ -56,26 +61,36 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
     refreshDevice(guid, deviceName) {
         return __awaiter(this, void 0, void 0, function* () {
-            const device = yield comfortCloudClient.getDevice(guid);
-            if (!device) {
-                return;
+            try {
+                const device = yield comfortCloudClient.getDevice(guid);
+                if (!device) {
+                    return;
+                }
+                if (!device.name) {
+                    device.name = deviceName;
+                }
+                this.refreshDeviceStates(device);
             }
-            if (!device.name) {
-                device.name = deviceName;
+            catch (error) {
+                this.handleClientError(error);
             }
-            this.refreshDeviceStates(device);
         });
     }
     refreshDevices() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.log.debug("Refresh all devices.");
-            const groups = yield comfortCloudClient.getGroups();
-            groups.forEach((group) => {
-                var devices = group.devices;
-                devices.forEach((device) => {
-                    this.refreshDeviceStates(device);
+            try {
+                this.log.debug("Refresh all devices.");
+                const groups = yield comfortCloudClient.getGroups();
+                groups.forEach((group) => {
+                    var devices = group.devices;
+                    devices.forEach((device) => {
+                        this.refreshDeviceStates(device);
+                    });
                 });
-            });
+            }
+            catch (error) {
+                this.handleClientError(error);
+            }
         });
     }
     createDevices(groups) {
@@ -171,8 +186,13 @@ class PanasonicComfortCloud extends utils.Adapter {
                 if (!(guidState === null || guidState === void 0 ? void 0 : guidState.val)) {
                     return;
                 }
-                yield comfortCloudClient.setParameters(guidState === null || guidState === void 0 ? void 0 : guidState.val, parameters);
-                yield this.refreshDevice(guidState === null || guidState === void 0 ? void 0 : guidState.val, deviceName);
+                try {
+                    yield comfortCloudClient.setParameters(guidState === null || guidState === void 0 ? void 0 : guidState.val, parameters);
+                    yield this.refreshDevice(guidState === null || guidState === void 0 ? void 0 : guidState.val, deviceName);
+                }
+                catch (error) {
+                    this.handleClientError(error);
+                }
             }
         });
     }
@@ -219,6 +239,20 @@ class PanasonicComfortCloud extends utils.Adapter {
             // The state was deleted
             this.log.info(`state ${id} deleted`);
         }
+    }
+    handleClientError(error) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (error instanceof panasonic_comfort_cloud_client_1.TokenExpiredError) {
+                this.log.info(`Token of comfort cloud client expired. Trying to login again. Code=${error.code}`);
+                yield comfortCloudClient.login(this.config.username, this.config.password);
+                this.log.info("Login successful.");
+            }
+            else if (error instanceof panasonic_comfort_cloud_client_1.ServiceError) {
+                this.log.error(`Service error: ${error.message}. Code=${error.code}`);
+                this.disable();
+                return;
+            }
+        });
     }
 }
 if (module.parent) {
