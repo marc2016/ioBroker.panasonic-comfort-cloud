@@ -18,6 +18,8 @@ import {
     EcoMode,
     OperationMode,
     FanSpeed,
+    TokenExpiredError,
+    ServiceError,
 } from "panasonic-comfort-cloud-client"
 import { scheduleJob, Job } from "node-schedule"
 import * as _ from "lodash"
@@ -66,14 +68,17 @@ class PanasonicComfortCloud extends utils.Adapter {
 
         this.subscribeStates("*")
 
-        await comfortCloudClient.login(
-            this.config.username,
-            this.config.password
-        )
-        this.log.info("Login successful.")
-
-        const groups = await comfortCloudClient.getGroups()
-        this.createDevices(groups)
+        try {
+            await comfortCloudClient.login(
+                this.config.username,
+                this.config.password
+            )
+            this.log.info("Login successful.")
+            const groups = await comfortCloudClient.getGroups()
+            this.createDevices(groups)
+        } catch (error) {
+            this.handleClientError(error)
+        }
     }
 
     private refreshDeviceStates(device: Device) {
@@ -117,25 +122,33 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async refreshDevice(guid: string, deviceName: string) {
-        const device = await comfortCloudClient.getDevice(guid)
-        if (!device) {
-            return
+        try {
+            const device = await comfortCloudClient.getDevice(guid)
+            if (!device) {
+                return
+            }
+            if (!device.name) {
+                device.name = deviceName
+            }
+            this.refreshDeviceStates(device)
+        } catch (error) {
+            this.handleClientError(error)
         }
-        if (!device.name) {
-            device.name = deviceName
-        }
-        this.refreshDeviceStates(device)
     }
 
     private async refreshDevices() {
-        this.log.debug("Refresh all devices.")
-        const groups = await comfortCloudClient.getGroups()
-        groups.forEach((group) => {
-            var devices = group.devices
-            devices.forEach((device) => {
-                this.refreshDeviceStates(device)
+        try {
+            this.log.debug("Refresh all devices.")
+            const groups = await comfortCloudClient.getGroups()
+            groups.forEach((group) => {
+                var devices = group.devices
+                devices.forEach((device) => {
+                    this.refreshDeviceStates(device)
+                })
             })
-        })
+        } catch (error) {
+            this.handleClientError(error)
+        }
     }
 
     private async createDevices(groups: Array<Group>) {
@@ -283,11 +296,15 @@ class PanasonicComfortCloud extends utils.Adapter {
             if (!guidState?.val) {
                 return
             }
-            await comfortCloudClient.setParameters(
-                guidState?.val as string,
-                parameters
-            )
-            await this.refreshDevice(guidState?.val as string, deviceName)
+            try {
+                await comfortCloudClient.setParameters(
+                    guidState?.val as string,
+                    parameters
+                )
+                await this.refreshDevice(guidState?.val as string, deviceName)
+            } catch (error) {
+                this.handleClientError(error)
+            }
         }
     }
 
@@ -339,6 +356,25 @@ class PanasonicComfortCloud extends utils.Adapter {
         } else {
             // The state was deleted
             this.log.info(`state ${id} deleted`)
+        }
+    }
+
+    private async handleClientError(error: any) {
+        if (error instanceof TokenExpiredError) {
+            this.log.info(
+                `Token of comfort cloud client expired. Trying to login again. Code=${error.code}`
+            )
+            await comfortCloudClient.login(
+                this.config.username,
+                this.config.password
+            )
+            this.log.info("Login successful.")
+        } else if (error instanceof ServiceError) {
+            this.log.error(
+                `Service error: ${error.message}. Code=${error.code}`
+            )
+            this.disable()
+            return
         }
     }
 }
