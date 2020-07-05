@@ -31,7 +31,7 @@ declare global {
             // Define the shape of your options here (recommended)
             username: string
             password: string
-            refreshInterval: string
+            refreshInterval: number
 
             // Or use a catch-all approach
             [key: string]: any
