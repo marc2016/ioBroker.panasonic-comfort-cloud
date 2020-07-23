@@ -119,6 +119,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             device.operationMode,
             true
         )
+        this.setStateChangedAsync(
+            `${device.name}.fanSpeed`,
+            device.fanSpeed,
+            true
+        )
     }
 
     private async refreshDevice(guid: string, deviceName: string) {
@@ -273,6 +278,25 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.operationMode,
+                    },
+                    undefined
+                )
+                this.createState(
+                    device.name,
+                    "",
+                    "fanSpeed",
+                    {
+                        role: "state",
+                        states: {
+                            0: FanSpeed[0],
+                            1: FanSpeed[1],
+                            2: FanSpeed[2],
+                            3: FanSpeed[3],
+                            4: FanSpeed[4],
+                            5: FanSpeed[5],
+                        },
+                        write: true,
+                        def: device.fanSpeed,
                     },
                     undefined
                 )
