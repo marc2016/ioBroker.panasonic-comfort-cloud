@@ -58,6 +58,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.setStateChangedAsync(`${device.name}.fanAutoMode`, device.fanAutoMode, true);
         this.setStateChangedAsync(`${device.name}.ecoMode`, device.ecoMode, true);
         this.setStateChangedAsync(`${device.name}.operationMode`, device.operationMode, true);
+        this.setStateChangedAsync(`${device.name}.fanSpeed`, device.fanSpeed, true);
     }
     refreshDevice(guid, deviceName) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -170,6 +171,19 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.operationMode,
+                    }, undefined);
+                    this.createState(device.name, "", "fanSpeed", {
+                        role: "state",
+                        states: {
+                            0: panasonic_comfort_cloud_client_1.FanSpeed[0],
+                            1: panasonic_comfort_cloud_client_1.FanSpeed[1],
+                            2: panasonic_comfort_cloud_client_1.FanSpeed[2],
+                            3: panasonic_comfort_cloud_client_1.FanSpeed[3],
+                            4: panasonic_comfort_cloud_client_1.FanSpeed[4],
+                            5: panasonic_comfort_cloud_client_1.FanSpeed[5],
+                        },
+                        write: true,
+                        def: device.fanSpeed,
                     }, undefined);
                     this.log.info(`Device ${device.name} created.`);
                 });
