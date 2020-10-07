@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.1.0",
+        "version": "1.1.1",
         "news": {
+            "1.1.1": {
+                "en": "Device refresh bug fixed.",
+                "de": "Bug in der Geräteaktualisierung behoben."
+            },
             "1.1.0": {
                 "en": "Fan speed state added",
                 "de": "State für die Lüftergeschwindigkeit eingefügt"

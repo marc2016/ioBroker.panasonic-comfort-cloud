@@ -1,10 +1,10 @@
 {
     "name": "iobroker.panasonic-comfort-cloud",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Adapter for Panasonic Comfort Cloud",
     "author": {
         "name": "marc",
-        "email": "lammers.marc@gmail.com"
+        "email": "marc@lammers.dev"
     },
     "homepage": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud",
     "license": "MIT",
