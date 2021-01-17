@@ -38,6 +38,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.refreshJob = node_schedule_1.scheduleJob(`*/${refreshInterval} * * * *`, this.refreshDevices.bind(this));
             this.subscribeStates("*");
             try {
+                this.log.debug(`Try to login with username ${this.config.username}.`);
                 yield comfortCloudClient.login(this.config.username, this.config.password);
                 this.log.info("Login successful.");
                 const groups = yield comfortCloudClient.getGroups();
@@ -256,6 +257,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
     handleClientError(error) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.log.debug("Try to handle error.");
             if (error instanceof panasonic_comfort_cloud_client_1.TokenExpiredError) {
                 this.log.info(`Token of comfort cloud client expired. Trying to login again. Code=${error.code}`);
                 yield comfortCloudClient.login(this.config.username, this.config.password);
@@ -264,7 +266,10 @@ class PanasonicComfortCloud extends utils.Adapter {
             else if (error instanceof panasonic_comfort_cloud_client_1.ServiceError) {
                 this.log.error(`Service error: ${error.message}. Code=${error.code}`);
                 this.disable();
-                return;
+            }
+            else {
+                this.log.error(`Unknown error: ${error}.`);
+                this.disable();
             }
         });
     }

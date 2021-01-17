@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "news": {
+            "1.1.2": {
+                "en": "Fixed problem with login of comfort cloud.",
+                "de": "Problem beim Anmelden an der Comfort Cloud behoben."
+            },
             "1.1.1": {
                 "en": "Device refresh bug fixed.",
                 "de": "Bug in der Geräteaktualisierung behoben."
