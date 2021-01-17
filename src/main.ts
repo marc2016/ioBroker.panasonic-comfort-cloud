@@ -69,6 +69,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.subscribeStates("*")
 
         try {
+            this.log.debug(`Try to login with username ${this.config.username}.`)
             await comfortCloudClient.login(
                 this.config.username,
                 this.config.password
@@ -384,6 +385,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async handleClientError(error: any) {
+        this.log.debug("Try to handle error.")
         if (error instanceof TokenExpiredError) {
             this.log.info(
                 `Token of comfort cloud client expired. Trying to login again. Code=${error.code}`
@@ -398,7 +400,9 @@ class PanasonicComfortCloud extends utils.Adapter {
                 `Service error: ${error.message}. Code=${error.code}`
             )
             this.disable()
-            return
+        } else {
+            this.log.error(`Unknown error: ${error}.`)
+            this.disable()
         }
     }
 }
