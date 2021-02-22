@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.1.3",
+        "version": "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "States insideTemperature, outTemperature and Nanoe added.",
+                "de": "States für Innentemperatur, Außentemperatur und Nanoe hinzugefügt."
+            },
             "1.1.3": {
                 "en": "Fixed problem with login of comfort cloud again.",
                 "de": "Problem beim Anmelden an der Comfort Cloud wieder behoben."

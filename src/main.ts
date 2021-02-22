@@ -20,6 +20,7 @@ import {
     FanSpeed,
     TokenExpiredError,
     ServiceError,
+    NanoeMode
 } from "panasonic-comfort-cloud-client"
 import { scheduleJob, Job } from "node-schedule"
 import * as _ from "lodash"
@@ -96,6 +97,16 @@ class PanasonicComfortCloud extends utils.Adapter {
             true
         )
         this.setStateChangedAsync(
+            `${device.name}.insideTemperature`,
+            device.insideTemperature,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.outTemperature`,
+            device.outTemperature,
+            true
+        )
+        this.setStateChangedAsync(
             `${device.name}.airSwingLR`,
             device.airSwingLR,
             true
@@ -123,6 +134,11 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.setStateChangedAsync(
             `${device.name}.fanSpeed`,
             device.fanSpeed,
+            true
+        )
+        this.setStateChangedAsync(
+            `${device.name}.actualNanoe`,
+            device.actualNanoe,
             true
         )
     }
@@ -196,6 +212,28 @@ class PanasonicComfortCloud extends utils.Adapter {
                         role: "level.temperature",
                         write: true,
                         def: device.temperatureSet,
+                    },
+                    undefined
+                )
+                this.createState(
+                    device.name,
+                    "",
+                    "insideTemperature",
+                    {
+                        role: "state",
+                        write: false,
+                        def: device.insideTemperature,
+                    },
+                    undefined
+                )
+                this.createState(
+                    device.name,
+                    "",
+                    "outTemperature",
+                    {
+                        role: "state",
+                        write: false,
+                        def: device.outTemperature,
                     },
                     undefined
                 )
@@ -301,6 +339,25 @@ class PanasonicComfortCloud extends utils.Adapter {
                     },
                     undefined
                 )
+                this.createState(
+                    device.name,
+                    "",
+                    "actualNanoe",
+                    {
+                        role: "state",
+                        states: {
+                            0: NanoeMode[0],
+                            1: NanoeMode[1],
+                            2: NanoeMode[2],
+                            3: NanoeMode[3],
+                            4: NanoeMode[4],
+                        },
+                        write: true,
+                        def: device.actualNanoe,
+                    },
+                    undefined
+                )
+
                 this.log.info(`Device ${device.name} created.`)
             })
         })
