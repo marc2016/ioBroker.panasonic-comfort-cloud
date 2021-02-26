@@ -181,23 +181,24 @@ class PanasonicComfortCloud extends utils.Adapter {
             return value.common.name
         })
         const devicesFromService = _.flatMap(groups, g => g.devices)
-        const guids = _.map(devicesFromService, d => d.guid)
-        await Promise.all(guids.map(async (guid) => {
-            const device = await comfortCloudClient.getDevice(guid)
+        const deviceInfos = _.map(devicesFromService, d => { return {guid: d.guid, name: d.name}})
+        await Promise.all(deviceInfos.map(async (deviceInfo) => {
+            this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`)
+            const device = await comfortCloudClient.getDevice(deviceInfo.guid)
             if(device != null) {
-                if (_.includes(names, device.name)) {
+                if (_.includes(names, deviceInfo.name)) {
                     return
                 }
-                this.createDevice(device.name)
+                this.createDevice(deviceInfo.name)
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "guid",
                     { role: "text", write: false, def: device.guid },
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "operate",
                     {
@@ -209,7 +210,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "temperatureSet",
                     {
@@ -220,7 +221,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "insideTemperature",
                     {
@@ -231,7 +232,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "outTemperature",
                     {
@@ -242,7 +243,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "airSwingLR",
                     {
@@ -260,7 +261,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "airSwingUD",
                     {
@@ -278,7 +279,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "fanAutoMode",
                     {
@@ -295,7 +296,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "ecoMode",
                     {
@@ -307,7 +308,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "operationMode",
                     {
@@ -325,7 +326,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "fanSpeed",
                     {
@@ -344,7 +345,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
                 this.createState(
-                    device.name,
+                    deviceInfo.name,
                     "",
                     "actualNanoe",
                     {
