@@ -180,9 +180,11 @@ class PanasonicComfortCloud extends utils.Adapter {
         const names = _.map(devices, (value) => {
             return value.common.name
         })
-        groups.forEach((group) => {
-            var devices = group.devices
-            devices.forEach((device) => {
+        const devicesFromService = _.flatMap(groups, g => g.devices)
+        const guids = _.map(devicesFromService, d => d.guid)
+        await Promise.all(guids.map(async (guid) => {
+            const device = await comfortCloudClient.getDevice(guid)
+            if(device != null) {
                 if (_.includes(names, device.name)) {
                     return
                 }
@@ -361,8 +363,9 @@ class PanasonicComfortCloud extends utils.Adapter {
                 )
 
                 this.log.info(`Device ${device.name} created.`)
-            })
-        })
+            }
+        }));
+        
     }
 
     private async updateDevice(

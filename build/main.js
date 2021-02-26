@@ -106,9 +106,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             const names = _.map(devices, (value) => {
                 return value.common.name;
             });
-            groups.forEach((group) => {
-                var devices = group.devices;
-                devices.forEach((device) => {
+            const devicesFromService = _.flatMap(groups, g => g.devices);
+            const guids = _.map(devicesFromService, d => d.guid);
+            yield Promise.all(guids.map((guid) => __awaiter(this, void 0, void 0, function* () {
+                const device = yield comfortCloudClient.getDevice(guid);
+                if (device != null) {
                     if (_.includes(names, device.name)) {
                         return;
                     }
@@ -214,8 +216,8 @@ class PanasonicComfortCloud extends utils.Adapter {
                         def: device.actualNanoe,
                     }, undefined);
                     this.log.info(`Device ${device.name} created.`);
-                });
-            });
+                }
+            })));
         });
     }
     updateDevice(deviceName, stateName, state) {
