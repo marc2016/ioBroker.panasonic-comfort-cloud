@@ -380,7 +380,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         if (!state.ack) {
             const guidState = await this.getStateAsync(`${deviceName}.guid`)
             this.log.debug(
-                `Update device guid=${guidState?.val} state=${state}`
+                `Update device guid=${guidState?.val} state=${stateName}`
             )
             const parameters: Parameters = {}
             parameters[stateName] = state.val
