@@ -76,6 +76,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 this.config.password
             )
             this.log.info("Login successful.")
+            this.log.debug("Create devices.")
             const groups = await comfortCloudClient.getGroups()
             this.createDevices(groups)
         } catch (error) {
@@ -141,6 +142,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             device.actualNanoe,
             true
         )
+        this.log.debug(`Refresh device ${device.name} finished.`)
     }
 
     private async refreshDevice(guid: string, deviceName: string) {
@@ -163,10 +165,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.debug("Refresh all devices.")
             const groups = await comfortCloudClient.getGroups()
             const devices = _.flatMap(groups, g => g.devices)
-            const guids = _.map(devices, d => d.guid)
-            await Promise.all(guids.map(async (guid) => {
-                const device = await comfortCloudClient.getDevice(guid)
+            const deviceInfos = _.map(devices, d => { return{guid: d.guid, name: d.name}})
+            await Promise.all(deviceInfos.map(async (deviceInfo) => {
+                const device = await comfortCloudClient.getDevice(deviceInfo.guid)
                 if(device != null) {
+                    device.name = deviceInfo.name
                     this.refreshDeviceStates(device)
                 }
             }));
@@ -363,10 +366,10 @@ class PanasonicComfortCloud extends utils.Adapter {
                     undefined
                 )
 
-                this.log.info(`Device ${device.name} created.`)
+                this.log.info(`Device ${deviceInfo.name} created.`)
             }
         }));
-        
+        this.log.debug("Device creation completed.")
     }
 
     private async updateDevice(
@@ -385,10 +388,12 @@ class PanasonicComfortCloud extends utils.Adapter {
                 return
             }
             try {
+                this.log.debug(`Set device parameter ${parameters} for device ${guidState?.val}`)
                 await comfortCloudClient.setParameters(
                     guidState?.val as string,
                     parameters
                 )
+                this.log.debug(`Refresh device ${deviceName}`)
                 await this.refreshDevice(guidState?.val as string, deviceName)
             } catch (error) {
                 this.handleClientError(error)
