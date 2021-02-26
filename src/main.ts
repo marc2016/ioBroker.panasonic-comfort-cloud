@@ -162,12 +162,14 @@ class PanasonicComfortCloud extends utils.Adapter {
         try {
             this.log.debug("Refresh all devices.")
             const groups = await comfortCloudClient.getGroups()
-            groups.forEach((group) => {
-                var devices = group.devices
-                devices.forEach((device) => {
+            const devices = _.flatMap(groups, g => g.devices)
+            const guids = _.map(devices, d => d.guid)
+            await Promise.all(guids.map(async (guid) => {
+                const device = await comfortCloudClient.getDevice(guid)
+                if(device != null) {
                     this.refreshDeviceStates(device)
-                })
-            })
+                }
+            }));
         } catch (error) {
             this.handleClientError(error)
         }
