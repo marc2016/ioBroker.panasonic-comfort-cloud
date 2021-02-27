@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "news": {
+            "1.2.1": {
+                "en": "Fixed bug in refesh device method.",
+                "de": "Fehler in der Methode zum Aktualisieren des Gerätes behoben."
+            },
             "1.2.0": {
                 "en": "States insideTemperature, outTemperature and Nanoe added.",
                 "de": "States für Innentemperatur, Außentemperatur und Nanoe hinzugefügt."
