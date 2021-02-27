@@ -377,6 +377,9 @@ class PanasonicComfortCloud extends utils.Adapter {
         stateName: string,
         state: ioBroker.State
     ) {
+        if(stateName == 'guid') {
+            return
+        }
         if (!state.ack) {
             const guidState = await this.getStateAsync(`${deviceName}.guid`)
             this.log.debug(
@@ -388,7 +391,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 return
             }
             try {
-                this.log.debug(`Set device parameter ${parameters} for device ${guidState?.val}`)
+                this.log.debug(`Set device parameter ${JSON.stringify(parameters)} for device ${guidState?.val}`)
                 await comfortCloudClient.setParameters(
                     guidState?.val as string,
                     parameters

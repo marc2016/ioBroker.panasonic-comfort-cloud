@@ -227,6 +227,9 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
     updateDevice(deviceName, stateName, state) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (stateName == 'guid') {
+                return;
+            }
             if (!state.ack) {
                 const guidState = yield this.getStateAsync(`${deviceName}.guid`);
                 this.log.debug(`Update device guid=${guidState === null || guidState === void 0 ? void 0 : guidState.val} state=${stateName}`);
@@ -236,7 +239,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     return;
                 }
                 try {
-                    this.log.debug(`Set device parameter ${parameters} for device ${guidState === null || guidState === void 0 ? void 0 : guidState.val}`);
+                    this.log.debug(`Set device parameter ${JSON.stringify(parameters)} for device ${guidState === null || guidState === void 0 ? void 0 : guidState.val}`);
                     yield comfortCloudClient.setParameters(guidState === null || guidState === void 0 ? void 0 : guidState.val, parameters);
                     this.log.debug(`Refresh device ${deviceName}`);
                     yield this.refreshDevice(guidState === null || guidState === void 0 ? void 0 : guidState.val, deviceName);
