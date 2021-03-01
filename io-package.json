@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.1",
+        "version": "1.2.2",
         "news": {
+            "1.2.2": {
+                "en": "Fixed error handling and added stack info.",
+                "de": "Fehlerbehandlung repariert und Stack Informationen in Meldung eingefügt."
+            },
             "1.2.1": {
                 "en": "Fixed bug in refesh device method.",
                 "de": "Fehler in der Methode zum Aktualisieren des Gerätes behoben."

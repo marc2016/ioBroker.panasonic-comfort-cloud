@@ -298,17 +298,15 @@ class PanasonicComfortCloud extends utils.Adapter {
         return __awaiter(this, void 0, void 0, function* () {
             this.log.debug("Try to handle error.");
             if (error instanceof panasonic_comfort_cloud_client_1.TokenExpiredError) {
-                this.log.info(`Token of comfort cloud client expired. Trying to login again. Code=${error.code}`);
+                this.log.info(`Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`);
                 yield comfortCloudClient.login(this.config.username, this.config.password);
                 this.log.info("Login successful.");
             }
             else if (error instanceof panasonic_comfort_cloud_client_1.ServiceError) {
-                this.log.error(`Service error: ${error.message}. Code=${error.code}`);
-                this.disable();
+                this.log.error(`Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`);
             }
             else {
-                this.log.error(`Unknown error: ${error}.`);
-                this.disable();
+                this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`);
             }
         });
     }
