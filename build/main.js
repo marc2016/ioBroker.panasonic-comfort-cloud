@@ -231,6 +231,11 @@ class PanasonicComfortCloud extends utils.Adapter {
                 return;
             }
             if (!state.ack) {
+                const stateObj = yield this.getObjectAsync(`${deviceName}.${stateName}`);
+                const stateCommon = stateObj === null || stateObj === void 0 ? void 0 : stateObj.common;
+                if ((stateCommon === null || stateCommon === void 0 ? void 0 : stateCommon.write) == false) {
+                    return;
+                }
                 const guidState = yield this.getStateAsync(`${deviceName}.guid`);
                 this.log.debug(`Update device guid=${guidState === null || guidState === void 0 ? void 0 : guidState.val} state=${stateName}`);
                 const parameters = {};

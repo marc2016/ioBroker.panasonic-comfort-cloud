@@ -381,7 +381,14 @@ class PanasonicComfortCloud extends utils.Adapter {
             return
         }
         if (!state.ack) {
+            const stateObj = await this.getObjectAsync(`${deviceName}.${stateName}`)
+            const stateCommon = stateObj?.common as ioBroker.StateCommon
+            if(stateCommon?.write == false) {
+                return
+            }
+
             const guidState = await this.getStateAsync(`${deviceName}.guid`)
+            
             this.log.debug(
                 `Update device guid=${guidState?.val} state=${stateName}`
             )
