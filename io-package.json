@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "news": {
+            "1.2.3": {
+                "en": "Set parameters only for writable states.",
+                "de": "Parameter werden nur noch für beschreibbare States übertragen."
+            },
             "1.2.2": {
                 "en": "Fixed error handling and added stack info.",
                 "de": "Fehlerbehandlung repariert und Stack Informationen in Meldung eingefügt."
