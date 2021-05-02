@@ -1,6 +1,6 @@
 {
     "name": "iobroker.panasonic-comfort-cloud",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Adapter for Panasonic Comfort Cloud",
     "author": {
         "name": "marc",

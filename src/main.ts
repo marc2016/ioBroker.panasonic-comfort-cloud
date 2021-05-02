@@ -85,58 +85,70 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private refreshDeviceStates(device: Device) {
-        this.log.debug(`Refresh device ${device.name}`)
+        this.log.debug(`Refresh device ${device.name} (${device.guid}).`)
+        this.log.debug(`${device.name}: guid => ${device.guid}.`)
         this.setStateChangedAsync(`${device.name}.guid`, device.guid, true)
+        this.log.debug(`${device.name}: operate => ${device.operate}.`)
         this.setStateChangedAsync(
             `${device.name}.operate`,
             device.operate,
             true
         )
+        this.log.debug(`${device.name}: temperatureSet => ${device.temperatureSet}.`)
         this.setStateChangedAsync(
             `${device.name}.temperatureSet`,
             device.temperatureSet,
             true
         )
+        this.log.debug(`${device.name}: insideTemperature => ${device.insideTemperature}.`)
         this.setStateChangedAsync(
             `${device.name}.insideTemperature`,
             device.insideTemperature,
             true
         )
+        this.log.debug(`${device.name}: outTemperature => ${device.outTemperature}.`)
         this.setStateChangedAsync(
             `${device.name}.outTemperature`,
             device.outTemperature,
             true
         )
+        this.log.debug(`${device.name}: airSwingLR => ${device.airSwingLR}.`)
         this.setStateChangedAsync(
             `${device.name}.airSwingLR`,
             device.airSwingLR,
             true
         )
+        this.log.debug(`${device.name}: airSwingUD => ${device.airSwingUD}.`)
         this.setStateChangedAsync(
             `${device.name}.airSwingUD`,
             device.airSwingUD,
             true
         )
+        this.log.debug(`${device.name}: fanAutoMode => ${device.fanAutoMode}.`)
         this.setStateChangedAsync(
             `${device.name}.fanAutoMode`,
             device.fanAutoMode,
             true
         )
+        this.log.debug(`${device.name}: ecoMode => ${device.ecoMode}.`)
         this.setStateChangedAsync(
             `${device.name}.ecoMode`,
             device.ecoMode,
             true
         )
+        this.log.debug(`${device.name}: operationMode => ${device.operationMode}.`)
         this.setStateChangedAsync(
             `${device.name}.operationMode`,
             device.operationMode,
             true
         )
+        this.log.debug(`${device.name}: fanSpeed => ${device.fanSpeed}.`)
         this.setStateChangedAsync(
             `${device.name}.fanSpeed`,
             device.fanSpeed,
             true
         )
+        this.log.debug(`${device.name}: actualNanoe => ${device.actualNanoe}.`)
         this.setStateChangedAsync(
             `${device.name}.actualNanoe`,
             device.actualNanoe,
@@ -170,6 +182,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 const device = await comfortCloudClient.getDevice(deviceInfo.guid)
                 if(device != null) {
                     device.name = deviceInfo.name
+                    device.guid = deviceInfo.guid
                     this.refreshDeviceStates(device)
                 }
             }));
