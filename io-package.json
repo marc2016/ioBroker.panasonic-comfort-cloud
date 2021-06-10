@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.4",
+        "version": "1.2.5",
         "news": {
+            "1.2.5": {
+                "en": "Comfort Cloud client updated.",
+                "de": "Comfort Cloud client aktualisiert."
+            },
             "1.2.4": {
                 "en": "Fixed bug with undefined guid. Log messages added.",
                 "de": "Problem mit undefinierter guid behoben. Log Ausgaben hinzugefügt."
