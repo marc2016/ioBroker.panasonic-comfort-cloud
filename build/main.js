@@ -132,27 +132,31 @@ class PanasonicComfortCloud extends utils.Adapter {
                         return;
                     }
                     this.createDevice(deviceInfo.name);
-                    this.createState(deviceInfo.name, "", "guid", { role: "text", write: false, def: device.guid }, undefined);
+                    this.createState(deviceInfo.name, "", "guid", { role: "text", write: false, def: deviceInfo.guid, type: "string" }, undefined);
                     this.createState(deviceInfo.name, "", "operate", {
                         role: "state",
                         states: { 0: panasonic_comfort_cloud_client_1.Power[0], 1: panasonic_comfort_cloud_client_1.Power[1] },
                         write: true,
                         def: device.operate,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "temperatureSet", {
                         role: "level.temperature",
                         write: true,
                         def: device.temperatureSet,
+                        type: "number",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "insideTemperature", {
                         role: "state",
                         write: false,
                         def: device.insideTemperature,
+                        type: "number",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "outTemperature", {
                         role: "state",
                         write: false,
                         def: device.outTemperature,
+                        type: "number",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "airSwingLR", {
                         role: "state",
@@ -165,6 +169,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingLR,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "airSwingUD", {
                         role: "state",
@@ -177,6 +182,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingUD,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "fanAutoMode", {
                         role: "state",
@@ -188,12 +194,14 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanAutoMode,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "ecoMode", {
                         role: "state",
                         states: { 0: panasonic_comfort_cloud_client_1.EcoMode[0], 1: panasonic_comfort_cloud_client_1.EcoMode[1], 2: panasonic_comfort_cloud_client_1.EcoMode[2] },
                         write: true,
                         def: device.ecoMode,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "operationMode", {
                         role: "state",
@@ -206,6 +214,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.operationMode,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "fanSpeed", {
                         role: "state",
@@ -219,6 +228,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanSpeed,
+                        type: "array",
                     }, undefined);
                     this.createState(deviceInfo.name, "", "actualNanoe", {
                         role: "state",
@@ -231,6 +241,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.actualNanoe,
+                        type: "array",
                     }, undefined);
                     this.log.info(`Device ${deviceInfo.name} created.`);
                 }
