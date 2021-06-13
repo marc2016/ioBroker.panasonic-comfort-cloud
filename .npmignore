@@ -32,3 +32,6 @@ admin/i18n
 
 # maintenance scripts
 maintenance/**
+
+# iobroker
+iob_npm.done

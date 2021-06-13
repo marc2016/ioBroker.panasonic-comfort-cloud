@@ -89,6 +89,8 @@
         "keywords": ["air condition"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
+        "connectionType": "cloud",
+        "dataSource": "poll",
         "main": "build/main.js",
         "icon": "panasonic-comfort-cloud.png",
         "enabled": true,
