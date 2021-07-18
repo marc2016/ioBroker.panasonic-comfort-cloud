@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.7",
+        "version": "1.2.8",
         "news": {
+            "1.2.8": {
+                "en": "Fixed bug in Comfort Cloud client.",
+                "de": "Fehler in Comfort Cloud client behoben."
+            },
             "1.2.7": {
                 "en": "Comfort Cloud client updated.",
                 "de": "Comfort Cloud client aktualisiert."
