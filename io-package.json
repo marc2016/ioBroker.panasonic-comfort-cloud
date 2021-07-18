@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.6",
+        "version": "1.2.7",
         "news": {
+            "1.2.7": {
+                "en": "Comfort Cloud client updated.",
+                "de": "Comfort Cloud client aktualisiert."
+            },
             "1.2.6": {
                 "en": "Fixed bug that guid is null in device creation.",
                 "de": "Fehler behoben, dass die GUID bei der Geräteerstellung null ist."
