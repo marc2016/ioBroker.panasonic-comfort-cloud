@@ -21,9 +21,6 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 
-### 0.0.1
-* (marc) initial release
-
 ### 1.2.8
 * Fixed bug in Comfort Cloud client.
 
