@@ -200,7 +200,13 @@ class PanasonicComfortCloud extends utils.Adapter {
         const deviceInfos = _.map(devicesFromService, d => { return {guid: d.guid, name: d.name}})
         await Promise.all(deviceInfos.map(async (deviceInfo) => {
             this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`)
-            const device = await comfortCloudClient.getDevice(deviceInfo.guid)
+            let device: Device | null = null
+            try {
+                device = await comfortCloudClient.getDevice(deviceInfo.guid)
+            } catch(error: any) {
+                this.handleClientError(error)
+            }
+            
             if(device != null) {
                 if (_.includes(names, deviceInfo.name)) {
                     return
