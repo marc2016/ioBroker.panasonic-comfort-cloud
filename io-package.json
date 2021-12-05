@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.8",
+        "version": "1.2.9",
         "news": {
+            "1.2.9": {
+                "en": "Error handling for get device added.",
+                "de": "Fehlerbehandlung beim Abrufen des Geräts hinzugefügt."
+            },
             "1.2.8": {
                 "en": "Fixed bug in Comfort Cloud client.",
                 "de": "Fehler in Comfort Cloud client behoben."

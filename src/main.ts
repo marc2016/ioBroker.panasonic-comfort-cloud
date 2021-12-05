@@ -79,7 +79,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.debug('Create devices.')
             const groups = await comfortCloudClient.getGroups()
             this.createDevices(groups)
-        } catch (error: any) {
+        } catch (error) {
             this.handleClientError(error)
         }
     }
@@ -167,7 +167,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 device.name = deviceName
             }
             this.refreshDeviceStates(device)
-        } catch (error: any) {
+        } catch (error) {
             this.handleClientError(error)
         }
     }
@@ -186,7 +186,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     this.refreshDeviceStates(device)
                 }
             }));
-        } catch (error: any) {
+        } catch (error) {
             this.handleClientError(error)
         }
     }
@@ -203,7 +203,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             let device: Device | null = null
             try {
                 device = await comfortCloudClient.getDevice(deviceInfo.guid)
-            } catch(error: any) {
+            } catch(error) {
                 this.handleClientError(error)
             }
             
@@ -435,7 +435,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 )
                 this.log.debug(`Refresh device ${deviceName}`)
                 await this.refreshDevice(guidState?.val as string, deviceName)
-            } catch (error: any) {
+            } catch (error) {
                 this.handleClientError(error)
             }
         }
@@ -492,7 +492,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         }
     }
 
-    private async handleClientError(error: Error): Promise<void> {
+    private async handleClientError(error: unknown): Promise<void> {
         this.log.debug('Try to handle error.')
         
         if (error instanceof TokenExpiredError) {
@@ -508,7 +508,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.error(
                 `Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
             )
-        } else {
+        } else if (error instanceof Error){
             this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`)
         }
     }
