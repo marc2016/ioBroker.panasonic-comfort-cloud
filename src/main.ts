@@ -22,7 +22,7 @@ import {
     ServiceError,
     NanoeMode
 } from 'panasonic-comfort-cloud-client'
-import { scheduleJob, Job } from 'node-schedule'
+
 import * as _ from 'lodash'
 
 declare global {
@@ -40,16 +40,22 @@ declare global {
     }
 }
 
+const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5
+
 const comfortCloudClient = new ComfortCloudClient()
 
 class PanasonicComfortCloud extends utils.Adapter {
-    private refreshJob: Job | undefined
+    private refreshTimeout: NodeJS.Timeout | undefined
+    private refreshIntervalInMinutes: number
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: 'panasonic-comfort-cloud',
         })
+
+        this.refreshIntervalInMinutes = this.config.refreshInterval ?? REFRESH_INTERVAL_IN_MINUTES_DEFAULT
+
         this.on('ready', this.onReady.bind(this))
         this.on('objectChange', this.onObjectChange.bind(this))
         this.on('stateChange', this.onStateChange.bind(this))
@@ -61,12 +67,6 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     private async onReady(): Promise<void> {
-        const refreshInterval = this.config.refreshInterval ?? 5
-        this.refreshJob = scheduleJob(
-            `*/${refreshInterval} * * * *`,
-            this.refreshDevices.bind(this)
-        )
-
         this.subscribeStates('*')
 
         try {
@@ -446,8 +446,10 @@ class PanasonicComfortCloud extends utils.Adapter {
      */
     private onUnload(callback: () => void): void {
         try {
+            if(this.refreshTimeout)
+                clearTimeout(this.refreshTimeout)
+
             this.log.info('cleaned everything up...')
-            this.refreshJob?.cancel()
             callback()
         } catch (e) {
             callback()
@@ -512,6 +514,17 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`)
         }
     }
+
+    private setupRefreshTimeout(): void {
+        const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000
+        this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+    }
+
+    private refreshTimeoutFunc(): void {
+        this.refreshDevices()
+        this.setupRefreshTimeout()
+    }
+
 }
 
 if (module.parent) {
