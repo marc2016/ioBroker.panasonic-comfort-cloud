@@ -16,12 +16,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // you need to create an adapter
 const utils = require("@iobroker/adapter-core");
 const panasonic_comfort_cloud_client_1 = require("panasonic-comfort-cloud-client");
-const node_schedule_1 = require("node-schedule");
 const _ = require("lodash");
+const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5;
 const comfortCloudClient = new panasonic_comfort_cloud_client_1.ComfortCloudClient();
 class PanasonicComfortCloud extends utils.Adapter {
     constructor(options = {}) {
         super(Object.assign(Object.assign({}, options), { name: 'panasonic-comfort-cloud' }));
+        this.refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
         this.on('ready', this.onReady.bind(this));
         this.on('objectChange', this.onObjectChange.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
@@ -32,21 +33,27 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     onReady() {
-        var _a;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
-            const refreshInterval = (_a = this.config.refreshInterval) !== null && _a !== void 0 ? _a : 5;
-            this.refreshJob = node_schedule_1.scheduleJob(`*/${refreshInterval} * * * *`, this.refreshDevices.bind(this));
+            this.refreshIntervalInMinutes = (_b = (_a = this.config) === null || _a === void 0 ? void 0 : _a.refreshInterval) !== null && _b !== void 0 ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
             this.subscribeStates('*');
-            try {
-                this.log.debug(`Try to login with username ${this.config.username}.`);
-                yield comfortCloudClient.login(this.config.username, this.config.password);
-                this.log.info('Login successful.');
-                this.log.debug('Create devices.');
-                const groups = yield comfortCloudClient.getGroups();
-                this.createDevices(groups);
+            this.setState('info.connection', false, true);
+            if (!((_c = this.config) === null || _c === void 0 ? void 0 : _c.username) || !((_d = this.config) === null || _d === void 0 ? void 0 : _d.password)) {
+                this.log.error('Can not start without username or password. Please open config.');
             }
-            catch (error) {
-                this.handleClientError(error);
+            else {
+                try {
+                    this.log.debug(`Try to login with username ${this.config.username}.`);
+                    yield comfortCloudClient.login(this.config.username, this.config.password);
+                    this.log.info('Login successful.');
+                    this.setState('info.connection', true, true);
+                    this.log.debug('Create devices.');
+                    const groups = yield comfortCloudClient.getGroups();
+                    this.createDevices(groups);
+                }
+                catch (error) {
+                    this.handleClientError(error);
+                }
             }
         });
     }
@@ -289,10 +296,10 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called when adapter shuts down - callback has to be called under any circumstances!
      */
     onUnload(callback) {
-        var _a;
         try {
+            if (this.refreshTimeout)
+                clearTimeout(this.refreshTimeout);
             this.log.info('cleaned everything up...');
-            (_a = this.refreshJob) === null || _a === void 0 ? void 0 : _a.cancel();
             callback();
         }
         catch (e) {
@@ -334,16 +341,27 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.debug('Try to handle error.');
             if (error instanceof panasonic_comfort_cloud_client_1.TokenExpiredError) {
                 this.log.info(`Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`);
+                this.setState('info.connection', false, true);
                 yield comfortCloudClient.login(this.config.username, this.config.password);
+                this.setState('info.connection', true, true);
                 this.log.info('Login successful.');
             }
             else if (error instanceof panasonic_comfort_cloud_client_1.ServiceError) {
+                this.setState('info.connection', false, true);
                 this.log.error(`Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`);
             }
             else if (error instanceof Error) {
                 this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`);
             }
         });
+    }
+    setupRefreshTimeout() {
+        const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000;
+        this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+    }
+    refreshTimeoutFunc() {
+        this.refreshDevices();
+        this.setupRefreshTimeout();
     }
 }
 if (module.parent) {

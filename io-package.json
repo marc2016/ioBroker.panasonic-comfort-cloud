@@ -115,15 +115,44 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=1.5.8"
+                "js-controller": ">=3.0.0"
             }
         ]
     },
     "native": {
         "username": "",
-        "password": ""
+        "password": "",
+        "refreshInterval": 5
     },
-    "protectedNative": ["password"],
+    "protectedNative": [
+        "username",
+        "password"
+    ],
+    "encryptedNative": [
+        "password"
+    ],
     "objects": [],
-    "instanceObjects": []
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

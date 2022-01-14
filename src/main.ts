@@ -46,15 +46,13 @@ const comfortCloudClient = new ComfortCloudClient()
 
 class PanasonicComfortCloud extends utils.Adapter {
     private refreshTimeout: NodeJS.Timeout | undefined
-    private refreshIntervalInMinutes: number
+    private refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
             name: 'panasonic-comfort-cloud',
         })
-
-        this.refreshIntervalInMinutes = this.config.refreshInterval ?? REFRESH_INTERVAL_IN_MINUTES_DEFAULT
 
         this.on('ready', this.onReady.bind(this))
         this.on('objectChange', this.onObjectChange.bind(this))
@@ -67,21 +65,29 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called when databases are connected and adapter received configuration.
      */
     private async onReady(): Promise<void> {
+        this.refreshIntervalInMinutes = this.config?.refreshInterval ?? REFRESH_INTERVAL_IN_MINUTES_DEFAULT
         this.subscribeStates('*')
 
-        try {
-            this.log.debug(`Try to login with username ${this.config.username}.`)
-            await comfortCloudClient.login(
-                this.config.username,
-                this.config.password
-            )
-            this.log.info('Login successful.')
-            this.log.debug('Create devices.')
-            const groups = await comfortCloudClient.getGroups()
-            this.createDevices(groups)
-        } catch (error) {
-            this.handleClientError(error)
+        this.setState('info.connection', false, true);
+        if(!this.config?.username || !this.config?.password) {
+            this.log.error('Can not start without username or password. Please open config.')
+        } else {
+            try {
+                this.log.debug(`Try to login with username ${this.config.username}.`)
+                await comfortCloudClient.login(
+                    this.config.username,
+                    this.config.password
+                )
+                this.log.info('Login successful.')
+                this.setState('info.connection', true, true);
+                this.log.debug('Create devices.')
+                const groups = await comfortCloudClient.getGroups()
+                this.createDevices(groups)
+            } catch (error) {
+                this.handleClientError(error)
+            }
         }
+        
     }
 
     private refreshDeviceStates(device: Device): void {
@@ -501,12 +507,15 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.info(
                 `Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`
             )
+            this.setState('info.connection', false, true);
             await comfortCloudClient.login(
                 this.config.username,
                 this.config.password
             )
+            this.setState('info.connection', true, true);
             this.log.info('Login successful.')
         } else if (error instanceof ServiceError) {
+            this.setState('info.connection', false, true);
             this.log.error(
                 `Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
             )
