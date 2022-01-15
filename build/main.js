@@ -62,7 +62,6 @@ class PanasonicComfortCloud extends utils.Adapter {
         return __awaiter(this, void 0, void 0, function* () {
             this.log.debug(`Refresh device ${device.name} (${device.guid}).`);
             this.log.debug(`${device.name}: guid => ${device.guid}.`);
-            yield this.setStateChangedAsync(`${device.name}.guid`, device.guid, true);
             this.log.debug(`${device.name}: operate => ${device.operate}.`);
             yield this.setStateChangedAsync(`${device.name}.operate`, device.operate, true);
             this.log.debug(`${device.name}: temperatureSet => ${device.temperatureSet}.`);
@@ -110,6 +109,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             try {
                 this.log.debug('Refresh all devices.');
                 const groups = yield comfortCloudClient.getGroups();
+                this.setState('info.connection', true, true);
                 const devices = _.flatMap(groups, g => g.devices);
                 const deviceInfos = _.map(devices, d => { return { guid: d.guid, name: d.name }; });
                 yield Promise.all(deviceInfos.map((deviceInfo) => __awaiter(this, void 0, void 0, function* () {
@@ -185,7 +185,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingLR,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'airSwingUD', {
                         role: 'state',
@@ -198,7 +198,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingUD,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'fanAutoMode', {
                         role: 'state',
@@ -210,14 +210,14 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanAutoMode,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'ecoMode', {
                         role: 'state',
                         states: { 0: panasonic_comfort_cloud_client_1.EcoMode[0], 1: panasonic_comfort_cloud_client_1.EcoMode[1], 2: panasonic_comfort_cloud_client_1.EcoMode[2] },
                         write: true,
                         def: device.ecoMode,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'operationMode', {
                         role: 'state',
@@ -230,7 +230,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.operationMode,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'fanSpeed', {
                         role: 'state',
@@ -244,7 +244,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanSpeed,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'actualNanoe', {
                         role: 'state',
@@ -257,7 +257,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.actualNanoe,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.log.info(`Device ${deviceInfo.name} created.`);
                 }

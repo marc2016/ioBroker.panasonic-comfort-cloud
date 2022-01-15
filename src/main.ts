@@ -292,7 +292,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingLR,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
@@ -311,7 +311,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingUD,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
@@ -329,7 +329,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanAutoMode,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
@@ -342,7 +342,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         states: { 0: EcoMode[0], 1: EcoMode[1], 2: EcoMode[2] },
                         write: true,
                         def: device.ecoMode,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
@@ -361,7 +361,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.operationMode,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
@@ -381,7 +381,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanSpeed,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
@@ -400,7 +400,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.actualNanoe,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
