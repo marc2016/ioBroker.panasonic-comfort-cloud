@@ -1,8 +1,36 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "1.2.2",
+        "version": "1.2.9",
         "news": {
+            "1.2.9": {
+                "en": "Error handling for get device added.",
+                "de": "Fehlerbehandlung beim Abrufen des Geräts hinzugefügt."
+            },
+            "1.2.8": {
+                "en": "Fixed bug in Comfort Cloud client.",
+                "de": "Fehler in Comfort Cloud client behoben."
+            },
+            "1.2.7": {
+                "en": "Comfort Cloud client updated.",
+                "de": "Comfort Cloud client aktualisiert."
+            },
+            "1.2.6": {
+                "en": "Fixed bug that guid is null in device creation.",
+                "de": "Fehler behoben, dass die GUID bei der Geräteerstellung null ist."
+            },
+            "1.2.5": {
+                "en": "Comfort Cloud client updated.",
+                "de": "Comfort Cloud client aktualisiert."
+            },
+            "1.2.4": {
+                "en": "Fixed bug with undefined guid. Log messages added.",
+                "de": "Problem mit undefinierter guid behoben. Log Ausgaben hinzugefügt."
+            },
+            "1.2.3": {
+                "en": "Set parameters only for writable states.",
+                "de": "Parameter werden nur noch für beschreibbare States übertragen."
+            },
             "1.2.2": {
                 "en": "Fixed error handling and added stack info.",
                 "de": "Fehlerbehandlung repariert und Stack Informationen in Meldung eingefügt."
@@ -73,6 +101,8 @@
         "keywords": ["air condition"],
         "license": "MIT",
         "platform": "Javascript/Node.js",
+        "connectionType": "cloud",
+        "dataSource": "poll",
         "main": "build/main.js",
         "icon": "panasonic-comfort-cloud.png",
         "enabled": true,
@@ -85,15 +115,44 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=1.4.2"
+                "js-controller": ">=3.0.0"
             }
         ]
     },
     "native": {
         "username": "",
-        "password": ""
+        "password": "",
+        "refreshInterval": 5
     },
-    "protectedNative": ["password"],
+    "protectedNative": [
+        "username",
+        "password"
+    ],
+    "encryptedNative": [
+        "password"
+    ],
     "objects": [],
-    "instanceObjects": []
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

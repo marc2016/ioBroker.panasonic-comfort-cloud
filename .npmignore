@@ -1,3 +1,6 @@
+# exclude all dot-files and directories
+.*
+
 .git
 .idea
 node_modules/
@@ -32,3 +35,6 @@ admin/i18n
 
 # maintenance scripts
 maintenance/**
+
+# iobroker
+iob_npm.done

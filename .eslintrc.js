@@ -55,7 +55,7 @@ module.exports = {
         '@typescript-eslint/no-non-null-assertion': 'off', // This is necessary for Map.has()/get()!
         'no-var': 'error',
         'prefer-const': 'error',
-        '@typescript-eslint/member-delimiter-style': false
+        '@typescript-eslint/member-delimiter-style': 2
     },
     overrides: [
         {

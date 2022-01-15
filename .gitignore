@@ -170,3 +170,9 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos
+
+# iobroker
+iob_npm.done
+
+# ioBroker dev-server
+.dev-server/
