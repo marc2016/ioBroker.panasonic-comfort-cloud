@@ -184,6 +184,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         try {
             this.log.debug('Refresh all devices.')
             const groups = await comfortCloudClient.getGroups()
+            this.setState('info.connection', true, true);
             const devices = _.flatMap(groups, g => g.devices)
             const deviceInfos = _.map(devices, d => { return{guid: d.guid, name: d.name}})
             await Promise.all(deviceInfos.map(async (deviceInfo) => {
