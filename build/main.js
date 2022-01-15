@@ -49,7 +49,8 @@ class PanasonicComfortCloud extends utils.Adapter {
                     this.setState('info.connection', true, true);
                     this.log.debug('Create devices.');
                     const groups = yield comfortCloudClient.getGroups();
-                    this.createDevices(groups);
+                    yield this.createDevices(groups);
+                    this.setupRefreshTimeout();
                 }
                 catch (error) {
                     this.handleClientError(error);
@@ -356,10 +357,13 @@ class PanasonicComfortCloud extends utils.Adapter {
         });
     }
     setupRefreshTimeout() {
+        this.log.debug('setupRefreshTimeout');
         const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000;
+        this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`);
         this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
     }
     refreshTimeoutFunc() {
+        this.log.debug(`refreshTimeoutFunc started.`);
         this.refreshDevices();
         this.setupRefreshTimeout();
     }

@@ -82,7 +82,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 this.setState('info.connection', true, true)
                 this.log.debug('Create devices.')
                 const groups = await comfortCloudClient.getGroups()
-                this.createDevices(groups)
+                await this.createDevices(groups)
 
                 this.setupRefreshTimeout()
             } catch (error) {
@@ -527,11 +527,14 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private setupRefreshTimeout(): void {
+        this.log.debug('setupRefreshTimeout')
         const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000
+        this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`)
         this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
     }
 
     private refreshTimeoutFunc(): void {
+        this.log.debug(`refreshTimeoutFunc started.`)
         this.refreshDevices()
         this.setupRefreshTimeout()
     }
