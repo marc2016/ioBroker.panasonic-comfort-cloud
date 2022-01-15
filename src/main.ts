@@ -79,10 +79,12 @@ class PanasonicComfortCloud extends utils.Adapter {
                     this.config.password
                 )
                 this.log.info('Login successful.')
-                this.setState('info.connection', true, true);
+                this.setState('info.connection', true, true)
                 this.log.debug('Create devices.')
                 const groups = await comfortCloudClient.getGroups()
                 this.createDevices(groups)
+
+                this.setupRefreshTimeout()
             } catch (error) {
                 this.handleClientError(error)
             }
