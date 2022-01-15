@@ -86,78 +86,78 @@ class PanasonicComfortCloud extends utils.Adapter {
 
                 this.setupRefreshTimeout()
             } catch (error) {
-                this.handleClientError(error)
+                await this.handleClientError(error)
             }
         }
         
     }
 
-    private refreshDeviceStates(device: Device): void {
+    private async refreshDeviceStates(device: Device): Promise<void> {
         this.log.debug(`Refresh device ${device.name} (${device.guid}).`)
         this.log.debug(`${device.name}: guid => ${device.guid}.`)
-        this.setStateChangedAsync(`${device.name}.guid`, device.guid, true)
+        await this.setStateChangedAsync(`${device.name}.guid`, device.guid, true)
         this.log.debug(`${device.name}: operate => ${device.operate}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.operate`,
             device.operate,
             true
         )
         this.log.debug(`${device.name}: temperatureSet => ${device.temperatureSet}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.temperatureSet`,
             device.temperatureSet,
             true
         )
         this.log.debug(`${device.name}: insideTemperature => ${device.insideTemperature}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.insideTemperature`,
             device.insideTemperature,
             true
         )
         this.log.debug(`${device.name}: outTemperature => ${device.outTemperature}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.outTemperature`,
             device.outTemperature,
             true
         )
         this.log.debug(`${device.name}: airSwingLR => ${device.airSwingLR}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.airSwingLR`,
             device.airSwingLR,
             true
         )
         this.log.debug(`${device.name}: airSwingUD => ${device.airSwingUD}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.airSwingUD`,
             device.airSwingUD,
             true
         )
         this.log.debug(`${device.name}: fanAutoMode => ${device.fanAutoMode}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.fanAutoMode`,
             device.fanAutoMode,
             true
         )
         this.log.debug(`${device.name}: ecoMode => ${device.ecoMode}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.ecoMode`,
             device.ecoMode,
             true
         )
         this.log.debug(`${device.name}: operationMode => ${device.operationMode}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.operationMode`,
             device.operationMode,
             true
         )
         this.log.debug(`${device.name}: fanSpeed => ${device.fanSpeed}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.fanSpeed`,
             device.fanSpeed,
             true
         )
         this.log.debug(`${device.name}: actualNanoe => ${device.actualNanoe}.`)
-        this.setStateChangedAsync(
+        await this.setStateChangedAsync(
             `${device.name}.actualNanoe`,
             device.actualNanoe,
             true
@@ -174,9 +174,9 @@ class PanasonicComfortCloud extends utils.Adapter {
             if (!device.name) {
                 device.name = deviceName
             }
-            this.refreshDeviceStates(device)
+            await this.refreshDeviceStates(device)
         } catch (error) {
-            this.handleClientError(error)
+            await this.handleClientError(error)
         }
     }
 
@@ -191,11 +191,11 @@ class PanasonicComfortCloud extends utils.Adapter {
                 if(device != null) {
                     device.name = deviceInfo.name
                     device.guid = deviceInfo.guid
-                    this.refreshDeviceStates(device)
+                    await this.refreshDeviceStates(device)
                 }
             }));
         } catch (error) {
-            this.handleClientError(error)
+            await this.handleClientError(error)
         }
     }
 
@@ -212,7 +212,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             try {
                 device = await comfortCloudClient.getDevice(deviceInfo.guid)
             } catch(error) {
-                this.handleClientError(error)
+                await this.handleClientError(error)
             }
             
             if(device != null) {
@@ -444,7 +444,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 this.log.debug(`Refresh device ${deviceName}`)
                 await this.refreshDevice(guidState?.val as string, deviceName)
             } catch (error) {
-                this.handleClientError(error)
+                await this.handleClientError(error)
             }
         }
     }
@@ -483,15 +483,15 @@ class PanasonicComfortCloud extends utils.Adapter {
     /**
      * Is called if a subscribed state changes
      */
-    private onStateChange(
+    private async onStateChange(
         id: string,
         state: ioBroker.State | null | undefined
-    ): void {
+    ): Promise<void> {
         if (state) {
             const elements = id.split('.')
             const deviceName = elements[elements.length - 2]
             const stateName = elements[elements.length - 1]
-            this.updateDevice(deviceName, stateName, state)
+            await this.updateDevice(deviceName, stateName, state)
             // The state was changed
             this.log.info(
                 `state ${id} changed: ${state.val} (ack = ${state.ack})`
@@ -533,9 +533,9 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
     }
 
-    private refreshTimeoutFunc(): void {
+    private async refreshTimeoutFunc(): Promise<void> {
         this.log.debug(`refreshTimeoutFunc started.`)
-        this.refreshDevices()
+        await this.refreshDevices()
         this.setupRefreshTimeout()
     }
 
