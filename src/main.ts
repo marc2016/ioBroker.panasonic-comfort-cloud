@@ -95,7 +95,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     private async refreshDeviceStates(device: Device): Promise<void> {
         this.log.debug(`Refresh device ${device.name} (${device.guid}).`)
         this.log.debug(`${device.name}: guid => ${device.guid}.`)
-        await this.setStateChangedAsync(`${device.name}.guid`, device.guid, true)
+        
         this.log.debug(`${device.name}: operate => ${device.operate}.`)
         await this.setStateChangedAsync(
             `${device.name}.operate`,
