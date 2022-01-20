@@ -154,7 +154,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         states: { 0: panasonic_comfort_cloud_client_1.Power[0], 1: panasonic_comfort_cloud_client_1.Power[1] },
                         write: true,
                         def: device.operate,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'temperatureSet', {
                         role: 'level.temperature',

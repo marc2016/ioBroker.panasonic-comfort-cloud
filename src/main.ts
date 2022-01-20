@@ -237,7 +237,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         states: { 0: Power[0], 1: Power[1] },
                         write: true,
                         def: device.operate,
-                        type: 'array',
+                        type: 'string',
                     },
                     undefined
                 )
