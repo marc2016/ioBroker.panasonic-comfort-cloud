@@ -225,7 +225,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     deviceInfo.name,
                     '',
                     'guid',
-                    { role: 'text', write: false, def: deviceInfo.guid, type: 'string' },
+                    { role: 'info.address', write: false, def: deviceInfo.guid, type: 'string' },
                     undefined
                 )
                 this.createState(
@@ -233,7 +233,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     '',
                     'operate',
                     {
-                        role: 'state',
+                        role: 'switch.power',
                         states: { 0: Power[0], 1: Power[1] },
                         write: true,
                         def: device.operate,
@@ -258,7 +258,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     '',
                     'insideTemperature',
                     {
-                        role: 'state',
+                        role: 'level.temperature',
                         write: false,
                         def: device.insideTemperature,
                         type: 'number',
@@ -270,7 +270,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     '',
                     'outTemperature',
                     {
-                        role: 'state',
+                        role: 'level.temperature',
                         write: false,
                         def: device.outTemperature,
                         type: 'number',

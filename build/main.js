@@ -148,9 +148,9 @@ class PanasonicComfortCloud extends utils.Adapter {
                         return;
                     }
                     this.createDevice(deviceInfo.name);
-                    this.createState(deviceInfo.name, '', 'guid', { role: 'text', write: false, def: deviceInfo.guid, type: 'string' }, undefined);
+                    this.createState(deviceInfo.name, '', 'guid', { role: 'info.address', write: false, def: deviceInfo.guid, type: 'string' }, undefined);
                     this.createState(deviceInfo.name, '', 'operate', {
-                        role: 'state',
+                        role: 'switch.power',
                         states: { 0: panasonic_comfort_cloud_client_1.Power[0], 1: panasonic_comfort_cloud_client_1.Power[1] },
                         write: true,
                         def: device.operate,
@@ -163,13 +163,13 @@ class PanasonicComfortCloud extends utils.Adapter {
                         type: 'number',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'insideTemperature', {
-                        role: 'state',
+                        role: 'level.temperature',
                         write: false,
                         def: device.insideTemperature,
                         type: 'number',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'outTemperature', {
-                        role: 'state',
+                        role: 'level.temperature',
                         write: false,
                         def: device.outTemperature,
                         type: 'number',
