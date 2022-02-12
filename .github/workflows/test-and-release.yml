@@ -20,11 +20,26 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [14.x]
+
     steps:
-      - uses: ioBroker/testing-action-check@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
-          lint: true
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint source code
+        run: npm run lint
+      - name: Test package files
+        run: npm run test:package
 
   adapter-tests:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
