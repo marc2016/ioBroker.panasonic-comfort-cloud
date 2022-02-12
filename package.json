@@ -58,7 +58,7 @@
         "test:ts": "mocha --opts test/mocha.custom.opts",
         "test:package": "mocha test/package --exit",
         "test:unit": "mocha test/unit --exit",
-        "test:integration": "mocha test/integration --exit",
+        "test:integration": "mocha test/integration --timeout 120000 --exit",
         "test": "npm run test:ts && npm run test:package",
         "lint": "eslint --ext .ts src"
     },
