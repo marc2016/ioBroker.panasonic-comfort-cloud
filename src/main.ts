@@ -500,7 +500,12 @@ class PanasonicComfortCloud extends utils.Adapter {
             const elements = id.split('.')
             const deviceName = elements[elements.length - 2]
             const stateName = elements[elements.length - 1]
-            await this.updateDevice(deviceName, stateName, state)
+            try {
+                await this.updateDevice(deviceName, stateName, state)    
+            } catch (error) {
+                await this.handleClientError(error)
+            }
+            
             // The state was changed
             this.log.info(
                 `state ${id} changed: ${state.val} (ack = ${state.ack})`
@@ -544,8 +549,13 @@ class PanasonicComfortCloud extends utils.Adapter {
 
     private async refreshTimeoutFunc(): Promise<void> {
         this.log.debug(`refreshTimeoutFunc started.`)
-        await this.refreshDevices()
-        this.setupRefreshTimeout()
+        try {
+            await this.refreshDevices()
+            this.setupRefreshTimeout()
+        } catch (error) {
+            await this.handleClientError(error)
+        }
+        
     }
 
 }
