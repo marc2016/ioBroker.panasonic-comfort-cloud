@@ -23,6 +23,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     constructor(options = {}) {
         super(Object.assign(Object.assign({}, options), { name: 'panasonic-comfort-cloud' }));
         this.refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
+        this.readonlyStateNames = [];
         this.on('ready', this.onReady.bind(this));
         this.on('objectChange', this.onObjectChange.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
@@ -149,6 +150,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     }
                     this.createDevice(deviceInfo.name);
                     this.createState(deviceInfo.name, '', 'guid', { role: 'info.address', write: false, def: deviceInfo.guid, type: 'string' }, undefined);
+                    this.readonlyStateNames.push('guid');
                     this.createState(deviceInfo.name, '', 'operate', {
                         role: 'switch.power',
                         states: { 0: panasonic_comfort_cloud_client_1.Power[0], 1: panasonic_comfort_cloud_client_1.Power[1] },
@@ -168,12 +170,14 @@ class PanasonicComfortCloud extends utils.Adapter {
                         def: device.insideTemperature,
                         type: 'number',
                     }, undefined);
+                    this.readonlyStateNames.push('insideTemperature');
                     this.createState(deviceInfo.name, '', 'outTemperature', {
                         role: 'level.temperature',
                         write: false,
                         def: device.outTemperature,
                         type: 'number',
                     }, undefined);
+                    this.readonlyStateNames.push('outTemperature');
                     this.createState(deviceInfo.name, '', 'airSwingLR', {
                         role: 'state',
                         states: {
@@ -267,7 +271,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
     updateDevice(deviceName, stateName, state) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (stateName == 'guid') {
+            if (this.readonlyStateNames.includes(stateName)) {
                 return;
             }
             if (!state.ack) {

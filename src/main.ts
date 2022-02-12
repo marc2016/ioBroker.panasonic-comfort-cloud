@@ -48,6 +48,8 @@ class PanasonicComfortCloud extends utils.Adapter {
     private refreshTimeout: NodeJS.Timeout | undefined
     private refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT
 
+    private readonlyStateNames: string[] = [] 
+
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
@@ -228,6 +230,8 @@ class PanasonicComfortCloud extends utils.Adapter {
                     { role: 'info.address', write: false, def: deviceInfo.guid, type: 'string' },
                     undefined
                 )
+                this.readonlyStateNames.push('guid')
+
                 this.createState(
                     deviceInfo.name,
                     '',
@@ -265,6 +269,8 @@ class PanasonicComfortCloud extends utils.Adapter {
                     },
                     undefined
                 )
+                this.readonlyStateNames.push('insideTemperature')
+
                 this.createState(
                     deviceInfo.name,
                     '',
@@ -277,6 +283,8 @@ class PanasonicComfortCloud extends utils.Adapter {
                     },
                     undefined
                 )
+                this.readonlyStateNames.push('outTemperature')
+
                 this.createState(
                     deviceInfo.name,
                     '',
@@ -416,7 +424,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         stateName: string,
         state: ioBroker.State
     ): Promise<void> {
-        if(stateName == 'guid') {
+        if(this.readonlyStateNames.includes(stateName)) {
             return
         }
         if (!state.ack) {
