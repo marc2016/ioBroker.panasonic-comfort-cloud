@@ -73,9 +73,6 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.setState('info.connection', false, true);
         if(!this.config?.username || !this.config?.password) {
             this.log.error('Can not start without username or password. Please open config.')
-            if(this.stop) {
-                this.stop()
-            }
         } else {
             try {
                 this.log.debug(`Try to login with username ${this.config.username}.`)
