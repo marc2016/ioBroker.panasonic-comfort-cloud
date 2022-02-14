@@ -21,6 +21,16 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 
+### 2.0.0
+* Added js-controller 3 dependency.
+* Added username and password to protectedNative and password to encryptedNative.
+* Added connection info.
+* Changed schdule to timeout for refresh.
+* Fixes for async await pattern.
+
+### 1.2.9
+* Error handling for get device added.
+
 ### 1.2.8
 * Fixed bug in Comfort Cloud client.
 

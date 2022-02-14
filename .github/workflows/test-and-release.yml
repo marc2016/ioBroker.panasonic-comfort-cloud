@@ -20,14 +20,32 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: ioBroker/testing-action-check@v1
-        with:
-          node-version: '14.x'
-          lint: true
+    strategy:
+      matrix:
+        node-version: [14.x]
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint source code
+        run: npm run lint
+      - name: Test package files
+        run: npm run test:package
+
+  # Runs adapter tests on all supported node versions and OSes
   adapter-tests:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
+
+    needs: [check-and-lint]
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -36,10 +54,25 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: ioBroker/testing-action-adapter@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          os: ${{ matrix.os }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Run integration tests # (linux/osx)
+        if: startsWith(runner.OS, 'windows') == false
+        run: DEBUG=testing:* npm run test:integration
+      - name: Run integration tests # (windows)
+        if: startsWith(runner.OS, 'windows')
+        run: set DEBUG=testing:* & npm run test:integration
 
   deploy:
     needs: [check-and-lint, adapter-tests]

@@ -23,6 +23,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     constructor(options = {}) {
         super(Object.assign(Object.assign({}, options), { name: 'panasonic-comfort-cloud' }));
         this.refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
+        this.readonlyStateNames = [];
         this.on('ready', this.onReady.bind(this));
         this.on('objectChange', this.onObjectChange.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
@@ -49,41 +50,43 @@ class PanasonicComfortCloud extends utils.Adapter {
                     this.setState('info.connection', true, true);
                     this.log.debug('Create devices.');
                     const groups = yield comfortCloudClient.getGroups();
-                    this.createDevices(groups);
+                    yield this.createDevices(groups);
+                    this.setupRefreshTimeout();
                 }
                 catch (error) {
-                    this.handleClientError(error);
+                    yield this.handleClientError(error);
                 }
             }
         });
     }
     refreshDeviceStates(device) {
-        this.log.debug(`Refresh device ${device.name} (${device.guid}).`);
-        this.log.debug(`${device.name}: guid => ${device.guid}.`);
-        this.setStateChangedAsync(`${device.name}.guid`, device.guid, true);
-        this.log.debug(`${device.name}: operate => ${device.operate}.`);
-        this.setStateChangedAsync(`${device.name}.operate`, device.operate, true);
-        this.log.debug(`${device.name}: temperatureSet => ${device.temperatureSet}.`);
-        this.setStateChangedAsync(`${device.name}.temperatureSet`, device.temperatureSet, true);
-        this.log.debug(`${device.name}: insideTemperature => ${device.insideTemperature}.`);
-        this.setStateChangedAsync(`${device.name}.insideTemperature`, device.insideTemperature, true);
-        this.log.debug(`${device.name}: outTemperature => ${device.outTemperature}.`);
-        this.setStateChangedAsync(`${device.name}.outTemperature`, device.outTemperature, true);
-        this.log.debug(`${device.name}: airSwingLR => ${device.airSwingLR}.`);
-        this.setStateChangedAsync(`${device.name}.airSwingLR`, device.airSwingLR, true);
-        this.log.debug(`${device.name}: airSwingUD => ${device.airSwingUD}.`);
-        this.setStateChangedAsync(`${device.name}.airSwingUD`, device.airSwingUD, true);
-        this.log.debug(`${device.name}: fanAutoMode => ${device.fanAutoMode}.`);
-        this.setStateChangedAsync(`${device.name}.fanAutoMode`, device.fanAutoMode, true);
-        this.log.debug(`${device.name}: ecoMode => ${device.ecoMode}.`);
-        this.setStateChangedAsync(`${device.name}.ecoMode`, device.ecoMode, true);
-        this.log.debug(`${device.name}: operationMode => ${device.operationMode}.`);
-        this.setStateChangedAsync(`${device.name}.operationMode`, device.operationMode, true);
-        this.log.debug(`${device.name}: fanSpeed => ${device.fanSpeed}.`);
-        this.setStateChangedAsync(`${device.name}.fanSpeed`, device.fanSpeed, true);
-        this.log.debug(`${device.name}: actualNanoe => ${device.actualNanoe}.`);
-        this.setStateChangedAsync(`${device.name}.actualNanoe`, device.actualNanoe, true);
-        this.log.debug(`Refresh device ${device.name} finished.`);
+        return __awaiter(this, void 0, void 0, function* () {
+            this.log.debug(`Refresh device ${device.name} (${device.guid}).`);
+            this.log.debug(`${device.name}: guid => ${device.guid}.`);
+            this.log.debug(`${device.name}: operate => ${device.operate}.`);
+            yield this.setStateChangedAsync(`${device.name}.operate`, device.operate, true);
+            this.log.debug(`${device.name}: temperatureSet => ${device.temperatureSet}.`);
+            yield this.setStateChangedAsync(`${device.name}.temperatureSet`, device.temperatureSet, true);
+            this.log.debug(`${device.name}: insideTemperature => ${device.insideTemperature}.`);
+            yield this.setStateChangedAsync(`${device.name}.insideTemperature`, device.insideTemperature, true);
+            this.log.debug(`${device.name}: outTemperature => ${device.outTemperature}.`);
+            yield this.setStateChangedAsync(`${device.name}.outTemperature`, device.outTemperature, true);
+            this.log.debug(`${device.name}: airSwingLR => ${device.airSwingLR}.`);
+            yield this.setStateChangedAsync(`${device.name}.airSwingLR`, device.airSwingLR, true);
+            this.log.debug(`${device.name}: airSwingUD => ${device.airSwingUD}.`);
+            yield this.setStateChangedAsync(`${device.name}.airSwingUD`, device.airSwingUD, true);
+            this.log.debug(`${device.name}: fanAutoMode => ${device.fanAutoMode}.`);
+            yield this.setStateChangedAsync(`${device.name}.fanAutoMode`, device.fanAutoMode, true);
+            this.log.debug(`${device.name}: ecoMode => ${device.ecoMode}.`);
+            yield this.setStateChangedAsync(`${device.name}.ecoMode`, device.ecoMode, true);
+            this.log.debug(`${device.name}: operationMode => ${device.operationMode}.`);
+            yield this.setStateChangedAsync(`${device.name}.operationMode`, device.operationMode, true);
+            this.log.debug(`${device.name}: fanSpeed => ${device.fanSpeed}.`);
+            yield this.setStateChangedAsync(`${device.name}.fanSpeed`, device.fanSpeed, true);
+            this.log.debug(`${device.name}: actualNanoe => ${device.actualNanoe}.`);
+            yield this.setStateChangedAsync(`${device.name}.actualNanoe`, device.actualNanoe, true);
+            this.log.debug(`Refresh device ${device.name} finished.`);
+        });
     }
     refreshDevice(guid, deviceName) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -95,10 +98,10 @@ class PanasonicComfortCloud extends utils.Adapter {
                 if (!device.name) {
                     device.name = deviceName;
                 }
-                this.refreshDeviceStates(device);
+                yield this.refreshDeviceStates(device);
             }
             catch (error) {
-                this.handleClientError(error);
+                yield this.handleClientError(error);
             }
         });
     }
@@ -107,6 +110,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             try {
                 this.log.debug('Refresh all devices.');
                 const groups = yield comfortCloudClient.getGroups();
+                this.setState('info.connection', true, true);
                 const devices = _.flatMap(groups, g => g.devices);
                 const deviceInfos = _.map(devices, d => { return { guid: d.guid, name: d.name }; });
                 yield Promise.all(deviceInfos.map((deviceInfo) => __awaiter(this, void 0, void 0, function* () {
@@ -114,12 +118,12 @@ class PanasonicComfortCloud extends utils.Adapter {
                     if (device != null) {
                         device.name = deviceInfo.name;
                         device.guid = deviceInfo.guid;
-                        this.refreshDeviceStates(device);
+                        yield this.refreshDeviceStates(device);
                     }
                 })));
             }
             catch (error) {
-                this.handleClientError(error);
+                yield this.handleClientError(error);
             }
         });
     }
@@ -138,20 +142,21 @@ class PanasonicComfortCloud extends utils.Adapter {
                     device = yield comfortCloudClient.getDevice(deviceInfo.guid);
                 }
                 catch (error) {
-                    this.handleClientError(error);
+                    yield this.handleClientError(error);
                 }
                 if (device != null) {
                     if (_.includes(names, deviceInfo.name)) {
                         return;
                     }
                     this.createDevice(deviceInfo.name);
-                    this.createState(deviceInfo.name, '', 'guid', { role: 'text', write: false, def: deviceInfo.guid, type: 'string' }, undefined);
+                    this.createState(deviceInfo.name, '', 'guid', { role: 'info.address', write: false, def: deviceInfo.guid, type: 'string' }, undefined);
+                    this.readonlyStateNames.push('guid');
                     this.createState(deviceInfo.name, '', 'operate', {
-                        role: 'state',
+                        role: 'switch.power',
                         states: { 0: panasonic_comfort_cloud_client_1.Power[0], 1: panasonic_comfort_cloud_client_1.Power[1] },
                         write: true,
                         def: device.operate,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'temperatureSet', {
                         role: 'level.temperature',
@@ -160,17 +165,19 @@ class PanasonicComfortCloud extends utils.Adapter {
                         type: 'number',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'insideTemperature', {
-                        role: 'state',
+                        role: 'level.temperature',
                         write: false,
                         def: device.insideTemperature,
                         type: 'number',
                     }, undefined);
+                    this.readonlyStateNames.push('insideTemperature');
                     this.createState(deviceInfo.name, '', 'outTemperature', {
-                        role: 'state',
+                        role: 'level.temperature',
                         write: false,
                         def: device.outTemperature,
                         type: 'number',
                     }, undefined);
+                    this.readonlyStateNames.push('outTemperature');
                     this.createState(deviceInfo.name, '', 'airSwingLR', {
                         role: 'state',
                         states: {
@@ -182,7 +189,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingLR,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'airSwingUD', {
                         role: 'state',
@@ -195,7 +202,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.airSwingUD,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'fanAutoMode', {
                         role: 'state',
@@ -207,14 +214,14 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanAutoMode,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'ecoMode', {
                         role: 'state',
                         states: { 0: panasonic_comfort_cloud_client_1.EcoMode[0], 1: panasonic_comfort_cloud_client_1.EcoMode[1], 2: panasonic_comfort_cloud_client_1.EcoMode[2] },
                         write: true,
                         def: device.ecoMode,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'operationMode', {
                         role: 'state',
@@ -227,7 +234,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.operationMode,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'fanSpeed', {
                         role: 'state',
@@ -241,7 +248,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.fanSpeed,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.createState(deviceInfo.name, '', 'actualNanoe', {
                         role: 'state',
@@ -254,7 +261,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                         },
                         write: true,
                         def: device.actualNanoe,
-                        type: 'array',
+                        type: 'string',
                     }, undefined);
                     this.log.info(`Device ${deviceInfo.name} created.`);
                 }
@@ -264,7 +271,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
     updateDevice(deviceName, stateName, state) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (stateName == 'guid') {
+            if (this.readonlyStateNames.includes(stateName)) {
                 return;
             }
             if (!state.ack) {
@@ -287,7 +294,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     yield this.refreshDevice(guidState === null || guidState === void 0 ? void 0 : guidState.val, deviceName);
                 }
                 catch (error) {
-                    this.handleClientError(error);
+                    yield this.handleClientError(error);
                 }
             }
         });
@@ -323,18 +330,25 @@ class PanasonicComfortCloud extends utils.Adapter {
      * Is called if a subscribed state changes
      */
     onStateChange(id, state) {
-        if (state) {
-            const elements = id.split('.');
-            const deviceName = elements[elements.length - 2];
-            const stateName = elements[elements.length - 1];
-            this.updateDevice(deviceName, stateName, state);
-            // The state was changed
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-        }
-        else {
-            // The state was deleted
-            this.log.info(`state ${id} deleted`);
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            if (state) {
+                const elements = id.split('.');
+                const deviceName = elements[elements.length - 2];
+                const stateName = elements[elements.length - 1];
+                try {
+                    yield this.updateDevice(deviceName, stateName, state);
+                }
+                catch (error) {
+                    yield this.handleClientError(error);
+                }
+                // The state was changed
+                this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+            }
+            else {
+                // The state was deleted
+                this.log.info(`state ${id} deleted`);
+            }
+        });
     }
     handleClientError(error) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -356,12 +370,22 @@ class PanasonicComfortCloud extends utils.Adapter {
         });
     }
     setupRefreshTimeout() {
+        this.log.debug('setupRefreshTimeout');
         const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000;
+        this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`);
         this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
     }
     refreshTimeoutFunc() {
-        this.refreshDevices();
-        this.setupRefreshTimeout();
+        return __awaiter(this, void 0, void 0, function* () {
+            this.log.debug(`refreshTimeoutFunc started.`);
+            try {
+                yield this.refreshDevices();
+                this.setupRefreshTimeout();
+            }
+            catch (error) {
+                yield this.handleClientError(error);
+            }
+        });
     }
 }
 if (module.parent) {
