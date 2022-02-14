@@ -335,7 +335,12 @@ class PanasonicComfortCloud extends utils.Adapter {
                 const elements = id.split('.');
                 const deviceName = elements[elements.length - 2];
                 const stateName = elements[elements.length - 1];
-                yield this.updateDevice(deviceName, stateName, state);
+                try {
+                    yield this.updateDevice(deviceName, stateName, state);
+                }
+                catch (error) {
+                    yield this.handleClientError(error);
+                }
                 // The state was changed
                 this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
             }
@@ -373,8 +378,13 @@ class PanasonicComfortCloud extends utils.Adapter {
     refreshTimeoutFunc() {
         return __awaiter(this, void 0, void 0, function* () {
             this.log.debug(`refreshTimeoutFunc started.`);
-            yield this.refreshDevices();
-            this.setupRefreshTimeout();
+            try {
+                yield this.refreshDevices();
+                this.setupRefreshTimeout();
+            }
+            catch (error) {
+                yield this.handleClientError(error);
+            }
         });
     }
 }
