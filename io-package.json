@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "news": {
+            "2.0.1": {
+                "en": "Changed the type of some states from string to number.",
+                "de": "Den Typ von einigen States von string zu number geändert."
+            },
             "2.0.0": {
                 "en": "Added js-controller 3 dependency.\nAdded username and password to protectedNative and password to encryptedNative.\nAdded connection info.\nChanged schdule to timeout for refresh.\nFixes for async await pattern.",
                 "de": "js-controller 3 als Abhängigkeit eingefügt.\nusername und password zu protectedNative und password zu encryptedNative hinzugefügt.\nconnection info als Status eingefügt.\nSchudle durch timeout für die Geräteaktualisierung erstezt.\nAsync und await überall korrekt berücksichtig."
