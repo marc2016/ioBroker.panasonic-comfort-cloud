@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "news": {
+            "2.0.2": {
+                "en": "panasonic-comfort-cloud-client updated to new version.",
+                "de": "panasonic-comfort-cloud-client auf die neue Version aktualisiert."
+            },
             "2.0.1": {
                 "en": "Changed the type of some states from string to number.",
                 "de": "Den Typ von einigen States von string zu number geändert."
