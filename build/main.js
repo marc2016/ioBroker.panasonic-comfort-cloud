@@ -394,6 +394,5 @@ if (module.parent) {
 }
 else {
     // otherwise start the instance directly
-    ;
     (() => new PanasonicComfortCloud())();
 }

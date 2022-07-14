@@ -21,6 +21,15 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 
+### 2.0.3
+* panasonic-comfort-cloud-client updated to new version. (appVersion changed again)
+
+### 2.0.2
+* panasonic-comfort-cloud-client updated to new version.
+
+### 2.0.1
+* Changed the type of some states from string to number.
+
 ### 2.0.0
 * Added js-controller 3 dependency.
 * Added username and password to protectedNative and password to encryptedNative.
