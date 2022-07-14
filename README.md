@@ -21,6 +21,9 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 
+### 2.0.4
+* New version of dependencies installed.
+
 ### 2.0.3
 * panasonic-comfort-cloud-client updated to new version. (appVersion changed again)
 

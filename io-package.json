@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.0.3",
+        "version": "2.0.4",
         "news": {
+            "2.0.4": {
+                "en": "New version of dependencies installed.",
+                "de": "Neue Version von Abhängigkeiten installiert."
+            },
             "2.0.3": {
                 "en": "panasonic-comfort-cloud-client updated to new version. (appVersion changed again)",
                 "de": "panasonic-comfort-cloud-client auf die neue Version aktualisiert. (appVersion wurde wieder geändert)"
