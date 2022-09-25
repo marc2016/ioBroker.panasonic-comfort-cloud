@@ -73,7 +73,7 @@ It is recommended that a second account, for which the devices have been shared,
 ## License
 MIT License
 
-Copyright (c) 2021 marc <marc@lammers.dev>
+Copyright (c) 2022 marc <marc@lammers.dev>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
