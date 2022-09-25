@@ -1,6 +1,6 @@
 {
     "name": "iobroker.panasonic-comfort-cloud",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "description": "Adapter for Panasonic Comfort Cloud",
     "author": {
         "name": "marc",
@@ -23,6 +23,7 @@
         "ts-enum-util": "^4.0.1"
     },
     "devDependencies": {
+        "@iobroker/adapter-dev": "^1.1.0",
         "@iobroker/testing": "^2.5.4",
         "@types/chai": "^4.2.4",
         "@types/chai-as-promised": "^7.1.2",
@@ -50,9 +51,10 @@
     },
     "main": "build/main.js",
     "scripts": {
+        "translate": "translate-adapter",
         "prebuild": "rimraf ./build",
         "build:ts": "tsc -p tsconfig.build.json",
-        "build": "npm run build:ts",
+        "build": "build-adapter ts",
         "watch:ts": "tsc -p tsconfig.build.json --watch",
         "watch": "npm run watch:ts",
         "test:ts": "mocha --opts test/mocha.custom.opts",

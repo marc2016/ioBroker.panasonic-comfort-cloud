@@ -1,59 +1,61 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.translateText = exports.isArray = exports.isObject = void 0;
-const axios_1 = require("axios");
-/**
- * Tests whether the given variable is a real object and not an Array
- * @param it The variable to test
- */
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var tools_exports = {};
+__export(tools_exports, {
+  isArray: () => isArray,
+  isObject: () => isObject,
+  translateText: () => translateText
+});
+module.exports = __toCommonJS(tools_exports);
+var import_axios = __toESM(require("axios"));
 function isObject(it) {
-    // This is necessary because:
-    // typeof null === 'object'
-    // typeof [] === 'object'
-    // [] instanceof Object === true
-    return Object.prototype.toString.call(it) === '[object Object]';
+  return Object.prototype.toString.call(it) === "[object Object]";
 }
-exports.isObject = isObject;
-/**
- * Tests whether the given variable is really an Array
- * @param it The variable to test
- */
 function isArray(it) {
-    if (Array.isArray != null)
-        return Array.isArray(it);
-    return Object.prototype.toString.call(it) === '[object Array]';
+  if (Array.isArray != null)
+    return Array.isArray(it);
+  return Object.prototype.toString.call(it) === "[object Array]";
 }
-exports.isArray = isArray;
-/**
- * Translates text using the Google Translate API
- * @param text The text to translate
- * @param targetLang The target languate
- */
-function translateText(text, targetLang) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (targetLang === 'en')
-            return text;
-        try {
-            const url = `http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}&ie=UTF-8&oe=UTF-8`;
-            const response = yield (0, axios_1.default)({ url, timeout: 5000 });
-            if (isArray(response.data)) {
-                // we got a valid response
-                return response.data[0][0][0];
-            }
-            throw new Error('Invalid response for translate request');
-        }
-        catch (e) {
-            throw new Error(`Could not translate to "${targetLang}": ${e}`);
-        }
-    });
+async function translateText(text, targetLang) {
+  if (targetLang === "en")
+    return text;
+  try {
+    const url = `http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}&ie=UTF-8&oe=UTF-8`;
+    const response = await (0, import_axios.default)({ url, timeout: 5e3 });
+    if (isArray(response.data)) {
+      return response.data[0][0][0];
+    }
+    throw new Error("Invalid response for translate request");
+  } catch (e) {
+    throw new Error(`Could not translate to "${targetLang}": ${e}`);
+  }
 }
-exports.translateText = translateText;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  isArray,
+  isObject,
+  translateText
+});
+//# sourceMappingURL=tools.js.map

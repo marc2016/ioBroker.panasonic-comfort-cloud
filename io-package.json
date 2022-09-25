@@ -1,83 +1,247 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.0.4",
+        "version": "2.0.5",
         "news": {
+            "2.0.5": {
+                "en": "Translation for news added.",
+                "de": "Übersetzung für Nachrichten hinzugefügt.",
+                "ru": "Добавлен перевод новостей.",
+                "pt": "Tradução para notícias adicionada.",
+                "nl": "Vertaling voor nieuws toegevoegd.",
+                "fr": "Traduction pour les nouvelles ajoutée.",
+                "it": "Aggiunta la traduzione per le notizie.",
+                "es": "Traducción para noticias añadidas.",
+                "pl": "Dodano tłumaczenie wiadomości.",
+                "zh-cn": "添加了新闻翻译。"
+            },
             "2.0.4": {
                 "en": "New version of dependencies installed.",
-                "de": "Neue Version von Abhängigkeiten installiert."
+                "de": "Neue Version von Abhängigkeiten installiert.",
+                "ru": "Установлена ​​новая версия зависимостей.",
+                "pt": "Nova versão das dependências instaladas.",
+                "nl": "Nieuwe versie van afhankelijkheden geïnstalleerd.",
+                "fr": "Nouvelle version des dépendances installées.",
+                "it": "Nuova versione delle dipendenze installata.",
+                "es": "Nueva versión de dependencias instalada.",
+                "pl": "Zainstalowano nową wersję zależności.",
+                "zh-cn": "安装了新版本的依赖项。"
             },
             "2.0.3": {
                 "en": "panasonic-comfort-cloud-client updated to new version. (appVersion changed again)",
-                "de": "panasonic-comfort-cloud-client auf die neue Version aktualisiert. (appVersion wurde wieder geändert)"
+                "de": "panasonic-comfort-cloud-client auf die neue Version aktualisiert. (appVersion wurde wieder geändert)",
+                "ru": "Panasonic-comfort-cloud-client обновлен до новой версии. (версия приложения снова изменилась)",
+                "pt": "panasonic-comfort-cloud-client atualizado para a nova versão. (appVersion alterado novamente)",
+                "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. (appVersie opnieuw gewijzigd)",
+                "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version. (appVersion changé à nouveau)",
+                "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. (appVersion cambiata di nuovo)",
+                "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. (appVersion cambió de nuevo)",
+                "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. (ponowna zmiana wersji aplikacji)",
+                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）"
             },
             "2.0.2": {
                 "en": "panasonic-comfort-cloud-client updated to new version.",
-                "de": "panasonic-comfort-cloud-client auf die neue Version aktualisiert."
+                "de": "panasonic-comfort-cloud-client auf die neue Version aktualisiert.",
+                "ru": "Panasonic-comfort-cloud-client обновлен до новой версии.",
+                "pt": "panasonic-comfort-cloud-client atualizado para a nova versão.",
+                "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie.",
+                "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version.",
+                "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione.",
+                "es": "panasonic-comfort-cloud-client actualizado a la nueva versión.",
+                "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji.",
+                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。"
             },
             "2.0.1": {
                 "en": "Changed the type of some states from string to number.",
-                "de": "Den Typ von einigen States von string zu number geändert."
+                "de": "Den Typ von einigen States von string zu number geändert.",
+                "ru": "Изменен тип некоторых состояний со строки на число.",
+                "pt": "Alterado o tipo de alguns estados de string para número.",
+                "nl": "Het type van sommige toestanden gewijzigd van tekenreeks in nummer.",
+                "fr": "Changement du type de certains états de chaîne en nombre.",
+                "it": "Modificato il tipo di alcuni stati da stringa a numero.",
+                "es": "Cambió el tipo de algunos estados de cadena a número.",
+                "pl": "Zmieniono typ niektórych stanów z ciągu na numer.",
+                "zh-cn": "将某些状态的类型从字符串更改为数字。"
             },
             "2.0.0": {
                 "en": "Added js-controller 3 dependency.\nAdded username and password to protectedNative and password to encryptedNative.\nAdded connection info.\nChanged schdule to timeout for refresh.\nFixes for async await pattern.",
-                "de": "js-controller 3 als Abhängigkeit eingefügt.\nusername und password zu protectedNative und password zu encryptedNative hinzugefügt.\nconnection info als Status eingefügt.\nSchudle durch timeout für die Geräteaktualisierung erstezt.\nAsync und await überall korrekt berücksichtig."
+                "de": "js-controller 3 als Abhängigkeit eingefügt.\nusername und password zu protectedNative und password zu encryptedNative hinzugefügt.\nconnection info als Status eingefügt.\nSchudle durch timeout für die Geräteaktualisierung erstezt.\nAsync und await überall korrekt berücksichtig.",
+                "ru": "Добавлена ​​зависимость js-controller 3.\nДобавлены имя пользователя и пароль для protectedNative и пароль для protectedNative.\nДобавлена ​​информация о подключении.\nИзменено расписание на тайм-аут для обновления.\nИсправления для асинхронного шаблона ожидания.",
+                "pt": "Adicionada dependência do js-controller 3.\nAdicionado nome de usuário e senha para protectedNative e senha paracryptedNative.\nAdicionadas informações de conexão.\nAlterado o schdule para o tempo limite para atualização.\nCorreções para o padrão de espera assíncrono.",
+                "nl": "Js-controller 3 afhankelijkheid toegevoegd.\nGebruikersnaam en wachtwoord toegevoegd aan protectedNative en wachtwoord aan versleuteldNative.\nVerbindingsinformatie toegevoegd.\nSchema gewijzigd in time-out voor vernieuwen.\nOplossingen voor async wachten op patroon.",
+                "fr": "Ajout de la dépendance js-controller 3.\nNom d'utilisateur et mot de passe ajoutés à protectedNative et mot de passe à protectedNative.\nAjout d'informations de connexion.\nModification de la planification du délai d'attente pour l'actualisation.\nCorrectifs pour le modèle d'attente asynchrone.",
+                "it": "Aggiunta la dipendenza js-controller 3.\nAggiunti nome utente e password a protectedNative e password acryptNative.\nAggiunte informazioni di connessione.\nProgrammazione modificata in timeout per l'aggiornamento.\nCorrezioni per il modello di attesa asincrono.",
+                "es": "Se agregó la dependencia js-controller 3.\nSe agregaron nombre de usuario y contraseña a protectedNative y contraseña a encryptedNative.\nSe agregó información de conexión.\nSe cambió la programación a tiempo de espera para actualizar.\nCorrecciones para el patrón de espera asíncrono.",
+                "pl": "Dodano zależność js-controller 3.\nDodano nazwę użytkownika i hasło do protectedNative i hasło do protectedNative.\nDodano informacje o połączeniu.\nZmieniono harmonogram na limit czasu na odświeżenie.\nPoprawki dla wzorca asynchronicznego oczekiwania.",
+                "zh-cn": "添加了 js-controller 3 依赖项。\n在 protectedNative 中添加了用户名和密码，在 encryptedNative 中添加了密码。\n添加了连接信息。\n将 schdule 更改为超时以进行刷新。\n修复了异步等待模式。"
             },
             "1.2.9": {
                 "en": "Error handling for get device added.",
-                "de": "Fehlerbehandlung beim Abrufen des Geräts hinzugefügt."
+                "de": "Fehlerbehandlung beim Abrufen des Geräts hinzugefügt.",
+                "ru": "Обработка ошибок при добавлении устройства.",
+                "pt": "Tratamento de erros para adicionar dispositivo.",
+                "nl": "Foutafhandeling om apparaat toegevoegd te krijgen.",
+                "fr": "Gestion des erreurs pour obtenir l'appareil ajouté.",
+                "it": "Gestione degli errori per ottenere l'aggiunta del dispositivo.",
+                "es": "Manejo de errores para obtener dispositivo agregado.",
+                "pl": "Obsługa błędów przy dodawaniu urządzenia.",
+                "zh-cn": "添加获取设备的错误处理。"
             },
             "1.2.8": {
                 "en": "Fixed bug in Comfort Cloud client.",
-                "de": "Fehler in Comfort Cloud client behoben."
+                "de": "Fehler in Comfort Cloud client behoben.",
+                "ru": "Исправлена ​​ошибка в клиенте Comfort Cloud.",
+                "pt": "Corrigido bug no cliente Comfort Cloud.",
+                "nl": "Bug opgelost in Comfort Cloud-client.",
+                "fr": "Correction d'un bug dans le client Comfort Cloud.",
+                "it": "Risolto bug nel client Comfort Cloud.",
+                "es": "Corregido error en el cliente Comfort Cloud.",
+                "pl": "Naprawiono błąd w kliencie Comfort Cloud.",
+                "zh-cn": "修复了 Comfort Cloud 客户端中的错误。"
             },
             "1.2.7": {
                 "en": "Comfort Cloud client updated.",
-                "de": "Comfort Cloud client aktualisiert."
+                "de": "Comfort Cloud client aktualisiert.",
+                "ru": "Обновлен клиент Comfort Cloud.",
+                "pt": "Cliente Comfort Cloud atualizado.",
+                "nl": "Comfort Cloud-client bijgewerkt.",
+                "fr": "Client Comfort Cloud mis à jour.",
+                "it": "Client Comfort Cloud aggiornato.",
+                "es": "Cliente Comfort Cloud actualizado.",
+                "pl": "Zaktualizowano klienta Comfort Cloud.",
+                "zh-cn": "舒适云客户端已更新。"
             },
             "1.2.6": {
                 "en": "Fixed bug that guid is null in device creation.",
-                "de": "Fehler behoben, dass die GUID bei der Geräteerstellung null ist."
+                "de": "Fehler behoben, dass die GUID bei der Geräteerstellung null ist.",
+                "ru": "Исправлена ​​ошибка, из-за которой guid был нулевым при создании устройства.",
+                "pt": "Corrigido o erro que o guid é nulo na criação do dispositivo.",
+                "nl": "Bug opgelost dat guid nul is bij het maken van apparaten.",
+                "fr": "Correction d'un bug qui guid est nul dans la création de périphérique.",
+                "it": "Risolto bug per cui guid è nullo nella creazione del dispositivo.",
+                "es": "Se corrigió el error de que GUID es nulo en la creación de dispositivos.",
+                "pl": "Naprawiono błąd, który powodował, że guid był pusty podczas tworzenia urządzenia.",
+                "zh-cn": "修复了设备创建中 guid 为空的错误。"
             },
             "1.2.5": {
                 "en": "Comfort Cloud client updated.",
-                "de": "Comfort Cloud client aktualisiert."
+                "de": "Comfort Cloud client aktualisiert.",
+                "ru": "Обновлен клиент Comfort Cloud.",
+                "pt": "Cliente Comfort Cloud atualizado.",
+                "nl": "Comfort Cloud-client bijgewerkt.",
+                "fr": "Client Comfort Cloud mis à jour.",
+                "it": "Client Comfort Cloud aggiornato.",
+                "es": "Cliente Comfort Cloud actualizado.",
+                "pl": "Zaktualizowano klienta Comfort Cloud.",
+                "zh-cn": "舒适云客户端已更新。"
             },
             "1.2.4": {
                 "en": "Fixed bug with undefined guid. Log messages added.",
-                "de": "Problem mit undefinierter guid behoben. Log Ausgaben hinzugefügt."
+                "de": "Problem mit undefinierter guid behoben. Log Ausgaben hinzugefügt.",
+                "ru": "Исправлена ​​ошибка с неопределенным guid. Добавлены сообщения журнала.",
+                "pt": "Corrigido bug com guid indefinido. Mensagens de log adicionadas.",
+                "nl": "Bug opgelost met ongedefinieerde gids. Logberichten toegevoegd.",
+                "fr": "Correction d'un bug avec un guid indéfini. Messages de journal ajoutés.",
+                "it": "Risolto bug con guida indefinita. Messaggi di registro aggiunti.",
+                "es": "Error solucionado con guid indefinido. Se agregaron mensajes de registro.",
+                "pl": "Naprawiono błąd z niezdefiniowanym przewodnikiem. Dodano wiadomości dziennika.",
+                "zh-cn": "修复了未定义 guid 的错误。添加了日志消息。"
             },
             "1.2.3": {
                 "en": "Set parameters only for writable states.",
-                "de": "Parameter werden nur noch für beschreibbare States übertragen."
+                "de": "Parameter werden nur noch für beschreibbare States übertragen.",
+                "ru": "Установите параметры только для записываемых состояний.",
+                "pt": "Defina parâmetros apenas para estados graváveis.",
+                "nl": "Stel parameters alleen in voor beschrijfbare toestanden.",
+                "fr": "Définissez les paramètres uniquement pour les états inscriptibles.",
+                "it": "Impostare i parametri solo per gli stati scrivibili.",
+                "es": "Establezca parámetros solo para estados grabables.",
+                "pl": "Ustaw parametry tylko dla stanów zapisywalnych.",
+                "zh-cn": "仅为可写状态设置参数。"
             },
             "1.2.2": {
                 "en": "Fixed error handling and added stack info.",
-                "de": "Fehlerbehandlung repariert und Stack Informationen in Meldung eingefügt."
+                "de": "Fehlerbehandlung repariert und Stack Informationen in Meldung eingefügt.",
+                "ru": "Исправлена ​​обработка ошибок и добавлена ​​информация о стеке.",
+                "pt": "Corrigido o tratamento de erros e informações de pilha adicionadas.",
+                "nl": "Foutafhandeling opgelost en stackinfo toegevoegd.",
+                "fr": "Correction de la gestion des erreurs et ajout d'informations sur la pile.",
+                "it": "Risolto il problema con la gestione degli errori e aggiunte le informazioni sullo stack.",
+                "es": "Se corrigió el manejo de errores y se agregó información de la pila.",
+                "pl": "Poprawiono obsługę błędów i dodano informacje o stosie.",
+                "zh-cn": "修复了错误处理并添加了堆栈信息。"
             },
             "1.2.1": {
                 "en": "Fixed bug in refesh device method.",
-                "de": "Fehler in der Methode zum Aktualisieren des Gerätes behoben."
+                "de": "Fehler in der Methode zum Aktualisieren des Gerätes behoben.",
+                "ru": "Исправлена ​​ошибка в методе обновления устройства.",
+                "pt": "Corrigido bug no método de atualização do dispositivo.",
+                "nl": "Bug opgelost in de methode voor het vernieuwen van het apparaat.",
+                "fr": "Correction d'un bug dans la méthode de rafraîchissement de l'appareil.",
+                "it": "Risolto bug nel metodo di aggiornamento del dispositivo.",
+                "es": "Se corrigió un error en el método de actualización del dispositivo.",
+                "pl": "Naprawiono błąd w metodzie odświeżania urządzenia.",
+                "zh-cn": "修复了刷新设备方法中的错误。"
             },
             "1.2.0": {
                 "en": "States insideTemperature, outTemperature and Nanoe added.",
-                "de": "States für Innentemperatur, Außentemperatur und Nanoe hinzugefügt."
+                "de": "States für Innentemperatur, Außentemperatur und Nanoe hinzugefügt.",
+                "ru": "Добавлены состояния insideTemperature, outTemperature и Nanoe.",
+                "pt": "Adicionados os estados insideTemperature, outTemperature e Nanoe.",
+                "nl": "Staten insideTemperature, outTemperature en Nanoe toegevoegd.",
+                "fr": "États insideTemperature, outTemperature et Nanoe ajoutés.",
+                "it": "Stati insideTemperature, outTemperature e Nanoe aggiunti.",
+                "es": "Se agregaron los estados insideTemperature, outTemperature y Nanoe.",
+                "pl": "Dodano stany insideTemperature, outTemperature i Nanoe.",
+                "zh-cn": "添加了状态 insideTemperature、outTemperature 和 Nanoe。"
             },
             "1.1.3": {
                 "en": "Fixed problem with login of comfort cloud again.",
-                "de": "Problem beim Anmelden an der Comfort Cloud wieder behoben."
+                "de": "Problem beim Anmelden an der Comfort Cloud wieder behoben.",
+                "ru": "Исправлена ​​проблема со входом в облако comfort снова.",
+                "pt": "Corrigido problema com login da comfort cloud novamente.",
+                "nl": "Probleem opgelost met opnieuw inloggen van comfort cloud.",
+                "fr": "Correction d'un problème avec la connexion de Comfort Cloud à nouveau.",
+                "it": "Risolto il problema con l'accesso di nuovo al comfort cloud.",
+                "es": "Solucionado el problema con el inicio de sesión de la nube de confort nuevamente.",
+                "pl": "Naprawiono problem z ponownym logowaniem do chmury komfortu.",
+                "zh-cn": "修复了再次登录舒适云的问题。"
             },
             "1.1.2": {
                 "en": "Fixed problem with login of comfort cloud.",
-                "de": "Problem beim Anmelden an der Comfort Cloud behoben."
+                "de": "Problem beim Anmelden an der Comfort Cloud behoben.",
+                "ru": "Исправлена ​​проблема со входом в облако comfort.",
+                "pt": "Corrigido problema com login da comfort cloud.",
+                "nl": "Probleem opgelost met inloggen op comfort cloud.",
+                "fr": "Correction d'un problème avec la connexion du cloud de confort.",
+                "it": "Risolto problema con l'accesso al comfort cloud.",
+                "es": "Solucionado el problema con el inicio de sesión de la nube de confort.",
+                "pl": "Naprawiono problem z logowaniem do chmury komfortu.",
+                "zh-cn": "修复了舒适云登录的问题。"
             },
             "1.1.1": {
                 "en": "Device refresh bug fixed.",
-                "de": "Bug in der Geräteaktualisierung behoben."
+                "de": "Bug in der Geräteaktualisierung behoben.",
+                "ru": "Исправлена ​​ошибка обновления устройства.",
+                "pt": "Bug de atualização do dispositivo corrigido.",
+                "nl": "Apparaatverversingsfout opgelost.",
+                "fr": "Correction du bug d'actualisation de l'appareil.",
+                "it": "Bug di aggiornamento del dispositivo corretto.",
+                "es": "Se corrigió el error de actualización del dispositivo.",
+                "pl": "Naprawiono błąd odświeżania urządzenia.",
+                "zh-cn": "修复了设备刷新错误。"
             },
             "1.1.0": {
                 "en": "Fan speed state added",
-                "de": "State für die Lüftergeschwindigkeit eingefügt"
+                "de": "State für die Lüftergeschwindigkeit eingefügt",
+                "ru": "Добавлено состояние скорости вентилятора",
+                "pt": "Estado de velocidade do ventilador adicionado",
+                "nl": "Status ventilatorsnelheid toegevoegd",
+                "fr": "État de la vitesse du ventilateur ajouté",
+                "it": "Stato velocità ventola aggiunto",
+                "es": "Estado de velocidad del ventilador agregado",
+                "pl": "Dodano stan prędkości wentylatora",
+                "zh-cn": "风扇转速状态添加"
             },
             "0.0.4": {
                 "en": "initial release",
@@ -116,8 +280,12 @@
             "pl": "Adapter do chmury Panasonic Comfort Cloud",
             "zh-cn": "松下舒适云适配器"
         },
-        "authors": ["marc <marc@lammers.dev>"],
-        "keywords": ["air condition"],
+        "authors": [
+            "marc <marc@lammers.dev>"
+        ],
+        "keywords": [
+            "air condition"
+        ],
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "connectionType": "cloud",
