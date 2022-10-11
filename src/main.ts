@@ -164,6 +164,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             device.actualNanoe,
             true
         )
+        await this.setStateChangedAsync(
+            `${device.name}.connected`,
+            true,
+            true
+        )
         this.log.debug(`Refresh device ${device.name} finished.`)
     }
 
@@ -178,7 +183,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             }
             await this.refreshDeviceStates(device)
         } catch (error) {
-            await this.handleClientError(error)
+            await this.setStateChangedAsync(
+                `${deviceName}.connected`,
+                false,
+                true
+            )
         }
     }
 
@@ -190,12 +199,21 @@ class PanasonicComfortCloud extends utils.Adapter {
             const devices = _.flatMap(groups, g => g.devices)
             const deviceInfos = _.map(devices, d => { return{guid: d.guid, name: d.name}})
             await Promise.all(deviceInfos.map(async (deviceInfo) => {
-                const device = await comfortCloudClient.getDevice(deviceInfo.guid)
-                if(device != null) {
-                    device.name = deviceInfo.name
-                    device.guid = deviceInfo.guid
-                    await this.refreshDeviceStates(device)
+                try {
+                    const device = await comfortCloudClient.getDevice(deviceInfo.guid)
+                    if(device != null) {
+                        device.name = deviceInfo.name
+                        device.guid = deviceInfo.guid
+                        await this.refreshDeviceStates(device)
+                    }
+                } catch (error) {
+                    await this.setStateChangedAsync(
+                        `${deviceInfo.name}.connected`,
+                        false,
+                        true
+                    )
                 }
+                
             }));
         } catch (error) {
             await this.handleClientError(error)
@@ -411,6 +429,13 @@ class PanasonicComfortCloud extends utils.Adapter {
                         type: 'number',
                     },
                     undefined
+                )
+                this.createState(
+                    deviceInfo.name,
+                    '',
+                    'connected',
+                    { role: 'state', read: true, write: false, def: false, type: 'boolean' },
+                    undefined,
                 )
 
                 this.log.info(`Device ${deviceInfo.name} created.`)
