@@ -13,7 +13,8 @@
                 "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. (appVersion cambiata di nuovo)",
                 "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. (appVersion cambió de nuevo)",
                 "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. (ponowna zmiana wersji aplikacji)",
-                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）"
+                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）",
+                "uk": "panasonic-comfort-cloud-client оновлено до нової версії. (AppVersion знову змінено)"
             },
             "2.0.5": {
                 "en": "Translation for news added.",
@@ -25,7 +26,8 @@
                 "it": "Aggiunta la traduzione per le notizie.",
                 "es": "Traducción para noticias añadidas.",
                 "pl": "Dodano tłumaczenie wiadomości.",
-                "zh-cn": "添加了新闻翻译。"
+                "zh-cn": "添加了新闻翻译。",
+                "uk": "Додано переклад для новин."
             },
             "2.0.4": {
                 "en": "New version of dependencies installed.",
@@ -37,7 +39,8 @@
                 "it": "Nuova versione delle dipendenze installata.",
                 "es": "Nueva versión de dependencias instalada.",
                 "pl": "Zainstalowano nową wersję zależności.",
-                "zh-cn": "安装了新版本的依赖项。"
+                "zh-cn": "安装了新版本的依赖项。",
+                "uk": "Встановлено нову версію залежностей."
             },
             "2.0.3": {
                 "en": "panasonic-comfort-cloud-client updated to new version. (appVersion changed again)",
@@ -49,7 +52,8 @@
                 "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. (appVersion cambiata di nuovo)",
                 "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. (appVersion cambió de nuevo)",
                 "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. (ponowna zmiana wersji aplikacji)",
-                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）"
+                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）",
+                "uk": "panasonic-comfort-cloud-client оновлено до нової версії. (AppVersion знову змінено)"
             },
             "2.0.2": {
                 "en": "panasonic-comfort-cloud-client updated to new version.",
@@ -61,7 +65,8 @@
                 "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione.",
                 "es": "panasonic-comfort-cloud-client actualizado a la nueva versión.",
                 "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji.",
-                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。"
+                "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。",
+                "uk": "panasonic-comfort-cloud-client оновлено до нової версії."
             },
             "2.0.1": {
                 "en": "Changed the type of some states from string to number.",
@@ -73,7 +78,8 @@
                 "it": "Modificato il tipo di alcuni stati da stringa a numero.",
                 "es": "Cambió el tipo de algunos estados de cadena a número.",
                 "pl": "Zmieniono typ niektórych stanów z ciągu na numer.",
-                "zh-cn": "将某些状态的类型从字符串更改为数字。"
+                "zh-cn": "将某些状态的类型从字符串更改为数字。",
+                "uk": "Змінено тип деяких станів з рядка на число."
             },
             "2.0.0": {
                 "en": "Added js-controller 3 dependency.\nAdded username and password to protectedNative and password to encryptedNative.\nAdded connection info.\nChanged schdule to timeout for refresh.\nFixes for async await pattern.",
@@ -85,7 +91,8 @@
                 "it": "Aggiunta la dipendenza js-controller 3.\nAggiunti nome utente e password a protectedNative e password acryptNative.\nAggiunte informazioni di connessione.\nProgrammazione modificata in timeout per l'aggiornamento.\nCorrezioni per il modello di attesa asincrono.",
                 "es": "Se agregó la dependencia js-controller 3.\nSe agregaron nombre de usuario y contraseña a protectedNative y contraseña a encryptedNative.\nSe agregó información de conexión.\nSe cambió la programación a tiempo de espera para actualizar.\nCorrecciones para el patrón de espera asíncrono.",
                 "pl": "Dodano zależność js-controller 3.\nDodano nazwę użytkownika i hasło do protectedNative i hasło do protectedNative.\nDodano informacje o połączeniu.\nZmieniono harmonogram na limit czasu na odświeżenie.\nPoprawki dla wzorca asynchronicznego oczekiwania.",
-                "zh-cn": "添加了 js-controller 3 依赖项。\n在 protectedNative 中添加了用户名和密码，在 encryptedNative 中添加了密码。\n添加了连接信息。\n将 schdule 更改为超时以进行刷新。\n修复了异步等待模式。"
+                "zh-cn": "添加了 js-controller 3 依赖项。\n在 protectedNative 中添加了用户名和密码，在 encryptedNative 中添加了密码。\n添加了连接信息。\n将 schdule 更改为超时以进行刷新。\n修复了异步等待模式。",
+                "uk": "Додано залежність js-controller 3.\nДодано ім’я користувача та пароль до protectedNative та пароль до encryptedNative.\nДодана інформація про підключення.\nРозклад змінено на час очікування для оновлення.\nВиправлення асинхронного шаблону очікування."
             }
         },
         "titleLang": {
@@ -98,7 +105,8 @@
             "it": "Panasonic Comfort Cloud",
             "es": "Panasonic Comfort Cloud",
             "pl": "Panasonic Comfort Cloud",
-            "zh-cn": "松下舒适云"
+            "zh-cn": "松下舒适云",
+            "uk": "Panasonic Comfort Cloud"
         },
         "desc": {
             "en": "Adapter for Panasonic Comfort Cloud",
@@ -110,7 +118,8 @@
             "it": "Adattatore per Panasonic Comfort Cloud",
             "es": "Adaptador para Panasonic Comfort Cloud",
             "pl": "Adapter do chmury Panasonic Comfort Cloud",
-            "zh-cn": "松下舒适云适配器"
+            "zh-cn": "松下舒适云适配器",
+            "uk": "Адаптер для Panasonic Comfort Cloud"
         },
         "authors": [
             "marc <marc@lammers.dev>"
