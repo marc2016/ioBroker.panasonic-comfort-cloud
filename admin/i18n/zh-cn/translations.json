@@ -2,6 +2,6 @@
     "appVersion": "API 的应用程序版本",
     "panasonic-comfort-cloud adapter settings": "panasonic-comfort-cloud 适配器设置",
     "password": "密码",
-    "refreshIngerval": "刷新间隔（米）",
+    "refreshInterval": "刷新间隔（米）",
     "username": "用户名"
 }

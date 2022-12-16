@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.0.6",
+        "version": "2.1.0",
         "news": {
+            "2.1.0": {
+                "en": "Added app version to settings.",
+                "de": "App-Version zu den Einstellungen hinzugefügt.",
+                "ru": "В настройки добавлена ​​версия приложения.",
+                "pt": "Versão do aplicativo adicionada às configurações.",
+                "nl": "App-versie toegevoegd aan instellingen.",
+                "fr": "Ajout de la version de l'application aux paramètres.",
+                "it": "Aggiunta la versione dell'app alle impostazioni.",
+                "es": "Se agregó la versión de la aplicación a la configuración.",
+                "pl": "Dodano wersję aplikacji do ustawień.",
+                "uk": "Версію програми додано в налаштування.",
+                "zh-cn": "在设置中添加了应用程序版本。"
+            },
             "2.0.6": {
                 "en": "panasonic-comfort-cloud-client updated to new version. (appVersion changed again)",
                 "de": "panasonic-comfort-cloud-client auf neue version aktualisiert. (appVersion erneut geändert)",

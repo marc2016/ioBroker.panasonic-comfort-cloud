@@ -2,6 +2,6 @@
     "appVersion": "Версія програми для API",
     "panasonic-comfort-cloud adapter settings": "Налаштування адаптера для panasonic-comfort-cloud",
     "password": "Пароль",
-    "refreshIngerval": "Інтервал оновлення (м)",
+    "refreshInterval": "Інтервал оновлення (м)",
     "username": "Ім'я користувача"
 }
