@@ -24,6 +24,7 @@ import {
 } from 'panasonic-comfort-cloud-client'
 
 import * as _ from 'lodash'
+import fetch from 'node-fetch'
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
