@@ -36,19 +36,27 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     this.setState("info.connection", false, true);
-    if (!((_c = this.config) == null ? void 0 : _c.username) || !((_d = this.config) == null ? void 0 : _d.password)) {
+    const loadedAppVersion = await this.getCurrentAppVersion();
+    this.log.info(`Loaded app version from GitHub: ${loadedAppVersion}`);
+    if (loadedAppVersion && ((_c = this.config) == null ? void 0 : _c.appVersionFromGithub) != loadedAppVersion) {
+      this.updateConfig({ appVersionFromGithub: loadedAppVersion });
+      return;
+    }
+    if (!((_d = this.config) == null ? void 0 : _d.username) || !((_e = this.config) == null ? void 0 : _e.password)) {
       this.log.error("Can not start without username or password. Please open config.");
     } else {
-      if (((_e = this.config) == null ? void 0 : _e.appVersion) != "")
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_f = this.config) == null ? void 0 : _f.appVersion);
+      if (((_f = this.config) == null ? void 0 : _f.appVersionFromGithub) != "" && ((_g = this.config) == null ? void 0 : _g.useAppVersionFromGithub))
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_h = this.config) == null ? void 0 : _h.appVersionFromGithub);
+      if (((_i = this.config) == null ? void 0 : _i.appVersion) != "")
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_j = this.config) == null ? void 0 : _j.appVersion);
       else
         this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
       try {
-        this.log.debug(`Try to login with username ${this.config.username}.`);
+        this.log.debug(`Try to login with username ${this.config.username}:${this.config.password}.`);
         await this.comfortCloudClient.login(
           this.config.username,
           this.config.password
@@ -137,7 +145,7 @@ class PanasonicComfortCloud extends utils.Adapter {
   }
   async refreshDevice(guid, deviceName) {
     try {
-      const device = await this.comfortCloudClient.getDevice(guid);
+      const device = await this.comfortCloudClient.getDevice(guid, deviceName);
       if (!device) {
         return;
       }
@@ -159,7 +167,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         return { guid: d.guid, name: d.name };
       });
       await Promise.all(deviceInfos.map(async (deviceInfo) => {
-        const device = await this.comfortCloudClient.getDevice(deviceInfo.guid);
+        const device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
         if (device != null) {
           device.name = deviceInfo.name;
           device.guid = deviceInfo.guid;
@@ -183,7 +191,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`);
       let device = null;
       try {
-        device = await this.comfortCloudClient.getDevice(deviceInfo.guid);
+        device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
       } catch (error) {
         await this.handleClientError(error);
       }
@@ -448,6 +456,13 @@ class PanasonicComfortCloud extends utils.Adapter {
     } else {
       this.log.info(`state ${id} deleted`);
     }
+  }
+  async getCurrentAppVersion() {
+    const response = await fetch("https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion");
+    if (!response.ok)
+      return "";
+    const text = await response.text();
+    return text;
   }
   async handleClientError(error) {
     this.log.debug("Try to handle error.");

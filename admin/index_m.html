@@ -32,32 +32,51 @@
         <script type="text/javascript" src="words.js"></script>
 
         <script type="text/javascript">
+            var secret = null;
+
             // This will be called by the admin adapter when the settings page loads
             function load(settings, onChange) {
-                // example: select elements with id=key and class=value and insert value
-                if (!settings) return
-                $(".value").each(function () {
-                    var $key = $(this)
-                    var id = $key.attr("id")
-                    // do not call onChange direct, because onChange could expect some arguments
-                    $key.val(settings[id])
-                        .on("change", () => onChange())
-                        .on("keyup", () => onChange())
-                })
-                onChange(false)
+            // example: select elements with id=key and class=value and insert value
+            if (!settings) return;
+
+            $('.value').each(function () {
+                var $key = $(this);
+                var id = $key.attr('id');
+                if ($key.attr('type') === 'checkbox') {
+                // do not call onChange direct, because onChange could expect some arguments
+                $key.prop('checked', settings[id])
+                    .on('change', () => onChange())
+                ;
+                } else {
+                var value = settings[id];
+                
+                // do not call onChange direct, because onChange could expect some arguments
+                $key.val(value)
+                    .on('change', () => onChange())
+                    .on('keyup', () => onChange())
+                ;
+                }
+            });
+            onChange(false);
                 // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-                if (M) M.updateTextFields()
+                if (M) M.updateTextFields();
             }
 
             // This will be called by the admin adapter when the user presses the save button
             function save(callback) {
                 // example: select elements with class=value and build settings object
-                var obj = {}
-                $(".value").each(function () {
-                    var $this = $(this)
-                    obj[$this.attr("id")] = $this.val()
-                })
-                callback(obj)
+                var obj = {};
+                $('.value').each(function () {
+                    var $this = $(this);
+                    if ($this.attr('type') === 'checkbox') {
+                        obj[$this.attr('id')] = $this.prop('checked');
+                    } else if ($this.attr('type') === 'number') {
+                        obj[$this.attr('id')] = parseFloat($this.val());
+                    } else {
+                        obj[$this.attr('id')] = $this.val();
+                    }
+                });
+                callback(obj);
             }
         </script>
     </head>
@@ -94,13 +113,11 @@
                         id="refreshInterval"
                         class="value validate"
                     />
-                    <label for="refreshInterval" class="translate">
-                        refreshInterval
-                    </label>
+                    <label for="refreshInterval" class="translate">refreshInterval</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s6 input-field">
+                <div class="col s4 input-field">
                     <input
                         placeholder=""
                         name="appVersion"
@@ -108,9 +125,28 @@
                         id="appVersion"
                         class="value validate"
                     />
-                    <label for="appVersion" class="translate">
-                        appVersion
-                    </label>
+                    <label for="appVersion" class="translate">appversion</label>
+                </div>
+                <div class="col s4 input-field">
+                    <input
+                        placeholder=""
+                        name="appVersionFromGithub"
+                        type="text"
+                        id="appVersionFromGithub"
+                        class="value validate"
+                        disabled
+                    />
+                    <label for="appVersionFromGithub" class="translate">appVersionFromGithub</label>
+                </div>
+                <div class="col s4 input-field">
+                    <input
+                        placeholder=""
+                        name="useAppVersionFromGithub"
+                        type="checkbox"
+                        id="useAppVersionFromGithub"
+                        class="value"
+                    />
+                    <label for="useAppVersionFromGithub" class="translate">useAppVersionFromGithub</label>
                 </div>
             </div>
         </div>

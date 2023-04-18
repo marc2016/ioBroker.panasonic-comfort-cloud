@@ -1,6 +1,6 @@
 {
     "name": "iobroker.panasonic-comfort-cloud",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Adapter for Panasonic Comfort Cloud",
     "author": {
         "name": "marc",
@@ -19,7 +19,7 @@
         "@iobroker/adapter-core": "^2.6.8",
         "@types/lodash": "^4.14.192",
         "lodash": "^4.17.21",
-        "panasonic-comfort-cloud-client": "1.2.2",
+        "panasonic-comfort-cloud-client": "1.2.3",
         "ts-enum-util": "^4.0.2"
     },
     "devDependencies": {

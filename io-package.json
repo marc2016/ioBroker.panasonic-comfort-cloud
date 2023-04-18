@@ -168,7 +168,10 @@
     "native": {
         "username": "",
         "password": "",
-        "refreshInterval": 5
+        "refreshInterval": 5,
+        "appVersion": "",
+        "appVersionFromGithub": "",
+        "useAppVersionFromGithub": false
     },
     "protectedNative": [
         "username",
