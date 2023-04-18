@@ -24,7 +24,7 @@ import {
 } from 'panasonic-comfort-cloud-client'
 
 import * as _ from 'lodash'
-import fetch from 'node-fetch'
+import axios from 'axios'
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -537,10 +537,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async getCurrentAppVersion() : Promise<string> {
-        const response = await fetch('https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion');
-        if(!response.ok)
+        const response = await axios.get('https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion')
+        if(response.status !== 200)
             return ''
-        const text = await response.text()
+        const text = await response.data
         return text
     }
 

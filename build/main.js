@@ -20,7 +20,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_panasonic_comfort_cloud_client = require("panasonic-comfort-cloud-client");
 var _ = __toESM(require("lodash"));
-var import_node_fetch = __toESM(require("node-fetch"));
+var import_axios = __toESM(require("axios"));
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5;
 class PanasonicComfortCloud extends utils.Adapter {
   constructor(options = {}) {
@@ -459,10 +459,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
   }
   async getCurrentAppVersion() {
-    const response = await (0, import_node_fetch.default)("https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion");
-    if (!response.ok)
+    const response = await import_axios.default.get("https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion");
+    if (response.status !== 200)
       return "";
-    const text = await response.text();
+    const text = await response.data;
     return text;
   }
   async handleClientError(error) {
