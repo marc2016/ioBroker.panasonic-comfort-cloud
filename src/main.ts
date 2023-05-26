@@ -26,24 +26,6 @@ import {
 import * as _ from 'lodash'
 import axios from 'axios'
 
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace ioBroker {
-        interface AdapterConfig {
-            // Define the shape of your options here (recommended)
-            username: string;
-            password: string;
-            refreshInterval: number;
-            appVersion: string;
-            appVersionFromGithub: string;
-            useAppVersionFromGithub: boolean;
-
-            // Or use a catch-all approach
-            [key: string]: any;
-        }
-    }
-}
-
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5
 
 class PanasonicComfortCloud extends utils.Adapter {

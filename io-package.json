@@ -156,12 +156,12 @@
         "materialize": true,
         "globalDependencies": [
             {
-                "admin": ">=4.0.9"
+                "admin": ">=5.1.13"
             }
         ],
         "dependencies": [
             {
-                "js-controller": ">=3.0.0"
+                "js-controller": ">=3.3.22"
             }
         ]
     },

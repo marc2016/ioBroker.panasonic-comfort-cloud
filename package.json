@@ -50,6 +50,14 @@
         "typescript": "^5.0.4"
     },
     "main": "build/main.js",
+    "files": [
+        "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
+        "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+        "build/",
+        "www/",
+        "io-package.json",
+        "LICENSE"
+      ],
     "scripts": {
         "translate": "translate-adapter",
         "prebuild": "rimraf ./build",
