@@ -37,25 +37,30 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     this.setState("info.connection", false, true);
     const loadedAppVersion = await this.getCurrentAppVersion();
     this.log.info(`Loaded app version from GitHub: ${loadedAppVersion}`);
-    if (loadedAppVersion && ((_c = this.config) == null ? void 0 : _c.appVersionFromGithub) != loadedAppVersion) {
-      this.updateConfig({ appVersionFromGithub: loadedAppVersion });
+    if (loadedAppVersion && this.trimAll((_c = this.config) == null ? void 0 : _c.appVersionFromGithub) != this.trimAll(loadedAppVersion)) {
+      this.updateConfig({ appVersionFromGithub: this.trimAll(loadedAppVersion), password: this.encrypt((_d = this.config) == null ? void 0 : _d.password) });
       return;
     }
-    if (!((_d = this.config) == null ? void 0 : _d.username) || !((_e = this.config) == null ? void 0 : _e.password)) {
+    if (!((_e = this.config) == null ? void 0 : _e.username) || !((_f = this.config) == null ? void 0 : _f.password)) {
       this.log.error("Can not start without username or password. Please open config.");
     } else {
-      if (((_f = this.config) == null ? void 0 : _f.appVersionFromGithub) != "" && ((_g = this.config) == null ? void 0 : _g.useAppVersionFromGithub))
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_h = this.config) == null ? void 0 : _h.appVersionFromGithub);
-      if (((_i = this.config) == null ? void 0 : _i.appVersion) != "")
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_j = this.config) == null ? void 0 : _j.appVersion);
-      else
+      if (((_g = this.config) == null ? void 0 : _g.appVersionFromGithub) != "" && ((_h = this.config) == null ? void 0 : _h.useAppVersionFromGithub)) {
+        this.log.debug(`Use AppVersion from Github ${(_i = this.config) == null ? void 0 : _i.appVersionFromGithub}.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_j = this.config) == null ? void 0 : _j.appVersionFromGithub);
+      }
+      if (((_k = this.config) == null ? void 0 : _k.appVersion) != "") {
+        this.log.debug(`Use configured AppVersion from Github ${(_l = this.config) == null ? void 0 : _l.appVersionFromGithub}.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_m = this.config) == null ? void 0 : _m.appVersion);
+      } else {
+        this.log.debug(`Use default AppVersion.`);
         this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
+      }
       try {
         this.log.debug(`Try to login with username ${this.config.username}:${this.config.password}.`);
         await this.comfortCloudClient.login(
@@ -501,6 +506,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     } catch (error) {
       await this.handleClientError(error);
     }
+  }
+  trimAll(text) {
+    const newText = text.trim().replace(/(\r\n|\n|\r)/gm, "");
+    return newText;
   }
 }
 if (module.parent) {

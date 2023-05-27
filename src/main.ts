@@ -61,23 +61,32 @@ class PanasonicComfortCloud extends utils.Adapter {
 
         const loadedAppVersion = await this.getCurrentAppVersion()
         this.log.info(`Loaded app version from GitHub: ${loadedAppVersion}`)
-        if(loadedAppVersion && this.config?.appVersionFromGithub != loadedAppVersion) {
-            this.updateConfig({ appVersionFromGithub: loadedAppVersion }) 
+        if(loadedAppVersion && this.trimAll(this.config?.appVersionFromGithub) != this.trimAll(loadedAppVersion)) {
+            this.updateConfig({ appVersionFromGithub: this.trimAll(loadedAppVersion), password: this.encrypt(this.config?.password) }) 
             return
         }
-            
 
         if(!this.config?.username || !this.config?.password) {
             this.log.error('Can not start without username or password. Please open config.')
         } else {
             if(this.config?.appVersionFromGithub != '' && this.config?.useAppVersionFromGithub)
+            {
+                this.log.debug(`Use AppVersion from Github ${this.config?.appVersionFromGithub}.`)
                 this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersionFromGithub)
+            }
             if(this.config?.appVersion != '')
+            {
+                this.log.debug(`Use configured AppVersion from Github ${this.config?.appVersionFromGithub}.`)
                 this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersion)
+            }
             else
+            {
+                this.log.debug(`Use default AppVersion.`)
                 this.comfortCloudClient = new ComfortCloudClient()
+            }
+
             try {
-                this.log.debug(`Try to login with username ${this.config.username}:${this.config.password}.`)
+                this.log.debug(`Try to login with username ${this.config.username}.`)
                 await this.comfortCloudClient.login(
                     this.config.username,
                     this.config.password
@@ -93,7 +102,6 @@ class PanasonicComfortCloud extends utils.Adapter {
                 await this.handleClientError(error)
             }
         }
-        
     }
 
     private async refreshDeviceStates(device: Device): Promise<void> {
@@ -568,6 +576,10 @@ class PanasonicComfortCloud extends utils.Adapter {
         
     }
 
+    private trimAll(text: string): string {
+        const newText = text.trim().replace(/(\r\n|\n|\r)/gm, '');
+        return newText
+    }
 }
 
 if (module.parent) {

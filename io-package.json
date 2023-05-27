@@ -154,14 +154,17 @@
         "type": "climate-control",
         "compact": true,
         "materialize": true,
-        "globalDependencies": [
-            {
-                "admin": ">=5.1.13"
-            }
-        ],
+        "adminUI": {
+            "config": "materialize"
+        },
         "dependencies": [
             {
                 "js-controller": ">=3.3.22"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0"
             }
         ]
     },
