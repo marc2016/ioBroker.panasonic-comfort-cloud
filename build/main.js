@@ -62,7 +62,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
       }
       try {
-        this.log.debug(`Try to login with username ${this.config.username}:${this.config.password}.`);
+        this.log.debug(`Try to login with username ${this.config.username}.`);
         await this.comfortCloudClient.login(
           this.config.username,
           this.config.password
