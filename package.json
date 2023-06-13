@@ -71,7 +71,6 @@
         "test:unit": "mocha test/unit --exit",
         "test:integration": "mocha test/integration --exit",
         "test:rule": "mocha test/rule --exit",
-        "test:gui": "mocha test/*.gui.js --exit",
         "lint": "eslint --ext .ts src"
     },
     "bugs": {
