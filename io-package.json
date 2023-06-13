@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "news": {
+            "2.2.0": {
+                "en": "Added feature to automatically load the app version from GitHub.",
+                "de": "Funktion hinzugefügt, um die App-Version automatisch von GitHub zu laden.",
+                "ru": "Добавлена ​​функция автоматической загрузки версии приложения с GitHub.",
+                "pt": "Adicionado recurso para carregar automaticamente a versão do aplicativo do GitHub.",
+                "nl": "Functie toegevoegd om de app-versie automatisch te laden vanuit GitHub.",
+                "fr": "Ajout d'une fonctionnalité pour charger automatiquement la version de l'application à partir de GitHub.",
+                "it": "Aggiunta funzionalità per caricare automaticamente la versione dell'app da GitHub.",
+                "es": "Función agregada para cargar automáticamente la versión de la aplicación desde GitHub.",
+                "pl": "Dodano funkcję automatycznego ładowania wersji aplikacji z GitHub.",
+                "uk": "Додано функцію автоматичного завантаження версії програми з GitHub.",
+                "zh-cn": "添加了自动从 GitHub 加载应用程序版本的功能。"
+            },
             "2.1.0": {
                 "en": "Added app version to settings.",
                 "de": "App-Version zu den Einstellungen hinzugefügt.",
