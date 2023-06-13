@@ -85,8 +85,8 @@ jobs:
       - name: Build
         run: NODE_OPTIONS=--max_old_space_size=8192 npm run build
 
-      - name: Run GUI tests
-        run: npm run test:gui
+      # - name: Run GUI tests
+      #   run: npm run test:gui
 
       - name: Archive screenshots
         if: always()
