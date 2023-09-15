@@ -27,6 +27,10 @@ It is recommended that a second account, for which the devices have been shared,
 
 ### **WORK IN PROGRESS**
 
+### 2.2.1
+
+* panasonic-comfort-cloud-client updated to new version. New headers added.
+
 ### 2.2.0
 
 * Added feature to automatically load the app version from GitHub.
