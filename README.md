@@ -24,8 +24,7 @@ With the method used, only one client can be logged on with the account at a tim
 It is recommended that a second account, for which the devices have been shared, is used.
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 2.2.1 (2023-09-16)
 
 * panasonic-comfort-cloud-client updated to new version. New headers added.
 
