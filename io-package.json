@@ -1,21 +1,8 @@
 {
     "common": {
         "name": "panasonic-comfort-cloud",
-        "version": "2.2.1",
+        "version": "2.2.0",
         "news": {
-            "2.2.1": {
-                "en": "panasonic-comfort-cloud-client updated to new version. New headers added.",
-                "de": "Panasonic-Comfort-Cloud-Client auf neue Version aktualisiert. Neue Header hinzugefügt.",
-                "ru": "Panasonic-comfort-cloud-client обновлен до новой версии. Добавлены новые заголовки.",
-                "pt": "panasonic-comfort-cloud-client atualizado para a nova versão. Novos cabeçalhos adicionados.",
-                "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. Nieuwe kopteksten toegevoegd.",
-                "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version. Nouveaux en-têtes ajoutés.",
-                "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Aggiunte nuove intestazioni.",
-                "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. Se agregaron nuevos encabezados.",
-                "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. Dodano nowe nagłówki.",
-                "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Додано нові заголовки.",
-                "zh-cn": "panasonic-comfort-cloud-client 更新至新版本。添加了新标题。"
-            },
             "2.2.0": {
                 "en": "Added feature to automatically load the app version from GitHub.",
                 "de": "Funktion hinzugefügt, um die App-Version automatisch von GitHub zu laden.",
