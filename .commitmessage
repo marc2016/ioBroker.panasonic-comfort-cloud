@@ -1,0 +1,5 @@
+chore: release v2.2.3
+
+* Added support for admin 5 UI (jsonConfig).
+* Updated packages.
+* Fixed translation.
