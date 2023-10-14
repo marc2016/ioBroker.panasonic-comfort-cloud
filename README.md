@@ -25,6 +25,12 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 
+### **WORK IN PROGRESS**
+
+* Added support for admin 5 UI (jsonConfig).
+* Updated packages.
+* Fixed translation.
+
 ### 2.2.2 (2023-09-16)
 
 * Fixed wrong version number.
