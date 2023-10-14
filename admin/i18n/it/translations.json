@@ -1,9 +1,9 @@
 {
     "appversion": "Nuova versione dell'app per API",
-    "appVersionFromGithub": "Versione dell'app per l'API caricata dal repository GitHub",
-    "useAppVersionFromGithub": "Usa la versione dell'app caricata da GitHub",
+    "appVersionFromGithub": "Versione dell'app per API caricata dal repository GitHub",
+    "useAppVersionFromGithub": "Utilizza la versione dell'app caricata da GitHub",
     "panasonic-comfort-cloud adapter settings": "Impostazioni dell'adattatore per panasonic-comfort-cloud",
     "password": "Parola d'ordine",
-    "refreshInterval": "Intervallo di aggiornamento (m)",
+    "refreshInterval": "Intervallo di aggiornamento (minuti)",
     "username": "Nome utente"
 }

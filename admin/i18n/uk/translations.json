@@ -4,6 +4,6 @@
     "useAppVersionFromGithub": "Використовуйте версію програми, завантажену з GitHub",
     "panasonic-comfort-cloud adapter settings": "Налаштування адаптера для panasonic-comfort-cloud",
     "password": "Пароль",
-    "refreshInterval": "Інтервал оновлення (м)",
+    "refreshInterval": "Інтервал оновлення (хв.)",
     "username": "Ім'я користувача"
 }

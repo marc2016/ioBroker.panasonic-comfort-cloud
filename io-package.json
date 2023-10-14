@@ -194,7 +194,7 @@
         "compact": true,
         "materialize": true,
         "adminUI": {
-            "config": "materialize"
+            "config": "json"
         },
         "dependencies": [
             {

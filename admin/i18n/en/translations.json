@@ -4,6 +4,6 @@
     "useAppVersionFromGithub": "Use the app version loaded from GitHub",
     "panasonic-comfort-cloud adapter settings": "Adapter settings for panasonic-comfort-cloud",
     "password": "Password",
-    "refreshInterval": "Refresh interval (m)",
+    "refreshInterval": "Refresh interval (minutes)",
     "username": "Username"
 }
