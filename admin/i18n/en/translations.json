@@ -1,5 +1,5 @@
 {
-    "appversion": "New version of the app for API",
+    "appVersion": "New version of the app for API",
     "appVersionFromGithub": "App version for API loaded from GitHub repository",
     "useAppVersionFromGithub": "Use the app version loaded from GitHub",
     "panasonic-comfort-cloud adapter settings": "Adapter settings for panasonic-comfort-cloud",

@@ -1,5 +1,5 @@
 {
-    "appversion": "API 应用程序的新版本",
+    "appVersion": "API 应用程序的新版本",
     "appVersionFromGithub": "从 GitHub 存储库加载的 API 的应用程序版本",
     "useAppVersionFromGithub": "使用从 GitHub 加载的应用程序版本",
     "panasonic-comfort-cloud adapter settings": "panasonic-comfort-cloud 的适配器设置",
