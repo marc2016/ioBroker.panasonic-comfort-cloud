@@ -1,4 +1,4 @@
 {
-  "dry": true,
+  "dry": false,
   "plugins": ["iobroker", "license"]
 }
