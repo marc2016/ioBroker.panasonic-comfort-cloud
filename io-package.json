@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "2.2.3",
+    "version": "2.2.4",
     "news": {
+      "2.2.4": {
+        "en": "Fixed load AppVersion from Github.",
+        "de": "Behobene AppVersion von Github.",
+        "ru": "Фиксированная нагрузка AppVersion от Github.",
+        "pt": "AppVersion de carga fixa do Github.",
+        "nl": "Gerepareerde lading van Github.",
+        "fr": "Charge fixe AppVersion de Github.",
+        "it": "AppVersione di carico fisso da Github.",
+        "es": "Carga fija AppVersion de Github.",
+        "pl": "Wykorzystywany ładunek z Github.",
+        "uk": "Виправлено навантаження AppVersion від Github.",
+        "zh-cn": "来自吉特布的固定载荷。."
+      },
       "2.2.3": {
         "en": "Added support for admin 5 UI (jsonConfig).\nUpdated packages.\nFixed translation.",
         "de": "Unterstützung für admin 5 UI (jsonConfig.).\nAktualisierte Pakete.\nBehobene Übersetzung.",
@@ -80,19 +93,6 @@
         "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. (ponowna zmiana wersji aplikacji)",
         "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）",
         "uk": "panasonic-comfort-cloud-client оновлено до нової версії. (AppVersion знову змінено)"
-      },
-      "2.0.5": {
-        "en": "Translation for news added.",
-        "de": "Übersetzung für Nachrichten hinzugefügt.",
-        "ru": "Добавлен перевод новостей.",
-        "pt": "Tradução para notícias adicionada.",
-        "nl": "Vertaling voor nieuws toegevoegd.",
-        "fr": "Traduction pour les nouvelles ajoutée.",
-        "it": "Aggiunta la traduzione per le notizie.",
-        "es": "Traducción para noticias añadidas.",
-        "pl": "Dodano tłumaczenie wiadomości.",
-        "zh-cn": "添加了新闻翻译。",
-        "uk": "Додано переклад для новин."
       }
     },
     "titleLang": {
