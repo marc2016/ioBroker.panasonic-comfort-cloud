@@ -74,9 +74,9 @@ class PanasonicComfortCloud extends utils.Adapter {
                 this.log.debug(`Use AppVersion from Github ${this.config?.appVersionFromGithub}.`)
                 this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersionFromGithub)
             }
-            if(this.config?.appVersion != '')
+            else if(this.config?.appVersion != '')
             {
-                this.log.debug(`Use configured AppVersion from Github ${this.config?.appVersionFromGithub}.`)
+                this.log.debug(`Use configured AppVersion ${this.config?.appVersion}.`)
                 this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersion)
             }
             else
