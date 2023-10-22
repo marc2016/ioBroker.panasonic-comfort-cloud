@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud"
   },
+ "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.3",
     "@types/lodash": "^4.14.199",
