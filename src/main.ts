@@ -24,27 +24,14 @@ import {
 } from 'panasonic-comfort-cloud-client'
 
 import * as _ from 'lodash'
-
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace ioBroker {
-        interface AdapterConfig {
-            // Define the shape of your options here (recommended)
-            username: string;
-            password: string;
-            refreshInterval: number;
-
-            // Or use a catch-all approach
-            [key: string]: any;
-        }
-    }
-}
+import axios from 'axios'
 
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5
 
-const comfortCloudClient = new ComfortCloudClient()
-
 class PanasonicComfortCloud extends utils.Adapter {
+
+    private comfortCloudClient: ComfortCloudClient = new ComfortCloudClient()
+
     private refreshTimeout: NodeJS.Timeout | undefined
     private refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT
 
@@ -71,19 +58,43 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.subscribeStates('*')
 
         this.setState('info.connection', false, true);
+
+        const loadedAppVersion = await this.getCurrentAppVersion()
+        this.log.info(`Loaded app version from GitHub: ${loadedAppVersion}`)
+        if(loadedAppVersion && this.trimAll(this.config?.appVersionFromGithub) != this.trimAll(loadedAppVersion)) {
+            this.updateConfig({ appVersionFromGithub: this.trimAll(loadedAppVersion), password: this.encrypt(this.config?.password) }) 
+            return
+        }
+
         if(!this.config?.username || !this.config?.password) {
             this.log.error('Can not start without username or password. Please open config.')
         } else {
+            if(this.config?.appVersionFromGithub != '' && this.config?.useAppVersionFromGithub)
+            {
+                this.log.debug(`Use AppVersion from Github ${this.config?.appVersionFromGithub}.`)
+                this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersionFromGithub)
+            }
+            else if(this.config?.appVersion != '')
+            {
+                this.log.debug(`Use configured AppVersion ${this.config?.appVersion}.`)
+                this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersion)
+            }
+            else
+            {
+                this.log.debug(`Use default AppVersion.`)
+                this.comfortCloudClient = new ComfortCloudClient()
+            }
+
             try {
                 this.log.debug(`Try to login with username ${this.config.username}.`)
-                await comfortCloudClient.login(
+                await this.comfortCloudClient.login(
                     this.config.username,
                     this.config.password
                 )
                 this.log.info('Login successful.')
                 this.setState('info.connection', true, true)
                 this.log.debug('Create devices.')
-                const groups = await comfortCloudClient.getGroups()
+                const groups = await this.comfortCloudClient.getGroups()
                 await this.createDevices(groups)
 
                 this.setupRefreshTimeout()
@@ -91,7 +102,6 @@ class PanasonicComfortCloud extends utils.Adapter {
                 await this.handleClientError(error)
             }
         }
-        
     }
 
     private async refreshDeviceStates(device: Device): Promise<void> {
@@ -174,7 +184,7 @@ class PanasonicComfortCloud extends utils.Adapter {
 
     private async refreshDevice(guid: string, deviceName: string): Promise<void> {
         try {
-            const device = await comfortCloudClient.getDevice(guid)
+            const device = await this.comfortCloudClient.getDevice(guid, deviceName)
             if (!device) {
                 return
             }
@@ -194,13 +204,13 @@ class PanasonicComfortCloud extends utils.Adapter {
     private async refreshDevices(): Promise<void> {
         try {
             this.log.debug('Refresh all devices.')
-            const groups = await comfortCloudClient.getGroups()
+            const groups = await this.comfortCloudClient.getGroups()
             this.setState('info.connection', true, true);
             const devices = _.flatMap(groups, g => g.devices)
             const deviceInfos = _.map(devices, d => { return{guid: d.guid, name: d.name}})
             await Promise.all(deviceInfos.map(async (deviceInfo) => {
                 try {
-                    const device = await comfortCloudClient.getDevice(deviceInfo.guid)
+                    const device = await comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
                     if(device != null) {
                         device.name = deviceInfo.name
                         device.guid = deviceInfo.guid
@@ -231,7 +241,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`)
             let device: Device | null = null
             try {
-                device = await comfortCloudClient.getDevice(deviceInfo.guid)
+                device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
             } catch(error) {
                 await this.handleClientError(error)
             }
@@ -471,7 +481,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             }
             try {
                 this.log.debug(`Set device parameter ${JSON.stringify(parameters)} for device ${guidState?.val}`)
-                await comfortCloudClient.setParameters(
+                await this.comfortCloudClient.setParameters(
                     guidState?.val as string,
                     parameters
                 )
@@ -541,6 +551,14 @@ class PanasonicComfortCloud extends utils.Adapter {
         }
     }
 
+    private async getCurrentAppVersion() : Promise<string> {
+        const response = await axios.get('https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion')
+        if(response.status !== 200)
+            return ''
+        const text = await response.data
+        return text
+    }
+
     private async handleClientError(error: unknown): Promise<void> {
         this.log.debug('Try to handle error.')
         
@@ -549,7 +567,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                 `Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`
             )
             this.setState('info.connection', false, true);
-            await comfortCloudClient.login(
+            await this.comfortCloudClient.login(
                 this.config.username,
                 this.config.password
             )
@@ -583,6 +601,10 @@ class PanasonicComfortCloud extends utils.Adapter {
         
     }
 
+    private trimAll(text: string): string {
+        const newText = text.trim().replace(/(\r\n|\n|\r)/gm, '');
+        return newText
+    }
 }
 
 if (module.parent) {

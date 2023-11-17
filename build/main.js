@@ -20,14 +20,15 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_panasonic_comfort_cloud_client = require("panasonic-comfort-cloud-client");
 var _ = __toESM(require("lodash"));
+var import_axios = __toESM(require("axios"));
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5;
-const comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
 class PanasonicComfortCloud extends utils.Adapter {
   constructor(options = {}) {
     super({
       ...options,
       name: "panasonic-comfort-cloud"
     });
+    this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
     this.refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.readonlyStateNames = [];
     this.on("ready", this.onReady.bind(this));
@@ -36,23 +37,39 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     this.setState("info.connection", false, true);
-    if (!((_c = this.config) == null ? void 0 : _c.username) || !((_d = this.config) == null ? void 0 : _d.password)) {
+    const loadedAppVersion = await this.getCurrentAppVersion();
+    this.log.info(`Loaded app version from GitHub: ${loadedAppVersion}`);
+    if (loadedAppVersion && this.trimAll((_c = this.config) == null ? void 0 : _c.appVersionFromGithub) != this.trimAll(loadedAppVersion)) {
+      this.updateConfig({ appVersionFromGithub: this.trimAll(loadedAppVersion), password: this.encrypt((_d = this.config) == null ? void 0 : _d.password) });
+      return;
+    }
+    if (!((_e = this.config) == null ? void 0 : _e.username) || !((_f = this.config) == null ? void 0 : _f.password)) {
       this.log.error("Can not start without username or password. Please open config.");
     } else {
+      if (((_g = this.config) == null ? void 0 : _g.appVersionFromGithub) != "" && ((_h = this.config) == null ? void 0 : _h.useAppVersionFromGithub)) {
+        this.log.debug(`Use AppVersion from Github ${(_i = this.config) == null ? void 0 : _i.appVersionFromGithub}.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_j = this.config) == null ? void 0 : _j.appVersionFromGithub);
+      } else if (((_k = this.config) == null ? void 0 : _k.appVersion) != "") {
+        this.log.debug(`Use configured AppVersion ${(_l = this.config) == null ? void 0 : _l.appVersion}.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_m = this.config) == null ? void 0 : _m.appVersion);
+      } else {
+        this.log.debug(`Use default AppVersion.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
+      }
       try {
         this.log.debug(`Try to login with username ${this.config.username}.`);
-        await comfortCloudClient.login(
+        await this.comfortCloudClient.login(
           this.config.username,
           this.config.password
         );
         this.log.info("Login successful.");
         this.setState("info.connection", true, true);
         this.log.debug("Create devices.");
-        const groups = await comfortCloudClient.getGroups();
+        const groups = await this.comfortCloudClient.getGroups();
         await this.createDevices(groups);
         this.setupRefreshTimeout();
       } catch (error) {
@@ -133,7 +150,7 @@ class PanasonicComfortCloud extends utils.Adapter {
   }
   async refreshDevice(guid, deviceName) {
     try {
-      const device = await comfortCloudClient.getDevice(guid);
+      const device = await this.comfortCloudClient.getDevice(guid, deviceName);
       if (!device) {
         return;
       }
@@ -148,14 +165,14 @@ class PanasonicComfortCloud extends utils.Adapter {
   async refreshDevices() {
     try {
       this.log.debug("Refresh all devices.");
-      const groups = await comfortCloudClient.getGroups();
+      const groups = await this.comfortCloudClient.getGroups();
       this.setState("info.connection", true, true);
       const devices = _.flatMap(groups, (g) => g.devices);
       const deviceInfos = _.map(devices, (d) => {
         return { guid: d.guid, name: d.name };
       });
       await Promise.all(deviceInfos.map(async (deviceInfo) => {
-        const device = await comfortCloudClient.getDevice(deviceInfo.guid);
+        const device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
         if (device != null) {
           device.name = deviceInfo.name;
           device.guid = deviceInfo.guid;
@@ -179,7 +196,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`);
       let device = null;
       try {
-        device = await comfortCloudClient.getDevice(deviceInfo.guid);
+        device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
       } catch (error) {
         await this.handleClientError(error);
       }
@@ -400,7 +417,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       }
       try {
         this.log.debug(`Set device parameter ${JSON.stringify(parameters)} for device ${guidState == null ? void 0 : guidState.val}`);
-        await comfortCloudClient.setParameters(
+        await this.comfortCloudClient.setParameters(
           guidState == null ? void 0 : guidState.val,
           parameters
         );
@@ -445,6 +462,13 @@ class PanasonicComfortCloud extends utils.Adapter {
       this.log.info(`state ${id} deleted`);
     }
   }
+  async getCurrentAppVersion() {
+    const response = await import_axios.default.get("https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion");
+    if (response.status !== 200)
+      return "";
+    const text = await response.data;
+    return text;
+  }
   async handleClientError(error) {
     this.log.debug("Try to handle error.");
     if (error instanceof import_panasonic_comfort_cloud_client.TokenExpiredError) {
@@ -452,7 +476,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         `Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`
       );
       this.setState("info.connection", false, true);
-      await comfortCloudClient.login(
+      await this.comfortCloudClient.login(
         this.config.username,
         this.config.password
       );
@@ -481,6 +505,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     } catch (error) {
       await this.handleClientError(error);
     }
+  }
+  trimAll(text) {
+    const newText = text.trim().replace(/(\r\n|\n|\r)/gm, "");
+    return newText;
   }
 }
 if (module.parent) {

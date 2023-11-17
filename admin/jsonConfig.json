@@ -1,0 +1,43 @@
+{
+  "type": "panel",
+  "i18n": true,
+  "items": {
+      "username": {
+        "type": "text",
+        "label": "username",
+        "sm": 12,
+        "md": 4
+      },
+      "password": {
+        "type": "password",
+        "label": "password",
+        "sm": 12,
+        "md": 4
+      },
+      "pollinterval": {
+        "type": "number",
+        "label": "refreshInterval",
+        "sm": 12,
+        "md": 4
+      },
+      "appVersion": {
+        "type": "text",
+        "label": "appVersion",
+        "sm": 12,
+        "md": 4
+      },
+      "appVersionFromGithub": {
+        "type": "text",
+        "label": "appVersionFromGithub",
+        "readOnly": true,
+        "sm": 12,
+        "md": 4
+      },
+      "useAppVersionFromGithub": {
+        "type": "checkbox",
+        "label": "useAppVersionFromGithub",
+        "sm": 12,
+        "md": 4
+      }
+  }
+}
