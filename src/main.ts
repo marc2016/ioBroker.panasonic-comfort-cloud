@@ -210,7 +210,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             const deviceInfos = _.map(devices, d => { return{guid: d.guid, name: d.name}})
             await Promise.all(deviceInfos.map(async (deviceInfo) => {
                 try {
-                    const device = await comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
+                    const device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
                     if(device != null) {
                         device.name = deviceInfo.name
                         device.guid = deviceInfo.guid
