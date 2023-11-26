@@ -243,7 +243,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             try {
                 device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
             } catch(error) {
-                await this.handleClientError(error)
+                await this.setStateChangedAsync(
+                    `${deviceInfo.name}.connected`,
+                    false,
+                    true
+                )
             }
             
             if(device != null) {
