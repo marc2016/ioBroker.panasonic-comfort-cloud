@@ -248,6 +248,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     false,
                     true
                 )
+                return
             }
             
             if(device != null) {

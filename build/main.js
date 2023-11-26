@@ -220,6 +220,7 @@ class PanasonicComfortCloud extends utils.Adapter {
           false,
           true
         );
+        return;
       }
       if (device != null) {
         if (_.includes(names, deviceInfo.name)) {
