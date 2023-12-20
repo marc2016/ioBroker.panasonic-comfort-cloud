@@ -193,11 +193,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             }
             await this.refreshDeviceStates(device)
         } catch (error) {
-            await this.setStateChangedAsync(
-                `${deviceName}.connected`,
-                false,
-                true
-            )
+            await this.handleDeviceError(deviceName, error)
         }
     }
 
@@ -217,24 +213,15 @@ class PanasonicComfortCloud extends utils.Adapter {
                         await this.refreshDeviceStates(device)
                     }
                 } catch (error) {
-                    await this.setStateChangedAsync(
-                        `${deviceInfo.name}.connected`,
-                        false,
-                        true
-                    )
+                    await this.handleDeviceError(deviceInfo.name, error)
                 }
-                
-            }));
+            }))
         } catch (error) {
             await this.handleClientError(error)
         }
     }
 
     private async createDevices(groups: Array<Group>): Promise<void> {
-        const devices = await this.getDevicesAsync()
-        const names = _.map(devices, (value) => {
-            return value.common.name
-        })
         const devicesFromService = _.flatMap(groups, g => g.devices)
         const deviceInfos = _.map(devicesFromService, d => { return {guid: d.guid, name: d.name}})
         await Promise.all(deviceInfos.map(async (deviceInfo) => {
@@ -243,18 +230,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             try {
                 device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
             } catch(error) {
-                await this.setStateChangedAsync(
-                    `${deviceInfo.name}.connected`,
-                    false,
-                    true
-                )
+                await this.handleDeviceError(deviceInfo.name, error)
                 return
             }
             
             if(device != null) {
-                if (_.includes(names, deviceInfo.name)) {
-                    return
-                }
                 this.createDevice(deviceInfo.name)
                 this.createState(
                     deviceInfo.name,
@@ -562,6 +542,24 @@ class PanasonicComfortCloud extends utils.Adapter {
             return ''
         const text = await response.data
         return text
+    }
+
+    private async handleDeviceError(deviceName: string, error: unknown): Promise<void> {
+        this.log.debug(`Try to handle device error for ${deviceName}.`)
+
+        await this.setStateChangedAsync(
+            `${deviceName}.connected`,
+            false,
+            true
+        )
+        
+        if (error instanceof ServiceError) {
+            this.log.error(
+                `Service error when connecting to device ${deviceName}: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
+            )
+        } else if (error instanceof Error){
+            this.log.error(`Unknown error when connecting to device ${deviceName}: ${error}. Stack: ${error.stack}`)
+        }
     }
 
     private async handleClientError(error: unknown): Promise<void> {
