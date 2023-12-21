@@ -1,3 +1,4 @@
-chore: release v2.2.4
+chore: release v2.3.0
 
-* Fixed load AppVersion from Github.
+* Updated packages
+* Added connected state to devices
