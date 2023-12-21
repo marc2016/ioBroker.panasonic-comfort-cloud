@@ -1,6 +1,6 @@
 {
   "name": "iobroker.panasonic-comfort-cloud",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Adapter for Panasonic Comfort Cloud",
   "author": {
     "name": "marc",
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud"
   },
- "engines": {
+  "engines": {
     "node": ">=16"
   },
   "dependencies": {

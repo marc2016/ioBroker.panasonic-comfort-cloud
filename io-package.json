@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "2.2.4",
+    "version": "2.3.0",
     "news": {
+      "2.3.0": {
+        "en": "Updated packages\nAdded connected state to devices",
+        "de": "Aktualisierte Pakete\nVerbindung mit Geräten hinzugefügt",
+        "ru": "Обновленные пакеты\nДобавлено подключенное состояние к устройствам",
+        "pt": "Pacotes atualizados\nEstado conectado adicionado a dispositivos",
+        "nl": "Verouderde pakketten\nVerbonden staat aan apparatuur",
+        "fr": "Forfaits mis à jour\nAjout de l'état connecté aux appareils",
+        "it": "Pacchetti aggiornati\nAggiunto stato collegato ai dispositivi",
+        "es": "Paquetes actualizados\nEstado conectado a dispositivos",
+        "pl": "Pakiet upoważniony\nZłączony stan do urządzeń",
+        "uk": "Оновлені пакети\nДодано підключений стан до пристроїв",
+        "zh-cn": "最新一揽子计划\n增加与装置有关的国家"
+      },
       "2.2.4": {
         "en": "Fixed load AppVersion from Github.",
         "de": "Behobene AppVersion von Github.",
@@ -80,19 +93,6 @@
         "pl": "Dodano wersję aplikacji do ustawień.",
         "uk": "Версію програми додано в налаштування.",
         "zh-cn": "在设置中添加了应用程序版本。"
-      },
-      "2.0.6": {
-        "en": "panasonic-comfort-cloud-client updated to new version. (appVersion changed again)",
-        "de": "panasonic-comfort-cloud-client auf neue version aktualisiert. (appVersion erneut geändert)",
-        "ru": "Panasonic-comfort-cloud-client обновлен до новой версии. (версия приложения снова изменилась)",
-        "pt": "panasonic-comfort-cloud-client atualizado para a nova versão. (appVersion alterado novamente)",
-        "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. (appVersie opnieuw gewijzigd)",
-        "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version. (appVersion changé à nouveau)",
-        "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. (appVersion cambiata di nuovo)",
-        "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. (appVersion cambió de nuevo)",
-        "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. (ponowna zmiana wersji aplikacji)",
-        "zh-cn": "panasonic-comfort-cloud-client 更新到新版本。 （appVersion又变了）",
-        "uk": "panasonic-comfort-cloud-client оновлено до нової версії. (AppVersion знову змінено)"
       }
     },
     "titleLang": {
