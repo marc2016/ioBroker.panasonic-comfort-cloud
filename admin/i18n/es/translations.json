@@ -6,5 +6,6 @@
     "password": "Contraseña",
     "refreshInterval": "Intervalo de actualización (minutos)",
     "username": "Nombre de usuario",
-    "automaticRefreshEnabled": "Actualización automática habilitada"
+    "automaticRefreshEnabled": "Actualización automática habilitada",
+    "adapterCommands": "Comandos para controlar el adaptador."
 }

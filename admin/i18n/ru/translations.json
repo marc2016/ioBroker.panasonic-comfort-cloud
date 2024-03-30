@@ -6,5 +6,6 @@
     "password": "Пароль",
     "refreshInterval": "Интервал обновления (минуты)",
     "username": "Имя пользователя",
-    "automaticRefreshEnabled": "Автоматическое обновление включено"
+    "automaticRefreshEnabled": "Автоматическое обновление включено",
+    "adapterCommands": "Команды для управления адаптером"
 }

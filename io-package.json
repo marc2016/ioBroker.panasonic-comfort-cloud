@@ -193,6 +193,27 @@
                 "def": false
             },
             "native": {}
+        },
+        {
+            "_id": "Commands",
+            "type": "channel",
+            "common": {
+                "name": "adapterCommands"
+            },
+            "native": {}
+        },
+        {
+            "_id": "Commands.manualRefresh",
+            "type": "state",
+            "common": {
+                "role": "button",
+                "name": "Refresh devices manual",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
         }
     ]
 }

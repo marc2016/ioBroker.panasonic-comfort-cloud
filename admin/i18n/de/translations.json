@@ -6,5 +6,6 @@
     "password": "Passwort",
     "refreshInterval": "Aktualisierungsintervall (Minuten)",
     "username": "Nutzername",
-    "automaticRefreshEnabled": "Automatische Aktualisierung aktiv"
+    "automaticRefreshEnabled": "Automatische Aktualisierung aktiv",
+    "adapterCommands": "Befehle zur Steuerung des Adapters"
 }

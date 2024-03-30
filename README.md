@@ -28,6 +28,7 @@ It is recommended that a second account, for which the devices have been shared,
 ## **WORK IN PROGRESS**
 
 * Added option to deactivate the automatic refresh.
+* Added state to manual refresh device infos.
 
 ### 2.3.0 (2023-12-21)
 

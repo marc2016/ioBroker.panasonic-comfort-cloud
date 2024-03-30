@@ -6,5 +6,6 @@
     "password": "Parola d'ordine",
     "refreshInterval": "Intervallo di aggiornamento (minuti)",
     "username": "Nome utente",
-    "automaticRefreshEnabled": "Aggiornamento automatico abilitato"
+    "automaticRefreshEnabled": "Aggiornamento automatico abilitato",
+    "adapterCommands": "Comandi per controllare l'adattatore"
 }

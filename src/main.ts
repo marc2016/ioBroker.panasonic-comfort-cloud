@@ -520,7 +520,23 @@ class PanasonicComfortCloud extends utils.Adapter {
         id: string,
         state: ioBroker.State | null | undefined
     ): Promise<void> {
-        if (state) {
+        if(!state) {
+            this.log.info(`state ${id} deleted`)
+            return
+        }
+
+        if(id.includes('.Commands.')) {
+            const elements = id.split('.')
+            const stateName = elements[elements.length - 1]
+            if(stateName == 'manualRefresh') {
+                try {
+                    await this.refreshDevices()
+                } catch (error) {
+                    await this.handleClientError(error)
+                }
+            }
+        }
+        else if (!id.includes('.info.')) {
             const elements = id.split('.')
             const deviceName = elements[elements.length - 2]
             const stateName = elements[elements.length - 1]
@@ -534,9 +550,6 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.info(
                 `state ${id} changed: ${state.val} (ack = ${state.ack})`
             )
-        } else {
-            // The state was deleted
-            this.log.info(`state ${id} deleted`)
         }
     }
 
