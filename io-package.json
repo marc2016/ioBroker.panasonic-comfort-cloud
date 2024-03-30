@@ -195,7 +195,7 @@
             "native": {}
         },
         {
-            "_id": "Commands",
+            "_id": "commands",
             "type": "channel",
             "common": {
                 "name": "adapterCommands"
@@ -203,7 +203,7 @@
             "native": {}
         },
         {
-            "_id": "Commands.manualRefresh",
+            "_id": "commands.manualRefresh",
             "type": "state",
             "common": {
                 "role": "button",

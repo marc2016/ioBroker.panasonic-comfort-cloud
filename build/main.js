@@ -459,19 +459,20 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
   }
   async onStateChange(id, state) {
-    if (!state) {
-      this.log.info(`state ${id} deleted`);
+    if (!state || state.ack) {
       return;
     }
-    if (id.includes(".Commands.")) {
+    if (id.includes(".commands.")) {
       const elements = id.split(".");
       const stateName = elements[elements.length - 1];
       if (stateName == "manualRefresh") {
         try {
           await this.refreshDevices();
+          await this.setStateAsync(id, state, true);
         } catch (error) {
           await this.handleClientError(error);
         }
+        await this.setStateAsync(id, false, true);
       }
     } else if (!id.includes(".info.")) {
       const elements = id.split(".");
