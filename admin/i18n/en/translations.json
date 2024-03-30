@@ -5,5 +5,6 @@
     "panasonic-comfort-cloud adapter settings": "Adapter settings for panasonic-comfort-cloud",
     "password": "Password",
     "refreshInterval": "Refresh interval (minutes)",
-    "username": "Username"
+    "username": "Username",
+    "automaticRefreshEnabled": "Automatic refresh enabled"
 }

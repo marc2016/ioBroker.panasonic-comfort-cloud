@@ -10,6 +10,7 @@ declare global {
 					username: string;
 					password: string;
 					refreshInterval: number;
+					automaticRefreshEnabled: boolean;
 					appVersion: string;
 					appVersionFromGithub: string;
 					useAppVersionFromGithub: boolean;

@@ -37,7 +37,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     this.setState("info.connection", false, true);
@@ -71,7 +71,10 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.log.debug("Create devices.");
         const groups = await this.comfortCloudClient.getGroups();
         await this.createDevices(groups);
-        this.setupRefreshTimeout();
+        this.log.debug(`Automativ refresh is set to ${(_n = this.config) == null ? void 0 : _n.automaticRefreshEnabled}.`);
+        if ((_o = this.config) == null ? void 0 : _o.automaticRefreshEnabled) {
+          this.setupRefreshTimeout();
+        }
       } catch (error) {
         await this.handleClientError(error);
       }

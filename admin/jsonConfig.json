@@ -6,19 +6,25 @@
         "type": "text",
         "label": "username",
         "sm": 12,
-        "md": 4
+        "md": 3
       },
       "password": {
         "type": "password",
         "label": "password",
         "sm": 12,
-        "md": 4
+        "md": 3
       },
       "pollinterval": {
         "type": "number",
         "label": "refreshInterval",
         "sm": 12,
-        "md": 4
+        "md": 3
+      },
+      "automaticRefreshEnabled": {
+        "type": "checkbox",
+        "label": "automaticRefreshEnabled",
+        "sm": 12,
+        "md": 3
       },
       "appVersion": {
         "type": "text",

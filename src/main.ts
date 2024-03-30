@@ -97,7 +97,11 @@ class PanasonicComfortCloud extends utils.Adapter {
                 const groups = await this.comfortCloudClient.getGroups()
                 await this.createDevices(groups)
 
-                this.setupRefreshTimeout()
+                this.log.debug(`Automativ refresh is set to ${this.config?.automaticRefreshEnabled}.`)
+                if(this.config?.automaticRefreshEnabled) {
+                    this.setupRefreshTimeout()
+                }
+                
             } catch (error) {
                 await this.handleClientError(error)
             }
