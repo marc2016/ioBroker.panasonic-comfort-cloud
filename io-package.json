@@ -198,7 +198,7 @@
             "_id": "commands",
             "type": "channel",
             "common": {
-                "name": "adapterCommands"
+                "name": "Adapter commands"
             },
             "native": {}
         },

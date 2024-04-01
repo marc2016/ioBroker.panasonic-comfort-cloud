@@ -7,5 +7,6 @@
     "refreshInterval": "Vernieuwingsinterval (minuten)",
     "username": "Gebruikersnaam",
     "automaticRefreshEnabled": "Automatisch vernieuwen ingeschakeld",
-    "adapterCommands": "Commando's om de adapter te besturen"
+    "adapterCommands": "Commando's om de adapter te besturen",
+    "manualRefresh": "Handleiding apparaten vernieuwen"
 }

@@ -7,5 +7,6 @@
     "refreshInterval": "刷新间隔（分钟）",
     "username": "用户名",
     "automaticRefreshEnabled": "自动刷新启用",
-    "adapterCommands": "控制适配器的命令"
+    "adapterCommands": "控制适配器的命令",
+    "manualRefresh": "刷新设备手册"
 }

@@ -465,7 +465,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     if (id.includes(".commands.")) {
       const elements = id.split(".");
       const stateName = elements[elements.length - 1];
-      if (stateName == "manualRefresh") {
+      if (stateName == "manualRefresh" && state.val) {
         try {
           await this.refreshDevices();
           await this.setStateAsync(id, state, true);

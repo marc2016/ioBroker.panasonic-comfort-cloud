@@ -7,5 +7,6 @@
     "refreshInterval": "Intervalle d'actualisation (minutes)",
     "username": "Nom d'utilisateur",
     "automaticRefreshEnabled": "Actualisation automatique activée",
-    "adapterCommands": "Commandes pour contrôler l'adaptateur"
+    "adapterCommands": "Commandes pour contrôler l'adaptateur",
+    "manualRefresh": "Actualiser le manuel des appareils"
 }

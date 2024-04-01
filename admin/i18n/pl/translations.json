@@ -7,5 +7,6 @@
     "refreshInterval": "Interwał odświeżania (minuty)",
     "username": "Nazwa użytkownika",
     "automaticRefreshEnabled": "Włączono automatyczne odświeżanie",
-    "adapterCommands": "Polecenia sterujące adapterem"
+    "adapterCommands": "Polecenia sterujące adapterem",
+    "manualRefresh": "Odśwież instrukcję obsługi urządzeń"
 }

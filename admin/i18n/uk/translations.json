@@ -7,5 +7,6 @@
     "refreshInterval": "Інтервал оновлення (хв.)",
     "username": "Ім'я користувача",
     "automaticRefreshEnabled": "Автоматичне оновлення ввімкнено",
-    "adapterCommands": "Команди для керування адаптером"
+    "adapterCommands": "Команди для керування адаптером",
+    "manualRefresh": "Оновити посібник з пристроїв"
 }
