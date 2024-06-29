@@ -25,7 +25,7 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 
-## **WORK IN PROGRESS**
+### **WORK IN PROGRESS**
 
 * Added option to deactivate the automatic refresh.
 * Added state to manual refresh device infos.
