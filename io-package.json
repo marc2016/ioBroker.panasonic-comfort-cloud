@@ -1,219 +1,219 @@
 {
-    "common": {
-        "name": "panasonic-comfort-cloud",
-        "version": "2.3.0",
-        "news": {
-            "2.3.0": {
-                "en": "Updated packages\nAdded connected state to devices",
-                "de": "Aktualisierte Pakete\nVerbindung mit Geräten hinzugefügt",
-                "ru": "Обновленные пакеты\nДобавлено подключенное состояние к устройствам",
-                "pt": "Pacotes atualizados\nEstado conectado adicionado a dispositivos",
-                "nl": "Verouderde pakketten\nVerbonden staat aan apparatuur",
-                "fr": "Forfaits mis à jour\nAjout de l'état connecté aux appareils",
-                "it": "Pacchetti aggiornati\nAggiunto stato collegato ai dispositivi",
-                "es": "Paquetes actualizados\nEstado conectado a dispositivos",
-                "pl": "Pakiet upoważniony\nZłączony stan do urządzeń",
-                "uk": "Оновлені пакети\nДодано підключений стан до пристроїв",
-                "zh-cn": "最新一揽子计划\n增加与装置有关的国家"
-            },
-            "2.2.4": {
-                "en": "Fixed load AppVersion from Github.",
-                "de": "Behobene AppVersion von Github.",
-                "ru": "Фиксированная нагрузка AppVersion от Github.",
-                "pt": "AppVersion de carga fixa do Github.",
-                "nl": "Gerepareerde lading van Github.",
-                "fr": "Charge fixe AppVersion de Github.",
-                "it": "AppVersione di carico fisso da Github.",
-                "es": "Carga fija AppVersion de Github.",
-                "pl": "Wykorzystywany ładunek z Github.",
-                "uk": "Виправлено навантаження AppVersion від Github.",
-                "zh-cn": "来自吉特布的固定载荷。."
-            },
-            "2.2.3": {
-                "en": "Added support for admin 5 UI (jsonConfig).\nUpdated packages.\nFixed translation.",
-                "de": "Unterstützung für admin 5 UI (jsonConfig.).\nAktualisierte Pakete.\nBehobene Übersetzung.",
-                "ru": "Добавлена поддержка admin 5 UI (jsonConfig.).\nОбновленные пакеты.\nФиксированный перевод.",
-                "pt": "Adicionado suporte para admin 5 UI (jsonConfig.).\nPacotes atualizados.\nTradução fixa.",
-                "nl": "Aangepast voor administratie 5 UI (jsonConfig).\nVerouderde pakketten.\nVertaald.",
-                "fr": "Ajout du support pour admin 5 UI (jsonConfig.).\nDes paquets mis à jour.\nTraduction fixe.",
-                "it": "Aggiunto supporto per admin 5 UI (jsonConfig.).\nPacchetti aggiornati.\nTraduzione fissa.",
-                "es": "Apoyo añadido para admin 5 UI (jsonConfig.).\nPaquetes actualizados.\nTraducción fija.",
-                "pl": "Administrowane wsparcie dla admin 5 UI (jsonConfig).\nZmodernizowane pakiety.\nTłumaczenie.",
-                "uk": "Додано підтримку admin 5 UI (jsonConfig.).\nОновлені пакети.\nФіксований переклад.",
-                "zh-cn": "增援5 UI(json Config).\n最新一揽子计划。.\n固定翻译。."
-            },
-            "2.2.2": {
-                "en": "Fixed wrong versoin number.",
-                "de": "Falsche Versionsnummer behoben.",
-                "ru": "Исправлен неправильный номер версии.",
-                "pt": "Corrigido número de versoin errado.",
-                "nl": "Verkeerd versoin-nummer opgelost.",
-                "fr": "Correction d'un mauvais numéro de version.",
-                "it": "Risolto il numero di versoin errato.",
-                "es": "Se corrigió el número de verso incorrecto.",
-                "pl": "Naprawiono błędny numer wersji.",
-                "uk": "Виправлено неправильний номер versoin.",
-                "zh-cn": "修复了错误的版本号。"
-            },
-            "2.2.1": {
-                "en": "panasonic-comfort-cloud-client updated to new version. New headers added.",
-                "de": "Panasonic-Comfort-Cloud-Client auf neue Version aktualisiert. Neue Header hinzugefügt.",
-                "ru": "Panasonic-comfort-cloud-client обновлен до новой версии. Добавлены новые заголовки.",
-                "pt": "panasonic-comfort-cloud-client atualizado para a nova versão. Novos cabeçalhos adicionados.",
-                "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. Nieuwe kopteksten toegevoegd.",
-                "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version. Nouveaux en-têtes ajoutés.",
-                "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Aggiunte nuove intestazioni.",
-                "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. Se agregaron nuevos encabezados.",
-                "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. Dodano nowe nagłówki.",
-                "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Додано нові заголовки.",
-                "zh-cn": "panasonic-comfort-cloud-client 更新至新版本。添加了新标题。"
-            },
-            "2.2.0": {
-                "en": "Added feature to automatically load the app version from GitHub.",
-                "de": "Funktion hinzugefügt, um die App-Version automatisch von GitHub zu laden.",
-                "ru": "Добавлена ​​функция автоматической загрузки версии приложения с GitHub.",
-                "pt": "Adicionado recurso para carregar automaticamente a versão do aplicativo do GitHub.",
-                "nl": "Functie toegevoegd om de app-versie automatisch te laden vanuit GitHub.",
-                "fr": "Ajout d'une fonctionnalité pour charger automatiquement la version de l'application à partir de GitHub.",
-                "it": "Aggiunta funzionalità per caricare automaticamente la versione dell'app da GitHub.",
-                "es": "Función agregada para cargar automáticamente la versión de la aplicación desde GitHub.",
-                "pl": "Dodano funkcję automatycznego ładowania wersji aplikacji z GitHub.",
-                "uk": "Додано функцію автоматичного завантаження версії програми з GitHub.",
-                "zh-cn": "添加了自动从 GitHub 加载应用程序版本的功能。"
-            },
-            "2.1.0": {
-                "en": "Added app version to settings.",
-                "de": "App-Version zu den Einstellungen hinzugefügt.",
-                "ru": "В настройки добавлена ​​версия приложения.",
-                "pt": "Versão do aplicativo adicionada às configurações.",
-                "nl": "App-versie toegevoegd aan instellingen.",
-                "fr": "Ajout de la version de l'application aux paramètres.",
-                "it": "Aggiunta la versione dell'app alle impostazioni.",
-                "es": "Se agregó la versión de la aplicación a la configuración.",
-                "pl": "Dodano wersję aplikacji do ustawień.",
-                "uk": "Версію програми додано в налаштування.",
-                "zh-cn": "在设置中添加了应用程序版本。"
-            }
-        },
-        "titleLang": {
-            "en": "Panasonic Comfort Cloud",
-            "de": "Panasonic Comfort Cloud",
-            "ru": "Panasonic Comfort Cloud",
-            "pt": "Panasonic Comfort Cloud",
-            "nl": "Panasonic Comfort Cloud",
-            "fr": "Panasonic Comfort Cloud",
-            "it": "Panasonic Comfort Cloud",
-            "es": "Panasonic Comfort Cloud",
-            "pl": "Panasonic Comfort Cloud",
-            "zh-cn": "松下舒适云",
-            "uk": "Panasonic Comfort Cloud"
-        },
-        "desc": {
-            "en": "Adapter for Panasonic Comfort Cloud",
-            "de": "Adapter für Panasonic Comfort Cloud",
-            "ru": "Адаптер для Panasonic Comfort Cloud",
-            "pt": "Adaptador para Panasonic Comfort Cloud",
-            "nl": "Adapter voor Panasonic Comfort Cloud",
-            "fr": "Adaptateur pour Panasonic Comfort Cloud",
-            "it": "Adattatore per Panasonic Comfort Cloud",
-            "es": "Adaptador para Panasonic Comfort Cloud",
-            "pl": "Adapter do chmury Panasonic Comfort Cloud",
-            "zh-cn": "松下舒适云适配器",
-            "uk": "Адаптер для Panasonic Comfort Cloud"
-        },
-        "authors": [
-            "marc <marc@lammers.dev>"
-        ],
-        "keywords": [
-            "air condition"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "connectionType": "cloud",
-        "dataSource": "poll",
-        "main": "build/main.js",
-        "icon": "panasonic-comfort-cloud.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
-        "readme": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "climate-control",
-        "compact": true,
-        "materialize": true,
-        "adminUI": {
-            "config": "json"
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=3.3.22"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=5.0.0"
-            }
-        ]
+  "common": {
+    "name": "panasonic-comfort-cloud",
+    "version": "3.0.0",
+    "news": {
+      "3.0.0": {
+        "en": "Added option to deactivate the automatic refresh.\nAdded state to manual refresh device infos.\nUpdated client version for OAuth support.",
+        "de": "Option hinzugefügt, um die automatische Erfrischung zu deaktivieren.\nZustand zu manuellen Refresh-Gerät Informationen hinzugefügt.\nAktualisierte Clientversion für OAuth-Unterstützung.",
+        "ru": "Добавлена опция для деактивации автоматического обновления.\nДобавлено состояние в ручную информацию об устройстве обновления.\nОбновленная клиентская версия для поддержки OAuth.",
+        "pt": "Adicionada opção para desativar a atualização automática.\nEstado adicionado para atualizar manualmente informações do dispositivo.\nVersão de cliente atualizada para suporte OAuth.",
+        "nl": "Toegevoegd optie om de automatische vernieuwing uit te schakelen.\nStatus toegevoegd aan handmatige verversen apparaatinformaties.\nBijgewerkte client versie voor OAuth ondersteuning.",
+        "fr": "Ajout d'une option pour désactiver la mise à jour automatique.\nAjout de l'état aux infos de rafraîchissement manuel de l'appareil.\nVersion client mise à jour pour le support OAuth.",
+        "it": "Aggiunta opzione per disattivare il aggiornamento automatico.\nAggiunta di stato alle informazioni del dispositivo di aggiornamento manuale.\nVersione client aggiornata per il supporto OAuth.",
+        "es": "Añadido opción para desactivar el refresco automático.\nAñadido estado a manual información del dispositivo de actualización.\nVersión actualizada del cliente para soporte OAuth.",
+        "pl": "Dodano opcję wyłączenia automatycznego odświeżania.\nDodano stan do instrukcji odświeżania urządzenia.\nAktualizacja wersji klienta dla wsparcia OAuth.",
+        "uk": "Додана можливість деактивувати автоматичне оновлення.\nДодано стан для ручного оновлення пристрою інформації.\nОновлена версія клієнта для підтримки OAuth.",
+        "zh-cn": "添加选项以关闭自动刷新 .\n添加到手动刷新设备信息中的状态 .\n更新了OAuth支持的客户端版本."
+      },
+      "2.3.0": {
+        "en": "Updated packages\nAdded connected state to devices",
+        "de": "Aktualisierte Pakete\nVerbindung mit Geräten hinzugefügt",
+        "ru": "Обновленные пакеты\nДобавлено подключенное состояние к устройствам",
+        "pt": "Pacotes atualizados\nEstado conectado adicionado a dispositivos",
+        "nl": "Verouderde pakketten\nVerbonden staat aan apparatuur",
+        "fr": "Forfaits mis à jour\nAjout de l'état connecté aux appareils",
+        "it": "Pacchetti aggiornati\nAggiunto stato collegato ai dispositivi",
+        "es": "Paquetes actualizados\nEstado conectado a dispositivos",
+        "pl": "Pakiet upoważniony\nZłączony stan do urządzeń",
+        "uk": "Оновлені пакети\nДодано підключений стан до пристроїв",
+        "zh-cn": "最新一揽子计划\n增加与装置有关的国家"
+      },
+      "2.2.4": {
+        "en": "Fixed load AppVersion from Github.",
+        "de": "Behobene AppVersion von Github.",
+        "ru": "Фиксированная нагрузка AppVersion от Github.",
+        "pt": "AppVersion de carga fixa do Github.",
+        "nl": "Gerepareerde lading van Github.",
+        "fr": "Charge fixe AppVersion de Github.",
+        "it": "AppVersione di carico fisso da Github.",
+        "es": "Carga fija AppVersion de Github.",
+        "pl": "Wykorzystywany ładunek z Github.",
+        "uk": "Виправлено навантаження AppVersion від Github.",
+        "zh-cn": "来自吉特布的固定载荷。."
+      },
+      "2.2.3": {
+        "en": "Added support for admin 5 UI (jsonConfig).\nUpdated packages.\nFixed translation.",
+        "de": "Unterstützung für admin 5 UI (jsonConfig.).\nAktualisierte Pakete.\nBehobene Übersetzung.",
+        "ru": "Добавлена поддержка admin 5 UI (jsonConfig.).\nОбновленные пакеты.\nФиксированный перевод.",
+        "pt": "Adicionado suporte para admin 5 UI (jsonConfig.).\nPacotes atualizados.\nTradução fixa.",
+        "nl": "Aangepast voor administratie 5 UI (jsonConfig).\nVerouderde pakketten.\nVertaald.",
+        "fr": "Ajout du support pour admin 5 UI (jsonConfig.).\nDes paquets mis à jour.\nTraduction fixe.",
+        "it": "Aggiunto supporto per admin 5 UI (jsonConfig.).\nPacchetti aggiornati.\nTraduzione fissa.",
+        "es": "Apoyo añadido para admin 5 UI (jsonConfig.).\nPaquetes actualizados.\nTraducción fija.",
+        "pl": "Administrowane wsparcie dla admin 5 UI (jsonConfig).\nZmodernizowane pakiety.\nTłumaczenie.",
+        "uk": "Додано підтримку admin 5 UI (jsonConfig.).\nОновлені пакети.\nФіксований переклад.",
+        "zh-cn": "增援5 UI(json Config).\n最新一揽子计划。.\n固定翻译。."
+      },
+      "2.2.2": {
+        "en": "Fixed wrong versoin number.",
+        "de": "Falsche Versionsnummer behoben.",
+        "ru": "Исправлен неправильный номер версии.",
+        "pt": "Corrigido número de versoin errado.",
+        "nl": "Verkeerd versoin-nummer opgelost.",
+        "fr": "Correction d'un mauvais numéro de version.",
+        "it": "Risolto il numero di versoin errato.",
+        "es": "Se corrigió el número de verso incorrecto.",
+        "pl": "Naprawiono błędny numer wersji.",
+        "uk": "Виправлено неправильний номер versoin.",
+        "zh-cn": "修复了错误的版本号。"
+      },
+      "2.2.1": {
+        "en": "panasonic-comfort-cloud-client updated to new version. New headers added.",
+        "de": "Panasonic-Comfort-Cloud-Client auf neue Version aktualisiert. Neue Header hinzugefügt.",
+        "ru": "Panasonic-comfort-cloud-client обновлен до новой версии. Добавлены новые заголовки.",
+        "pt": "panasonic-comfort-cloud-client atualizado para a nova versão. Novos cabeçalhos adicionados.",
+        "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. Nieuwe kopteksten toegevoegd.",
+        "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version. Nouveaux en-têtes ajoutés.",
+        "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Aggiunte nuove intestazioni.",
+        "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. Se agregaron nuevos encabezados.",
+        "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. Dodano nowe nagłówki.",
+        "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Додано нові заголовки.",
+        "zh-cn": "panasonic-comfort-cloud-client 更新至新版本。添加了新标题。"
+      },
+      "2.2.0": {
+        "en": "Added feature to automatically load the app version from GitHub.",
+        "de": "Funktion hinzugefügt, um die App-Version automatisch von GitHub zu laden.",
+        "ru": "Добавлена ​​функция автоматической загрузки версии приложения с GitHub.",
+        "pt": "Adicionado recurso para carregar automaticamente a versão do aplicativo do GitHub.",
+        "nl": "Functie toegevoegd om de app-versie automatisch te laden vanuit GitHub.",
+        "fr": "Ajout d'une fonctionnalité pour charger automatiquement la version de l'application à partir de GitHub.",
+        "it": "Aggiunta funzionalità per caricare automaticamente la versione dell'app da GitHub.",
+        "es": "Función agregada para cargar automáticamente la versión de la aplicación desde GitHub.",
+        "pl": "Dodano funkcję automatycznego ładowania wersji aplikacji z GitHub.",
+        "uk": "Додано функцію автоматичного завантаження версії програми з GitHub.",
+        "zh-cn": "添加了自动从 GitHub 加载应用程序版本的功能。"
+      }
     },
-    "native": {
-        "username": "",
-        "password": "",
-        "refreshInterval": 5,
-        "automaticRefreshEnabled": true,
-        "appVersion": "",
-        "appVersionFromGithub": "",
-        "useAppVersionFromGithub": false
+    "titleLang": {
+      "en": "Panasonic Comfort Cloud",
+      "de": "Panasonic Comfort Cloud",
+      "ru": "Panasonic Comfort Cloud",
+      "pt": "Panasonic Comfort Cloud",
+      "nl": "Panasonic Comfort Cloud",
+      "fr": "Panasonic Comfort Cloud",
+      "it": "Panasonic Comfort Cloud",
+      "es": "Panasonic Comfort Cloud",
+      "pl": "Panasonic Comfort Cloud",
+      "zh-cn": "松下舒适云",
+      "uk": "Panasonic Comfort Cloud"
     },
-    "protectedNative": [
-        "username",
-        "password"
+    "desc": {
+      "en": "Adapter for Panasonic Comfort Cloud",
+      "de": "Adapter für Panasonic Comfort Cloud",
+      "ru": "Адаптер для Panasonic Comfort Cloud",
+      "pt": "Adaptador para Panasonic Comfort Cloud",
+      "nl": "Adapter voor Panasonic Comfort Cloud",
+      "fr": "Adaptateur pour Panasonic Comfort Cloud",
+      "it": "Adattatore per Panasonic Comfort Cloud",
+      "es": "Adaptador para Panasonic Comfort Cloud",
+      "pl": "Adapter do chmury Panasonic Comfort Cloud",
+      "zh-cn": "松下舒适云适配器",
+      "uk": "Адаптер для Panasonic Comfort Cloud"
+    },
+    "authors": [
+      "marc <marc@lammers.dev>"
     ],
-    "encryptedNative": [
-        "password"
+    "keywords": [
+      "air condition"
     ],
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "Device or service connected",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "commands",
-            "type": "channel",
-            "common": {
-                "name": "Adapter commands"
-            },
-            "native": {}
-        },
-        {
-            "_id": "commands.manualRefresh",
-            "type": "state",
-            "common": {
-                "role": "button",
-                "name": "Refresh devices manual",
-                "type": "boolean",
-                "read": true,
-                "write": true,
-                "def": false
-            },
-            "native": {}
-        }
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "main": "build/main.js",
+    "icon": "panasonic-comfort-cloud.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
+    "readme": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "climate-control",
+    "compact": true,
+    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0"
+      }
     ]
+  },
+  "native": {
+    "username": "",
+    "password": "",
+    "refreshInterval": 5,
+    "automaticRefreshEnabled": true,
+    "appVersion": "",
+    "appVersionFromGithub": "",
+    "useAppVersionFromGithub": false
+  },
+  "protectedNative": [
+    "username",
+    "password"
+  ],
+  "encryptedNative": [
+    "password"
+  ],
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "commands",
+      "type": "channel",
+      "common": {
+        "name": "Adapter commands"
+      },
+      "native": {}
+    },
+    {
+      "_id": "commands.manualRefresh",
+      "type": "state",
+      "common": {
+        "role": "button",
+        "name": "Refresh devices manual",
+        "type": "boolean",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

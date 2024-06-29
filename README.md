@@ -24,8 +24,7 @@ With the method used, only one client can be logged on with the account at a tim
 It is recommended that a second account, for which the devices have been shared, is used.
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 3.0.0 (2024-06-29)
 
 * Added option to deactivate the automatic refresh.
 * Added state to manual refresh device infos.
