@@ -25,7 +25,6 @@ import {
 
 import * as _ from 'lodash'
 import axios from 'axios'
-import { stat } from 'fs'
 
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5
 

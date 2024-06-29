@@ -29,6 +29,7 @@ It is recommended that a second account, for which the devices have been shared,
 
 * Added option to deactivate the automatic refresh.
 * Added state to manual refresh device infos.
+* Updated client version for OAuth support.
 
 ### 2.3.0 (2023-12-21)
 
