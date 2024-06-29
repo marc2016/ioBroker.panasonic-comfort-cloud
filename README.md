@@ -8,6 +8,8 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.panasonic-comfort-cloud.svg)](https://www.npmjs.com/package/iobroker.panasonic-comfort-cloud)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.panasonic-comfort-cloud.svg)](https://www.npmjs.com/package/iobroker.panasonic-comfort-cloud)
+[![Tests and release](https://github.com//marc2016/ioBroker.panasonic-comfort-cloud/actions/workflows/test-and-release.yml/badge.svg)](https://www.npmjs.com/package/iobroker.panasonic-comfort-cloud)
+
 [![Dependency Status](https://img.shields.io/david/marc2016/iobroker.panasonic-comfort-cloud.svg)](https://david-dm.org/marc2016/iobroker.panasonic-comfort-cloud)
 [![Known Vulnerabilities](https://snyk.io/test/github/marc2016/ioBroker.panasonic-comfort-cloud/badge.svg)](https://snyk.io/test/github/marc2016/ioBroker.panasonic-comfort-cloud)
 
