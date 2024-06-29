@@ -2,7 +2,7 @@
 
 | :warning: WARNING          |
 |:---------------------------|
-| New app version in adapter settings is 1.19.1      |
+| New app version in adapter settings is 1.21.0      |
 
 ![Logo](admin/panasonic-comfort-cloud.png)
 
@@ -12,8 +12,6 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/marc2016/ioBroker.panasonic-comfort-cloud/badge.svg)](https://snyk.io/test/github/marc2016/ioBroker.panasonic-comfort-cloud)
 
 [![NPM](https://nodei.co/npm/iobroker.panasonic-comfort-cloud.png?downloads=true)](https://nodei.co/npm/iobroker.panasonic-comfort-cloud/)
-
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/marc2016/ioBroker.panasonic-comfort-cloud/master.svg)](https://travis-ci.org/marc2016/ioBroker.panasonic-comfort-cloud)
 
 ## panasonic-comfort-cloud adapter for ioBroker
 
