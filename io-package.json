@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "news": {
+      "3.0.1": {
+        "en": "Fixed bug in refreshing oauth token.",
+        "de": "Fehler beim erfrischenden Oauth-Token behoben.",
+        "ru": "Фиксированный жучок в освежающем токене.",
+        "pt": "Corrigido o erro no token de oauth refrescante.",
+        "nl": "Fixed bug in verfrissende oauth token.",
+        "fr": "Correction d'un bug dans un jeton rafraîchissant.",
+        "it": "Corretto bug in rinfrescante oauth token.",
+        "es": "Insecto fijo en refrescante token oauth.",
+        "pl": "Naprawiono błąd w odświeżającym tokenie oauth.",
+        "uk": "Виправлена помилка в освіження носового токену.",
+        "zh-cn": "刷新Oauth符号的固定错误 ."
+      },
       "3.0.0": {
         "en": "Added option to deactivate the automatic refresh.\nAdded state to manual refresh device infos.\nUpdated client version for OAuth support.",
         "de": "Option hinzugefügt, um die automatische Erfrischung zu deaktivieren.\nZustand zu manuellen Refresh-Gerät Informationen hinzugefügt.\nAktualisierte Clientversion für OAuth-Unterstützung.",
@@ -80,19 +93,6 @@
         "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. Dodano nowe nagłówki.",
         "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Додано нові заголовки.",
         "zh-cn": "panasonic-comfort-cloud-client 更新至新版本。添加了新标题。"
-      },
-      "2.2.0": {
-        "en": "Added feature to automatically load the app version from GitHub.",
-        "de": "Funktion hinzugefügt, um die App-Version automatisch von GitHub zu laden.",
-        "ru": "Добавлена ​​функция автоматической загрузки версии приложения с GitHub.",
-        "pt": "Adicionado recurso para carregar automaticamente a versão do aplicativo do GitHub.",
-        "nl": "Functie toegevoegd om de app-versie automatisch te laden vanuit GitHub.",
-        "fr": "Ajout d'une fonctionnalité pour charger automatiquement la version de l'application à partir de GitHub.",
-        "it": "Aggiunta funzionalità per caricare automaticamente la versione dell'app da GitHub.",
-        "es": "Función agregada para cargar automáticamente la versión de la aplicación desde GitHub.",
-        "pl": "Dodano funkcję automatycznego ładowania wersji aplikacji z GitHub.",
-        "uk": "Додано функцію автоматичного завантаження версії програми з GitHub.",
-        "zh-cn": "添加了自动从 GitHub 加载应用程序版本的功能。"
       }
     },
     "titleLang": {
