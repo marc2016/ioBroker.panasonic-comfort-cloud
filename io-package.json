@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "news": {
+      "3.0.2": {
+        "en": "Fixed bug in refreshing oauth token again.",
+        "de": "Fehler beim Erfrischen von Oauth-Token behoben.",
+        "ru": "Фиксированный жучок в свежем токене.",
+        "pt": "Corrigido bug no token de oauth refrescante novamente.",
+        "nl": "Fixed bug in verfrissende oauth token weer.",
+        "fr": "Correction d'un bug dans un jeton rafraîchissant.",
+        "it": "Corretto bug in rinfrescante oauth token di nuovo.",
+        "es": "Error fijo en refrescante token oauth de nuevo.",
+        "pl": "Naprawiono błąd w orzeźwiającym tokenie oauth ponownie.",
+        "uk": "Виправлена помилка в оновленні токени знову.",
+        "zh-cn": "重新刷新Oauth信号的固定错误 ."
+      },
       "3.0.1": {
         "en": "Fixed bug in refreshing oauth token.",
         "de": "Fehler beim erfrischenden Oauth-Token behoben.",
@@ -80,19 +93,6 @@
         "pl": "Naprawiono błędny numer wersji.",
         "uk": "Виправлено неправильний номер versoin.",
         "zh-cn": "修复了错误的版本号。"
-      },
-      "2.2.1": {
-        "en": "panasonic-comfort-cloud-client updated to new version. New headers added.",
-        "de": "Panasonic-Comfort-Cloud-Client auf neue Version aktualisiert. Neue Header hinzugefügt.",
-        "ru": "Panasonic-comfort-cloud-client обновлен до новой версии. Добавлены новые заголовки.",
-        "pt": "panasonic-comfort-cloud-client atualizado para a nova versão. Novos cabeçalhos adicionados.",
-        "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. Nieuwe kopteksten toegevoegd.",
-        "fr": "panasonic-comfort-cloud-client mis à jour vers la nouvelle version. Nouveaux en-têtes ajoutés.",
-        "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Aggiunte nuove intestazioni.",
-        "es": "panasonic-comfort-cloud-client actualizado a la nueva versión. Se agregaron nuevos encabezados.",
-        "pl": "panasonic-comfort-cloud-client zaktualizowany do nowej wersji. Dodano nowe nagłówki.",
-        "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Додано нові заголовки.",
-        "zh-cn": "panasonic-comfort-cloud-client 更新至新版本。添加了新标题。"
       }
     },
     "titleLang": {
