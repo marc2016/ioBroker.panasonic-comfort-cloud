@@ -127,20 +127,19 @@
     "keywords": [
       "air condition"
     ],
-    "license": "MIT",
+    "licenseInformation": "MIT",
     "platform": "Javascript/Node.js",
     "connectionType": "cloud",
     "dataSource": "poll",
-    "main": "build/main.js",
     "icon": "panasonic-comfort-cloud.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
     "readme": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/blob/master/README.md",
     "loglevel": "info",
+    "tier": 1,
     "mode": "daemon",
     "type": "climate-control",
     "compact": true,
-    "materialize": true,
     "adminUI": {
       "config": "json"
     },
