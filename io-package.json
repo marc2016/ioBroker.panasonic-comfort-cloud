@@ -127,7 +127,10 @@
     "keywords": [
       "air condition"
     ],
-    "licenseInformation": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "connectionType": "cloud",
     "dataSource": "poll",
