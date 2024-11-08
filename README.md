@@ -2,7 +2,7 @@
 
 | :warning: WARNING          |
 |:---------------------------|
-| New app version in adapter settings is 1.21.0      |
+| New app version in adapter settings is 1.22.0      |
 
 ![Logo](admin/panasonic-comfort-cloud.png)
 
