@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "news": {
+      "3.0.3": {
+        "en": "panasonic-comfort-cloud-client updated to new version. CFC generator for header added.",
+        "de": "panasonic-comfort-cloud-client auf neue Version aktualisiert. CFC-Generator für Header hinzugefügt.",
+        "ru": "panasonic-comfort-cloud-client обновился до новой версии. Генератор ХФУ для добавления заголовка.",
+        "pt": "panasonic-comfort-cloud-client atualizado para nova versão. Gerador CFC para cabeçalho adicionado.",
+        "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. CFC generator voor header toegevoegd.",
+        "fr": "panasonic-comfort-cloud-client mis à jour vers une nouvelle version. Générateur de CFC pour l'entête ajouté.",
+        "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Generatore CFC per intestazione aggiunto.",
+        "es": "panasonic-comfort-cloud-client actualizado a nueva versión. Generador de CFC para cabecera añadido.",
+        "pl": "panasonic- comfort- cloud- cloud- client zaktualizowany do nowej wersji. Generator CFC dla nagłówka dodany.",
+        "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Генератор CFC для головки додано.",
+        "zh-cn": "panasonic-comfort-cloud-客户端更新到新版本. 增加了用于页眉的氟氯化碳生成器."
+      },
       "3.0.2": {
         "en": "Fixed bug in refreshing oauth token again.",
         "de": "Fehler beim Erfrischen von Oauth-Token behoben.",
@@ -80,19 +93,6 @@
         "pl": "Administrowane wsparcie dla admin 5 UI (jsonConfig).\nZmodernizowane pakiety.\nTłumaczenie.",
         "uk": "Додано підтримку admin 5 UI (jsonConfig.).\nОновлені пакети.\nФіксований переклад.",
         "zh-cn": "增援5 UI(json Config).\n最新一揽子计划。.\n固定翻译。."
-      },
-      "2.2.2": {
-        "en": "Fixed wrong versoin number.",
-        "de": "Falsche Versionsnummer behoben.",
-        "ru": "Исправлен неправильный номер версии.",
-        "pt": "Corrigido número de versoin errado.",
-        "nl": "Verkeerd versoin-nummer opgelost.",
-        "fr": "Correction d'un mauvais numéro de version.",
-        "it": "Risolto il numero di versoin errato.",
-        "es": "Se corrigió el número de verso incorrecto.",
-        "pl": "Naprawiono błędny numer wersji.",
-        "uk": "Виправлено неправильний номер versoin.",
-        "zh-cn": "修复了错误的版本号。"
       }
     },
     "titleLang": {
