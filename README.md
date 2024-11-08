@@ -24,6 +24,11 @@ With the method used, only one client can be logged on with the account at a tim
 It is recommended that a second account, for which the devices have been shared, is used.
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+* panasonic-comfort-cloud-client updated to new version. CFC generator for header added.
+
 ### 3.0.2 (2024-07-10)
 
 * Fixed bug in refreshing oauth token again.
