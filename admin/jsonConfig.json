@@ -5,45 +5,66 @@
       "username": {
         "type": "text",
         "label": "username",
+        "xs": 12,
         "sm": 12,
-        "md": 3
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       },
       "password": {
         "type": "password",
         "label": "password",
+        "xs": 12,
         "sm": 12,
-        "md": 3
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       },
       "pollinterval": {
         "type": "number",
         "label": "refreshInterval",
+        "xs": 12,
         "sm": 12,
-        "md": 3
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       },
       "automaticRefreshEnabled": {
         "type": "checkbox",
         "label": "automaticRefreshEnabled",
+        "xs": 12,
         "sm": 12,
-        "md": 3
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       },
       "appVersion": {
         "type": "text",
         "label": "appVersion",
+        "xs": 12,
         "sm": 12,
-        "md": 4
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       },
       "appVersionFromGithub": {
         "type": "text",
         "label": "appVersionFromGithub",
         "readOnly": true,
+        "xs": 12,
         "sm": 12,
-        "md": 4
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       },
       "useAppVersionFromGithub": {
         "type": "checkbox",
         "label": "useAppVersionFromGithub",
+        "xs": 12,
         "sm": 12,
-        "md": 4
+        "md": 6,
+        "lg": 4,
+        "xl": 4
       }
   }
 }
