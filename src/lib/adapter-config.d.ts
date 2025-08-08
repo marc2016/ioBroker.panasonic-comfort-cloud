@@ -12,8 +12,8 @@ declare global {
 					refreshInterval: number;
 					automaticRefreshEnabled: boolean;
 					appVersion: string;
-					appVersionFromGithub: string;
-					useAppVersionFromGithub: boolean;
+					appVersionFromAppStore: string;
+					useAppVersionFromAppStore: boolean;
 			}
 	}
 }

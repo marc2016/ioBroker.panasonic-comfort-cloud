@@ -60,19 +60,19 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.setState('info.connection', false, true);
 
         const loadedAppVersion = await this.getCurrentAppVersion()
-        this.log.info(`Loaded app version from GitHub: ${loadedAppVersion}`)
-        if(loadedAppVersion && this.trimAll(this.config?.appVersionFromGithub) != this.trimAll(loadedAppVersion)) {
-            this.updateConfig({ appVersionFromGithub: this.trimAll(loadedAppVersion), password: this.encrypt(this.config?.password) }) 
+        this.log.info(`Loaded app version from App store: ${loadedAppVersion}`)
+        if(loadedAppVersion && this.trimAll(this.config?.appVersionFromAppStore) != this.trimAll(loadedAppVersion)) {
+            this.updateConfig({ appVersionFromAppStore: this.trimAll(loadedAppVersion), password: this.encrypt(this.config?.password) }) 
             return
         }
 
         if(!this.config?.username || !this.config?.password) {
             this.log.error('Can not start without username or password. Please open config.')
         } else {
-            if(this.config?.appVersionFromGithub != '' && this.config?.useAppVersionFromGithub)
+            if(this.config?.appVersionFromAppStore != '' && this.config?.useAppVersionFromAppStore)
             {
-                this.log.debug(`Use AppVersion from Github ${this.config?.appVersionFromGithub}.`)
-                this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersionFromGithub)
+                this.log.debug(`Use AppVersion from App Store ${this.config?.appVersionFromAppStore}.`)
+                this.comfortCloudClient = new ComfortCloudClient(this.config?.appVersionFromAppStore)
             }
             else if(this.config?.appVersion != '')
             {
@@ -555,11 +555,11 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async getCurrentAppVersion() : Promise<string> {
-        const response = await axios.get('https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/.currentAppVersion')
+        const response = await axios.get('https://itunes.apple.com/lookup?id=1348640525')
         if(response.status !== 200)
             return ''
-        const text = await response.data
-        return text
+        const version = await response.data.results[0].version
+        return version
     }
 
     private async handleDeviceError(deviceName: string, error: unknown): Promise<void> {

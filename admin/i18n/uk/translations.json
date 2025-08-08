@@ -1,12 +1,12 @@
 {
     "appVersion": "Нова версія програми для API",
-    "appVersionFromGithub": "Версія програми для API, завантажена зі сховища GitHub",
-    "useAppVersionFromGithub": "Використовуйте версію програми, завантажену з GitHub",
     "panasonic-comfort-cloud adapter settings": "Налаштування адаптера для panasonic-comfort-cloud",
     "password": "Пароль",
     "refreshInterval": "Інтервал оновлення (хв.)",
     "username": "Ім'я користувача",
     "automaticRefreshEnabled": "Автоматичне оновлення ввімкнено",
     "adapterCommands": "Команди для керування адаптером",
-    "manualRefresh": "Оновити посібник з пристроїв"
+    "manualRefresh": "Оновити посібник з пристроїв",
+    "appVersionFromAppStore": "Версія додатка для API, завантажена з App Store",
+    "useAppVersionFromAppStore": "Використовуйте версію додатка, завантажену з App Store"
 }

@@ -1,12 +1,12 @@
 {
     "appVersion": "Neue Version der App für API",
-    "appVersionFromGithub": "App-Version für API, geladen aus dem GitHub-Repository",
-    "useAppVersionFromGithub": "Verwenden Sie die von GitHub geladene App-Version",
     "panasonic-comfort-cloud adapter settings": "Adaptereinstellungen für Panasonic-Comfort-Cloud",
     "password": "Passwort",
     "refreshInterval": "Aktualisierungsintervall (Minuten)",
     "username": "Nutzername",
     "automaticRefreshEnabled": "Automatische Aktualisierung aktiv",
     "adapterCommands": "Befehle zur Steuerung des Adapters",
-    "manualRefresh": "Gerätehandbuch aktualisieren"
+    "manualRefresh": "Gerätehandbuch aktualisieren",
+    "appVersionFromAppStore": "App -Version für API aus dem App Store geladen",
+    "useAppVersionFromAppStore": "Verwenden Sie die App -Version, die aus dem App Store geladen wurde"
 }

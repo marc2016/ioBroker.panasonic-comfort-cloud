@@ -47,9 +47,9 @@
         "lg": 4,
         "xl": 4
       },
-      "appVersionFromGithub": {
+      "appVersionFromAppStore": {
         "type": "text",
-        "label": "appVersionFromGithub",
+        "label": "appVersionFromAppStore",
         "readOnly": true,
         "xs": 12,
         "sm": 12,
@@ -57,9 +57,9 @@
         "lg": 4,
         "xl": 4
       },
-      "useAppVersionFromGithub": {
+      "useAppVersionFromAppStore": {
         "type": "checkbox",
-        "label": "useAppVersionFromGithub",
+        "label": "useAppVersionFromAppStore",
         "xs": 12,
         "sm": 12,
         "md": 6,

@@ -1,221 +1,221 @@
 {
-  "common": {
-    "name": "panasonic-comfort-cloud",
-    "version": "3.0.3",
-    "news": {
-      "3.0.3": {
-        "en": "panasonic-comfort-cloud-client updated to new version. CFC generator for header added.",
-        "de": "panasonic-comfort-cloud-client auf neue Version aktualisiert. CFC-Generator für Header hinzugefügt.",
-        "ru": "panasonic-comfort-cloud-client обновился до новой версии. Генератор ХФУ для добавления заголовка.",
-        "pt": "panasonic-comfort-cloud-client atualizado para nova versão. Gerador CFC para cabeçalho adicionado.",
-        "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. CFC generator voor header toegevoegd.",
-        "fr": "panasonic-comfort-cloud-client mis à jour vers une nouvelle version. Générateur de CFC pour l'entête ajouté.",
-        "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Generatore CFC per intestazione aggiunto.",
-        "es": "panasonic-comfort-cloud-client actualizado a nueva versión. Generador de CFC para cabecera añadido.",
-        "pl": "panasonic- comfort- cloud- cloud- client zaktualizowany do nowej wersji. Generator CFC dla nagłówka dodany.",
-        "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Генератор CFC для головки додано.",
-        "zh-cn": "panasonic-comfort-cloud-客户端更新到新版本. 增加了用于页眉的氟氯化碳生成器."
-      },
-      "3.0.2": {
-        "en": "Fixed bug in refreshing oauth token again.",
-        "de": "Fehler beim Erfrischen von Oauth-Token behoben.",
-        "ru": "Фиксированный жучок в свежем токене.",
-        "pt": "Corrigido bug no token de oauth refrescante novamente.",
-        "nl": "Fixed bug in verfrissende oauth token weer.",
-        "fr": "Correction d'un bug dans un jeton rafraîchissant.",
-        "it": "Corretto bug in rinfrescante oauth token di nuovo.",
-        "es": "Error fijo en refrescante token oauth de nuevo.",
-        "pl": "Naprawiono błąd w orzeźwiającym tokenie oauth ponownie.",
-        "uk": "Виправлена помилка в оновленні токени знову.",
-        "zh-cn": "重新刷新Oauth信号的固定错误 ."
-      },
-      "3.0.1": {
-        "en": "Fixed bug in refreshing oauth token.",
-        "de": "Fehler beim erfrischenden Oauth-Token behoben.",
-        "ru": "Фиксированный жучок в освежающем токене.",
-        "pt": "Corrigido o erro no token de oauth refrescante.",
-        "nl": "Fixed bug in verfrissende oauth token.",
-        "fr": "Correction d'un bug dans un jeton rafraîchissant.",
-        "it": "Corretto bug in rinfrescante oauth token.",
-        "es": "Insecto fijo en refrescante token oauth.",
-        "pl": "Naprawiono błąd w odświeżającym tokenie oauth.",
-        "uk": "Виправлена помилка в освіження носового токену.",
-        "zh-cn": "刷新Oauth符号的固定错误 ."
-      },
-      "3.0.0": {
-        "en": "Added option to deactivate the automatic refresh.\nAdded state to manual refresh device infos.\nUpdated client version for OAuth support.",
-        "de": "Option hinzugefügt, um die automatische Erfrischung zu deaktivieren.\nZustand zu manuellen Refresh-Gerät Informationen hinzugefügt.\nAktualisierte Clientversion für OAuth-Unterstützung.",
-        "ru": "Добавлена опция для деактивации автоматического обновления.\nДобавлено состояние в ручную информацию об устройстве обновления.\nОбновленная клиентская версия для поддержки OAuth.",
-        "pt": "Adicionada opção para desativar a atualização automática.\nEstado adicionado para atualizar manualmente informações do dispositivo.\nVersão de cliente atualizada para suporte OAuth.",
-        "nl": "Toegevoegd optie om de automatische vernieuwing uit te schakelen.\nStatus toegevoegd aan handmatige verversen apparaatinformaties.\nBijgewerkte client versie voor OAuth ondersteuning.",
-        "fr": "Ajout d'une option pour désactiver la mise à jour automatique.\nAjout de l'état aux infos de rafraîchissement manuel de l'appareil.\nVersion client mise à jour pour le support OAuth.",
-        "it": "Aggiunta opzione per disattivare il aggiornamento automatico.\nAggiunta di stato alle informazioni del dispositivo di aggiornamento manuale.\nVersione client aggiornata per il supporto OAuth.",
-        "es": "Añadido opción para desactivar el refresco automático.\nAñadido estado a manual información del dispositivo de actualización.\nVersión actualizada del cliente para soporte OAuth.",
-        "pl": "Dodano opcję wyłączenia automatycznego odświeżania.\nDodano stan do instrukcji odświeżania urządzenia.\nAktualizacja wersji klienta dla wsparcia OAuth.",
-        "uk": "Додана можливість деактивувати автоматичне оновлення.\nДодано стан для ручного оновлення пристрою інформації.\nОновлена версія клієнта для підтримки OAuth.",
-        "zh-cn": "添加选项以关闭自动刷新 .\n添加到手动刷新设备信息中的状态 .\n更新了OAuth支持的客户端版本."
-      },
-      "2.3.0": {
-        "en": "Updated packages\nAdded connected state to devices",
-        "de": "Aktualisierte Pakete\nVerbindung mit Geräten hinzugefügt",
-        "ru": "Обновленные пакеты\nДобавлено подключенное состояние к устройствам",
-        "pt": "Pacotes atualizados\nEstado conectado adicionado a dispositivos",
-        "nl": "Verouderde pakketten\nVerbonden staat aan apparatuur",
-        "fr": "Forfaits mis à jour\nAjout de l'état connecté aux appareils",
-        "it": "Pacchetti aggiornati\nAggiunto stato collegato ai dispositivi",
-        "es": "Paquetes actualizados\nEstado conectado a dispositivos",
-        "pl": "Pakiet upoważniony\nZłączony stan do urządzeń",
-        "uk": "Оновлені пакети\nДодано підключений стан до пристроїв",
-        "zh-cn": "最新一揽子计划\n增加与装置有关的国家"
-      },
-      "2.2.4": {
-        "en": "Fixed load AppVersion from Github.",
-        "de": "Behobene AppVersion von Github.",
-        "ru": "Фиксированная нагрузка AppVersion от Github.",
-        "pt": "AppVersion de carga fixa do Github.",
-        "nl": "Gerepareerde lading van Github.",
-        "fr": "Charge fixe AppVersion de Github.",
-        "it": "AppVersione di carico fisso da Github.",
-        "es": "Carga fija AppVersion de Github.",
-        "pl": "Wykorzystywany ładunek z Github.",
-        "uk": "Виправлено навантаження AppVersion від Github.",
-        "zh-cn": "来自吉特布的固定载荷。."
-      },
-      "2.2.3": {
-        "en": "Added support for admin 5 UI (jsonConfig).\nUpdated packages.\nFixed translation.",
-        "de": "Unterstützung für admin 5 UI (jsonConfig.).\nAktualisierte Pakete.\nBehobene Übersetzung.",
-        "ru": "Добавлена поддержка admin 5 UI (jsonConfig.).\nОбновленные пакеты.\nФиксированный перевод.",
-        "pt": "Adicionado suporte para admin 5 UI (jsonConfig.).\nPacotes atualizados.\nTradução fixa.",
-        "nl": "Aangepast voor administratie 5 UI (jsonConfig).\nVerouderde pakketten.\nVertaald.",
-        "fr": "Ajout du support pour admin 5 UI (jsonConfig.).\nDes paquets mis à jour.\nTraduction fixe.",
-        "it": "Aggiunto supporto per admin 5 UI (jsonConfig.).\nPacchetti aggiornati.\nTraduzione fissa.",
-        "es": "Apoyo añadido para admin 5 UI (jsonConfig.).\nPaquetes actualizados.\nTraducción fija.",
-        "pl": "Administrowane wsparcie dla admin 5 UI (jsonConfig).\nZmodernizowane pakiety.\nTłumaczenie.",
-        "uk": "Додано підтримку admin 5 UI (jsonConfig.).\nОновлені пакети.\nФіксований переклад.",
-        "zh-cn": "增援5 UI(json Config).\n最新一揽子计划。.\n固定翻译。."
-      }
+    "common": {
+        "name": "panasonic-comfort-cloud",
+        "version": "3.0.3",
+        "news": {
+            "3.0.3": {
+                "en": "panasonic-comfort-cloud-client updated to new version. CFC generator for header added.",
+                "de": "panasonic-comfort-cloud-client auf neue Version aktualisiert. CFC-Generator für Header hinzugefügt.",
+                "ru": "panasonic-comfort-cloud-client обновился до новой версии. Генератор ХФУ для добавления заголовка.",
+                "pt": "panasonic-comfort-cloud-client atualizado para nova versão. Gerador CFC para cabeçalho adicionado.",
+                "nl": "panasonic-comfort-cloud-client bijgewerkt naar nieuwe versie. CFC generator voor header toegevoegd.",
+                "fr": "panasonic-comfort-cloud-client mis à jour vers une nouvelle version. Générateur de CFC pour l'entête ajouté.",
+                "it": "panasonic-comfort-cloud-client aggiornato alla nuova versione. Generatore CFC per intestazione aggiunto.",
+                "es": "panasonic-comfort-cloud-client actualizado a nueva versión. Generador de CFC para cabecera añadido.",
+                "pl": "panasonic- comfort- cloud- cloud- client zaktualizowany do nowej wersji. Generator CFC dla nagłówka dodany.",
+                "uk": "panasonic-comfort-cloud-client оновлено до нової версії. Генератор CFC для головки додано.",
+                "zh-cn": "panasonic-comfort-cloud-客户端更新到新版本. 增加了用于页眉的氟氯化碳生成器."
+            },
+            "3.0.2": {
+                "en": "Fixed bug in refreshing oauth token again.",
+                "de": "Fehler beim Erfrischen von Oauth-Token behoben.",
+                "ru": "Фиксированный жучок в свежем токене.",
+                "pt": "Corrigido bug no token de oauth refrescante novamente.",
+                "nl": "Fixed bug in verfrissende oauth token weer.",
+                "fr": "Correction d'un bug dans un jeton rafraîchissant.",
+                "it": "Corretto bug in rinfrescante oauth token di nuovo.",
+                "es": "Error fijo en refrescante token oauth de nuevo.",
+                "pl": "Naprawiono błąd w orzeźwiającym tokenie oauth ponownie.",
+                "uk": "Виправлена помилка в оновленні токени знову.",
+                "zh-cn": "重新刷新Oauth信号的固定错误 ."
+            },
+            "3.0.1": {
+                "en": "Fixed bug in refreshing oauth token.",
+                "de": "Fehler beim erfrischenden Oauth-Token behoben.",
+                "ru": "Фиксированный жучок в освежающем токене.",
+                "pt": "Corrigido o erro no token de oauth refrescante.",
+                "nl": "Fixed bug in verfrissende oauth token.",
+                "fr": "Correction d'un bug dans un jeton rafraîchissant.",
+                "it": "Corretto bug in rinfrescante oauth token.",
+                "es": "Insecto fijo en refrescante token oauth.",
+                "pl": "Naprawiono błąd w odświeżającym tokenie oauth.",
+                "uk": "Виправлена помилка в освіження носового токену.",
+                "zh-cn": "刷新Oauth符号的固定错误 ."
+            },
+            "3.0.0": {
+                "en": "Added option to deactivate the automatic refresh.\nAdded state to manual refresh device infos.\nUpdated client version for OAuth support.",
+                "de": "Option hinzugefügt, um die automatische Erfrischung zu deaktivieren.\nZustand zu manuellen Refresh-Gerät Informationen hinzugefügt.\nAktualisierte Clientversion für OAuth-Unterstützung.",
+                "ru": "Добавлена опция для деактивации автоматического обновления.\nДобавлено состояние в ручную информацию об устройстве обновления.\nОбновленная клиентская версия для поддержки OAuth.",
+                "pt": "Adicionada opção para desativar a atualização automática.\nEstado adicionado para atualizar manualmente informações do dispositivo.\nVersão de cliente atualizada para suporte OAuth.",
+                "nl": "Toegevoegd optie om de automatische vernieuwing uit te schakelen.\nStatus toegevoegd aan handmatige verversen apparaatinformaties.\nBijgewerkte client versie voor OAuth ondersteuning.",
+                "fr": "Ajout d'une option pour désactiver la mise à jour automatique.\nAjout de l'état aux infos de rafraîchissement manuel de l'appareil.\nVersion client mise à jour pour le support OAuth.",
+                "it": "Aggiunta opzione per disattivare il aggiornamento automatico.\nAggiunta di stato alle informazioni del dispositivo di aggiornamento manuale.\nVersione client aggiornata per il supporto OAuth.",
+                "es": "Añadido opción para desactivar el refresco automático.\nAñadido estado a manual información del dispositivo de actualización.\nVersión actualizada del cliente para soporte OAuth.",
+                "pl": "Dodano opcję wyłączenia automatycznego odświeżania.\nDodano stan do instrukcji odświeżania urządzenia.\nAktualizacja wersji klienta dla wsparcia OAuth.",
+                "uk": "Додана можливість деактивувати автоматичне оновлення.\nДодано стан для ручного оновлення пристрою інформації.\nОновлена версія клієнта для підтримки OAuth.",
+                "zh-cn": "添加选项以关闭自动刷新 .\n添加到手动刷新设备信息中的状态 .\n更新了OAuth支持的客户端版本."
+            },
+            "2.3.0": {
+                "en": "Updated packages\nAdded connected state to devices",
+                "de": "Aktualisierte Pakete\nVerbindung mit Geräten hinzugefügt",
+                "ru": "Обновленные пакеты\nДобавлено подключенное состояние к устройствам",
+                "pt": "Pacotes atualizados\nEstado conectado adicionado a dispositivos",
+                "nl": "Verouderde pakketten\nVerbonden staat aan apparatuur",
+                "fr": "Forfaits mis à jour\nAjout de l'état connecté aux appareils",
+                "it": "Pacchetti aggiornati\nAggiunto stato collegato ai dispositivi",
+                "es": "Paquetes actualizados\nEstado conectado a dispositivos",
+                "pl": "Pakiet upoważniony\nZłączony stan do urządzeń",
+                "uk": "Оновлені пакети\nДодано підключений стан до пристроїв",
+                "zh-cn": "最新一揽子计划\n增加与装置有关的国家"
+            },
+            "2.2.4": {
+                "en": "Fixed load AppVersion from Github.",
+                "de": "Behobene AppVersion von Github.",
+                "ru": "Фиксированная нагрузка AppVersion от Github.",
+                "pt": "AppVersion de carga fixa do Github.",
+                "nl": "Gerepareerde lading van Github.",
+                "fr": "Charge fixe AppVersion de Github.",
+                "it": "AppVersione di carico fisso da Github.",
+                "es": "Carga fija AppVersion de Github.",
+                "pl": "Wykorzystywany ładunek z Github.",
+                "uk": "Виправлено навантаження AppVersion від Github.",
+                "zh-cn": "来自吉特布的固定载荷。."
+            },
+            "2.2.3": {
+                "en": "Added support for admin 5 UI (jsonConfig).\nUpdated packages.\nFixed translation.",
+                "de": "Unterstützung für admin 5 UI (jsonConfig.).\nAktualisierte Pakete.\nBehobene Übersetzung.",
+                "ru": "Добавлена поддержка admin 5 UI (jsonConfig.).\nОбновленные пакеты.\nФиксированный перевод.",
+                "pt": "Adicionado suporte para admin 5 UI (jsonConfig.).\nPacotes atualizados.\nTradução fixa.",
+                "nl": "Aangepast voor administratie 5 UI (jsonConfig).\nVerouderde pakketten.\nVertaald.",
+                "fr": "Ajout du support pour admin 5 UI (jsonConfig.).\nDes paquets mis à jour.\nTraduction fixe.",
+                "it": "Aggiunto supporto per admin 5 UI (jsonConfig.).\nPacchetti aggiornati.\nTraduzione fissa.",
+                "es": "Apoyo añadido para admin 5 UI (jsonConfig.).\nPaquetes actualizados.\nTraducción fija.",
+                "pl": "Administrowane wsparcie dla admin 5 UI (jsonConfig).\nZmodernizowane pakiety.\nTłumaczenie.",
+                "uk": "Додано підтримку admin 5 UI (jsonConfig.).\nОновлені пакети.\nФіксований переклад.",
+                "zh-cn": "增援5 UI(json Config).\n最新一揽子计划。.\n固定翻译。."
+            }
+        },
+        "titleLang": {
+            "en": "Panasonic Comfort Cloud",
+            "de": "Panasonic Comfort Cloud",
+            "ru": "Panasonic Comfort Cloud",
+            "pt": "Panasonic Comfort Cloud",
+            "nl": "Panasonic Comfort Cloud",
+            "fr": "Panasonic Comfort Cloud",
+            "it": "Panasonic Comfort Cloud",
+            "es": "Panasonic Comfort Cloud",
+            "pl": "Panasonic Comfort Cloud",
+            "zh-cn": "松下舒适云",
+            "uk": "Panasonic Comfort Cloud"
+        },
+        "desc": {
+            "en": "Adapter for Panasonic Comfort Cloud",
+            "de": "Adapter für Panasonic Comfort Cloud",
+            "ru": "Адаптер для Panasonic Comfort Cloud",
+            "pt": "Adaptador para Panasonic Comfort Cloud",
+            "nl": "Adapter voor Panasonic Comfort Cloud",
+            "fr": "Adaptateur pour Panasonic Comfort Cloud",
+            "it": "Adattatore per Panasonic Comfort Cloud",
+            "es": "Adaptador para Panasonic Comfort Cloud",
+            "pl": "Adapter do chmury Panasonic Comfort Cloud",
+            "zh-cn": "松下舒适云适配器",
+            "uk": "Адаптер для Panasonic Comfort Cloud"
+        },
+        "authors": [
+            "marc <marc@lammers.dev>"
+        ],
+        "keywords": [
+            "air condition"
+        ],
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
+        "platform": "Javascript/Node.js",
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "icon": "panasonic-comfort-cloud.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
+        "readme": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/blob/master/README.md",
+        "loglevel": "info",
+        "tier": 1,
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=5.0.19"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=5.0.0"
+            }
+        ]
     },
-    "titleLang": {
-      "en": "Panasonic Comfort Cloud",
-      "de": "Panasonic Comfort Cloud",
-      "ru": "Panasonic Comfort Cloud",
-      "pt": "Panasonic Comfort Cloud",
-      "nl": "Panasonic Comfort Cloud",
-      "fr": "Panasonic Comfort Cloud",
-      "it": "Panasonic Comfort Cloud",
-      "es": "Panasonic Comfort Cloud",
-      "pl": "Panasonic Comfort Cloud",
-      "zh-cn": "松下舒适云",
-      "uk": "Panasonic Comfort Cloud"
+    "native": {
+        "username": "",
+        "password": "",
+        "refreshInterval": 5,
+        "automaticRefreshEnabled": true,
+        "appVersion": "",
+        "appVersionFromAppStore": "",
+        "useAppVersionFromAppStore": true
     },
-    "desc": {
-      "en": "Adapter for Panasonic Comfort Cloud",
-      "de": "Adapter für Panasonic Comfort Cloud",
-      "ru": "Адаптер для Panasonic Comfort Cloud",
-      "pt": "Adaptador para Panasonic Comfort Cloud",
-      "nl": "Adapter voor Panasonic Comfort Cloud",
-      "fr": "Adaptateur pour Panasonic Comfort Cloud",
-      "it": "Adattatore per Panasonic Comfort Cloud",
-      "es": "Adaptador para Panasonic Comfort Cloud",
-      "pl": "Adapter do chmury Panasonic Comfort Cloud",
-      "zh-cn": "松下舒适云适配器",
-      "uk": "Адаптер для Panasonic Comfort Cloud"
-    },
-    "authors": [
-      "marc <marc@lammers.dev>"
+    "protectedNative": [
+        "username",
+        "password"
     ],
-    "keywords": [
-      "air condition"
+    "encryptedNative": [
+        "password"
     ],
-    "licenseInformation": {
-      "license": "MIT",
-      "type": "free"
-    },
-    "platform": "Javascript/Node.js",
-    "connectionType": "cloud",
-    "dataSource": "poll",
-    "icon": "panasonic-comfort-cloud.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/marc2016/ioBroker.panasonic-comfort-cloud/master/admin/panasonic-comfort-cloud.png",
-    "readme": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/blob/master/README.md",
-    "loglevel": "info",
-    "tier": 1,
-    "mode": "daemon",
-    "type": "climate-control",
-    "compact": true,
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=5.0.19"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.0.0"
-      }
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "commands",
+            "type": "channel",
+            "common": {
+                "name": "Adapter commands"
+            },
+            "native": {}
+        },
+        {
+            "_id": "commands.manualRefresh",
+            "type": "state",
+            "common": {
+                "role": "button",
+                "name": "Refresh devices manual",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "def": false
+            },
+            "native": {}
+        }
     ]
-  },
-  "native": {
-    "username": "",
-    "password": "",
-    "refreshInterval": 5,
-    "automaticRefreshEnabled": true,
-    "appVersion": "",
-    "appVersionFromGithub": "",
-    "useAppVersionFromGithub": false
-  },
-  "protectedNative": [
-    "username",
-    "password"
-  ],
-  "encryptedNative": [
-    "password"
-  ],
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Device or service connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "commands",
-      "type": "channel",
-      "common": {
-        "name": "Adapter commands"
-      },
-      "native": {}
-    },
-    {
-      "_id": "commands.manualRefresh",
-      "type": "state",
-      "common": {
-        "role": "button",
-        "name": "Refresh devices manual",
-        "type": "boolean",
-        "read": true,
-        "write": true,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
 }

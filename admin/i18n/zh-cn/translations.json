@@ -1,12 +1,12 @@
 {
     "appVersion": "API 应用程序的新版本",
-    "appVersionFromGithub": "从 GitHub 存储库加载的 API 的应用程序版本",
-    "useAppVersionFromGithub": "使用从 GitHub 加载的应用程序版本",
     "panasonic-comfort-cloud adapter settings": "panasonic-comfort-cloud 的适配器设置",
     "password": "密码",
     "refreshInterval": "刷新间隔（分钟）",
     "username": "用户名",
     "automaticRefreshEnabled": "自动刷新启用",
     "adapterCommands": "控制适配器的命令",
-    "manualRefresh": "刷新设备手册"
+    "manualRefresh": "刷新设备手册",
+    "appVersionFromAppStore": "从App Store加载的API的应用程序版本",
+    "useAppVersionFromAppStore": "使用从应用商店加载的应用程序版本"
 }
