@@ -69,6 +69,7 @@
     "prebuild": "rimraf ./build",
     "build:ts": "tsc -p tsconfig.build.json",
     "build": "build-adapter ts",
+    "check": "tsc --noEmit",
     "watch:ts": "tsc -p tsconfig.build.json --watch",
     "watch": "npm run watch:ts",
     "test": "npm run test:package && npm run test:unit",
