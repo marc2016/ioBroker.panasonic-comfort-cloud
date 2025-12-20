@@ -23,6 +23,11 @@ With the method used, only one client can be logged on with the account at a tim
 It is recommended that a second account, for which the devices have been shared, is used.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* update library panasonic-comfort-cloud-client to 2.1.2
+* modernize code (remove lodash, use async/await, split state definitions)
+* replace deprecated methods with modern equivalents
+
 ### 3.1.0 (2025-08-09)
 
 * read app version from App Store.
