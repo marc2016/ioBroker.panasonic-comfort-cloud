@@ -11,20 +11,12 @@ import {
     Group,
     ComfortCloudClient,
     Parameters,
-    Power,
-    AirSwingLR,
-    AirSwingUD,
-    FanAutoMode,
-    EcoMode,
-    OperationMode,
-    FanSpeed,
     TokenExpiredError,
     ServiceError,
-    NanoeMode
 } from 'panasonic-comfort-cloud-client'
 
-import * as _ from 'lodash'
 import axios from 'axios'
+import { deviceStates, readonlyStateNames } from './lib/state-definitions'
 
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5
 
@@ -34,8 +26,6 @@ class PanasonicComfortCloud extends utils.Adapter {
 
     private refreshTimeout: NodeJS.Timeout | undefined
     private refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT
-
-    private readonlyStateNames: string[] = [] 
 
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
@@ -57,7 +47,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.refreshIntervalInMinutes = this.config?.refreshInterval ?? REFRESH_INTERVAL_IN_MINUTES_DEFAULT
         this.subscribeStates('*')
 
-        this.setState('info.connection', false, true);
+        await this.setStateAsync('info.connection', false, true);
 
         const loadedAppVersion = await this.getCurrentAppVersion()
         this.log.info(`Loaded app version from App store: ${loadedAppVersion}`)
@@ -92,7 +82,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     this.config.password
                 )
                 this.log.info('Login successful.')
-                this.setState('info.connection', true, true)
+                await this.setStateAsync('info.connection', true, true)
                 this.log.debug('Create devices.')
                 const groups = await this.comfortCloudClient.getGroups()
                 await this.createDevices(groups)
@@ -112,77 +102,27 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.log.debug(`Refresh device ${device.name} (${device.guid}).`)
         this.log.debug(`${device.name}: guid => ${device.guid}.`)
         
-        this.log.debug(`${device.name}: operate => ${device.operate}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.operate`,
-            device.operate,
-            true
-        )
-        this.log.debug(`${device.name}: temperatureSet => ${device.temperatureSet}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.temperatureSet`,
-            device.temperatureSet,
-            true
-        )
-        this.log.debug(`${device.name}: insideTemperature => ${device.insideTemperature}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.insideTemperature`,
-            device.insideTemperature,
-            true
-        )
-        this.log.debug(`${device.name}: outTemperature => ${device.outTemperature}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.outTemperature`,
-            device.outTemperature,
-            true
-        )
-        this.log.debug(`${device.name}: airSwingLR => ${device.airSwingLR}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.airSwingLR`,
-            device.airSwingLR,
-            true
-        )
-        this.log.debug(`${device.name}: airSwingUD => ${device.airSwingUD}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.airSwingUD`,
-            device.airSwingUD,
-            true
-        )
-        this.log.debug(`${device.name}: fanAutoMode => ${device.fanAutoMode}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.fanAutoMode`,
-            device.fanAutoMode,
-            true
-        )
-        this.log.debug(`${device.name}: ecoMode => ${device.ecoMode}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.ecoMode`,
-            device.ecoMode,
-            true
-        )
-        this.log.debug(`${device.name}: operationMode => ${device.operationMode}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.operationMode`,
-            device.operationMode,
-            true
-        )
-        this.log.debug(`${device.name}: fanSpeed => ${device.fanSpeed}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.fanSpeed`,
-            device.fanSpeed,
-            true
-        )
-        this.log.debug(`${device.name}: actualNanoe => ${device.actualNanoe}.`)
-        await this.setStateChangedAsync(
-            `${device.name}.actualNanoe`,
-            device.actualNanoe,
-            true
-        )
-        await this.setStateChangedAsync(
-            `${device.name}.connected`,
-            true,
-            true
-        )
+        for (const stateDef of deviceStates) {
+            if (stateDef.id === 'guid') continue; // guid is special, not a state on the device object in the same way
+
+            const value = (device as any)[stateDef.id];
+            this.log.debug(`${device.name}: ${stateDef.id} => ${value}.`)
+            
+            if (value !== undefined) {
+                 await this.setStateChangedAsync(
+                    `${device.name}.${stateDef.id}`,
+                    value,
+                    true
+                )
+            } else if (stateDef.id === 'connected') {
+                // Connected is always true when we reached this point
+                await this.setStateChangedAsync(
+                    `${device.name}.connected`,
+                    true,
+                    true
+                )
+            }
+        }
         this.log.debug(`Refresh device ${device.name} finished.`)
     }
 
@@ -205,9 +145,9 @@ class PanasonicComfortCloud extends utils.Adapter {
         try {
             this.log.debug('Refresh all devices.')
             const groups = await this.comfortCloudClient.getGroups()
-            this.setState('info.connection', true, true);
-            const devices = _.flatMap(groups, g => g.devices)
-            const deviceInfos = _.map(devices, d => { return{guid: d.guid, name: d.name}})
+            await this.setStateAsync('info.connection', true, true);
+            const devices = groups.flatMap(g => g.devices)
+            const deviceInfos = devices.map(d => { return{guid: d.guid, name: d.name}})
             await Promise.all(deviceInfos.map(async (deviceInfo) => {
                 try {
                     const device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name)
@@ -226,8 +166,8 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async createDevices(groups: Array<Group>): Promise<void> {
-        const devicesFromService = _.flatMap(groups, g => g.devices)
-        const deviceInfos = _.map(devicesFromService, d => { return {guid: d.guid, name: d.name}})
+        const devicesFromService = groups.flatMap(g => g.devices)
+        const deviceInfos = devicesFromService.map(d => { return {guid: d.guid, name: d.name}})
         await Promise.all(deviceInfos.map(async (deviceInfo) => {
             this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`)
             let device: Device | null = null
@@ -239,203 +179,34 @@ class PanasonicComfortCloud extends utils.Adapter {
             }
             
             if(device != null) {
-                this.createDevice(deviceInfo.name)
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'guid',
-                    { role: 'info.address', write: false, def: deviceInfo.guid, type: 'string' },
-                    undefined
-                )
-                this.readonlyStateNames.push('guid')
+                await this.setObjectNotExistsAsync(deviceInfo.name, {
+                    type: 'device',
+                    common: {
+                        name: deviceInfo.name
+                    },
+                    native: {}
+                });
 
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'operate',
-                    {
-                        role: 'switch.power',
-                        states: { 0: Power[0], 1: Power[1] },
-                        write: true,
-                        def: device.operate,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'temperatureSet',
-                    {
-                        role: 'level.temperature',
-                        write: true,
-                        def: device.temperatureSet,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'insideTemperature',
-                    {
-                        role: 'level.temperature',
-                        write: false,
-                        def: device.insideTemperature,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.readonlyStateNames.push('insideTemperature')
+                for (const stateDef of deviceStates) {
+                    const common: ioBroker.StateCommon = {
+                        name: stateDef.id,
+                        role: stateDef.role,
+                        write: stateDef.write,
+                        type: stateDef.type as ioBroker.CommonType,
+                        read: stateDef.read !== undefined ? stateDef.read : true, // default read to true
+                        def: stateDef.id === 'guid' ? deviceInfo.guid : (stateDef.def !== undefined ? stateDef.def : (device as any)[stateDef.id]),
+                    };
 
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'outTemperature',
-                    {
-                        role: 'level.temperature',
-                        write: false,
-                        def: device.outTemperature,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.readonlyStateNames.push('outTemperature')
+                    if (stateDef.states) {
+                        common.states = stateDef.states;
+                    }
 
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'airSwingLR',
-                    {
-                        role: 'state',
-                        states: {
-                            0: AirSwingLR[0],
-                            1: AirSwingLR[1],
-                            2: AirSwingLR[2],
-                            3: AirSwingLR[3],
-                            4: AirSwingLR[4],
-                        },
-                        write: true,
-                        def: device.airSwingLR,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'airSwingUD',
-                    {
-                        role: 'state',
-                        states: {
-                            0: AirSwingUD[0],
-                            1: AirSwingUD[1],
-                            2: AirSwingUD[2],
-                            3: AirSwingUD[3],
-                            4: AirSwingUD[4],
-                        },
-                        write: true,
-                        def: device.airSwingUD,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'fanAutoMode',
-                    {
-                        role: 'state',
-                        states: {
-                            0: FanAutoMode[0],
-                            1: FanAutoMode[1],
-                            2: FanAutoMode[2],
-                            3: FanAutoMode[3],
-                        },
-                        write: true,
-                        def: device.fanAutoMode,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'ecoMode',
-                    {
-                        role: 'state',
-                        states: { 0: EcoMode[0], 1: EcoMode[1], 2: EcoMode[2] },
-                        write: true,
-                        def: device.ecoMode,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'operationMode',
-                    {
-                        role: 'state',
-                        states: {
-                            0: OperationMode[0],
-                            1: OperationMode[1],
-                            2: OperationMode[2],
-                            3: OperationMode[3],
-                            4: OperationMode[4],
-                        },
-                        write: true,
-                        def: device.operationMode,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'fanSpeed',
-                    {
-                        role: 'state',
-                        states: {
-                            0: FanSpeed[0],
-                            1: FanSpeed[1],
-                            2: FanSpeed[2],
-                            3: FanSpeed[3],
-                            4: FanSpeed[4],
-                            5: FanSpeed[5],
-                        },
-                        write: true,
-                        def: device.fanSpeed,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'actualNanoe',
-                    {
-                        role: 'state',
-                        states: {
-                            0: NanoeMode[0],
-                            1: NanoeMode[1],
-                            2: NanoeMode[2],
-                            3: NanoeMode[3],
-                            4: NanoeMode[4],
-                        },
-                        write: true,
-                        def: device.actualNanoe,
-                        type: 'number',
-                    },
-                    undefined
-                )
-                this.createState(
-                    deviceInfo.name,
-                    '',
-                    'connected',
-                    { role: 'state', read: true, write: false, def: false, type: 'boolean' },
-                    undefined,
-                )
+                    await this.setObjectNotExistsAsync(`${deviceInfo.name}.${stateDef.id}`, {
+                        type: 'state',
+                        common: common,
+                        native: {}
+                    });
+                }
 
                 this.log.info(`Device ${deviceInfo.name} created.`)
             }
@@ -448,7 +219,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         stateName: string,
         state: ioBroker.State
     ): Promise<void> {
-        if(this.readonlyStateNames.includes(stateName)) {
+        if(readonlyStateNames.includes(stateName)) {
             return
         }
         if (!state.ack) {
@@ -587,15 +358,15 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.info(
                 `Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`
             )
-            this.setState('info.connection', false, true);
+            await this.setStateAsync('info.connection', false, true);
             await this.comfortCloudClient.login(
                 this.config.username,
                 this.config.password
             )
-            this.setState('info.connection', true, true);
+            await this.setStateAsync('info.connection', true, true);
             this.log.info('Login successful.')
         } else if (error instanceof ServiceError) {
-            this.setState('info.connection', false, true);
+            await this.setStateAsync('info.connection', false, true);
             this.log.error(
                 `Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
             )
