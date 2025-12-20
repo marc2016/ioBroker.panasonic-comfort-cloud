@@ -28,6 +28,7 @@ It is recommended that a second account, for which the devices have been shared,
 * modernize code (remove lodash, use async/await, split state definitions)
 * replace deprecated methods with modern equivalents
 * improve unit tests and remove deprecated test wrapper
+* add mocked client tests to verify connection logic
 
 ### 3.1.0 (2025-08-09)
 
