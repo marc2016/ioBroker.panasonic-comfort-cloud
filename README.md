@@ -1,8 +1,5 @@
 # ioBroker.panasonic-comfort-cloud
 
-| :warning: WARNING          |
-|:---------------------------|
-| New app version in adapter settings is 3.0.03      |
 
 ![Logo](admin/panasonic-comfort-cloud.png)
 
