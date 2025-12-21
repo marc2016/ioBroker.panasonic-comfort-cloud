@@ -84,7 +84,7 @@
     "test:integration": "mocha test/integration --exit",
     "test:rule": "mocha test/rule --exit",
     "lint": "eslint --ext .ts src",
-    "release": "release-script"
+    "release": "release-script --branch-pattern \"main\""
   },
   "bugs": {
     "url": "https://github.com/marc2016/ioBroker.panasonic-comfort-cloud/issues"
