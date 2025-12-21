@@ -91,7 +91,6 @@ class PanasonicComfortCloud extends utils.Adapter {
       return { guid: d.guid, name: d.name };
     });
     for (const deviceInfo of deviceInfos) {
-      const historyStates = (0, import_state_definitions.getHistoryStates)();
       const modes = {
         "day": import_panasonic_comfort_cloud_client.DataMode.Day
       };
