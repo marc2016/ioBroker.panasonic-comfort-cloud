@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.2.0",
+    "version": "3.2.1",
     "news": {
+      "3.2.1": {
+        "en": "implement history data fetching (day mode)\nadd historyEnabled configuration\nadd manual history refresh command\nfix eslint errors (indentation, unused vars)",
+        "de": "durchführung von geschichtsdaten-fetching (tagesmodus)\ngeschichte hinzufügen Ermöglichte Konfiguration\nmanuelle geschichte aktualisieren befehl\neslint-fehler beheben (einfall, ungenutzte vars)",
+        "ru": "реализация извлечения исторических данных (дневной режим)\nдобавить историю Включенная конфигурация\nдобавить команду обновления истории вручную\nисправление ошибок эслинта (вмятина, неиспользуемые вары)",
+        "pt": "implementar coleta de dados de histórico (modo dia)\nadicionar histórico Configuração habilitada\nadicionar o comando de actualização do histórico manual\ncorrigir erros de eslint (indentação, vars não utilizados)",
+        "nl": "history data fetching implementeren (dagmodus)\ngeschiedenis toevoegen Ingeschakelde configuratie\ngeschiedenisverversingsopdracht toevoegen\neslint-fouten oplossen (inspringen, ongebruikte vars)",
+        "fr": "implémenter la récupération de données d'historique (mode jour)\najouter l'historique Configuration activée\najouter la commande de rafraîchissement de l'historique manuel\ncorriger les erreurs d'essence (identification, vars inutilisés)",
+        "it": "implementare l'acquisizione dati di storia (modalità giorno)\naggiungere la storia Configurazione abilitata\naggiungere comando aggiornamento cronologia manuale\ncorreggere gli errori di eslint (indentazione, vars non utilizzati)",
+        "es": "implementar datos de historia (modo de día)\nañadir historia Configuración habilitada\nañadir comando de actualización de historia manual\ncorrige errores de eslinto (indentación, vars no usados)",
+        "pl": "zaimplementuj pobieranie danych z historii (tryb dnia)\ndodaj historię Konfiguracja włączona\ndodaj polecenie ręcznego odświeżania historii\nnaprawić błędy eslint (wcięcie, niewykorzystane vars)",
+        "uk": "реалізація історичних даних (денного режиму)\nісторія Увімкнути конфігурацію\nдодати ручну історію оновленої команди\nвиправити помилки eslint (зняття, невикористані вари)",
+        "zh-cn": "执行历史数据获取(日模式)\n添加历史 启用配置\n添加手动历史更新命令\n修复 eslint 错误(缩进,未使用 vars)"
+      },
       "3.2.0": {
         "en": "update library panasonic-comfort-cloud-client to 2.1.4\nmodernize code (remove lodash, use async/await, split state definitions)\nreplace deprecated methods with modern equivalents\nimprove unit tests and remove deprecated test wrapper\nadd mocked client tests to verify connection logic",
         "de": "aktualisierung der bibliothek panasonic-comfort-cloud-client auf 2.1.4\nmodernisieren sie code (entfernen sie lodash, verwenden sie async/await, spaltzustandsdefinitionen)\nabgeschriebene methoden durch moderne äquivalente ersetzen\nverbessern sie unit-tests und entfernen sie deprecierte test-wrapper\nmocked client-tests hinzufügen, um die verbindungslogik zu überprüfen",
@@ -80,19 +93,6 @@
         "pl": "Dodano opcję wyłączenia automatycznego odświeżania.\nDodano stan do instrukcji odświeżania urządzenia.\nAktualizacja wersji klienta dla wsparcia OAuth.",
         "uk": "Додана можливість деактивувати автоматичне оновлення.\nДодано стан для ручного оновлення пристрою інформації.\nОновлена версія клієнта для підтримки OAuth.",
         "zh-cn": "添加选项以关闭自动刷新 .\n添加到手动刷新设备信息中的状态 .\n更新了OAuth支持的客户端版本."
-      },
-      "2.3.0": {
-        "en": "Updated packages\nAdded connected state to devices",
-        "de": "Aktualisierte Pakete\nVerbindung mit Geräten hinzugefügt",
-        "ru": "Обновленные пакеты\nДобавлено подключенное состояние к устройствам",
-        "pt": "Pacotes atualizados\nEstado conectado adicionado a dispositivos",
-        "nl": "Verouderde pakketten\nVerbonden staat aan apparatuur",
-        "fr": "Forfaits mis à jour\nAjout de l'état connecté aux appareils",
-        "it": "Pacchetti aggiornati\nAggiunto stato collegato ai dispositivi",
-        "es": "Paquetes actualizados\nEstado conectado a dispositivos",
-        "pl": "Pakiet upoważniony\nZłączony stan do urządzeń",
-        "uk": "Оновлені пакети\nДодано підключений стан до пристроїв",
-        "zh-cn": "最新一揽子计划\n增加与装置有关的国家"
       }
     },
     "titleLang": {

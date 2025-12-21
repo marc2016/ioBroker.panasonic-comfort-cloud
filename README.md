@@ -23,7 +23,7 @@ With the method used, only one client can be logged on with the account at a tim
 It is recommended that a second account, for which the devices have been shared, is used.
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 3.2.1 (2025-12-21)
 * implement history data fetching (day mode)
 * add historyEnabled configuration
 * add manual history refresh command
