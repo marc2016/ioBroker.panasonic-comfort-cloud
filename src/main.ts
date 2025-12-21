@@ -111,32 +111,31 @@ class PanasonicComfortCloud extends utils.Adapter {
         const deviceInfos = devicesFromService.map(d => { return {guid: d.guid, name: d.name}})
 
         for (const deviceInfo of deviceInfos) {
-            const historyStates = getHistoryStates();
             const modes: Record<string, DataMode> = { 
                 'day': DataMode.Day
             };
 
             for (const [modeName, dataMode] of Object.entries(modes)) {
                 try {
-                this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
-                const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, new Date(), dataMode);
-                
-                if (history && history.historyDataList) {
-                    for (let i = 0; i < history.historyDataList.length; i++) {
-                        const data = history.historyDataList[i];
-                        const index = i.toString().padStart(2, '0');
-                        const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
-                        
-                        await this.setStateChangedAsync(`${prefix}.dataTime`, data.dataTime, true);
-                        await this.setStateChangedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
-                        await this.setStateChangedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
-                        await this.setStateChangedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
-                        await this.setStateChangedAsync(`${prefix}.consumption`, data.consumption, true);
-                        await this.setStateChangedAsync(`${prefix}.cost`, data.cost, true);
-                        await this.setStateChangedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
-                        await this.setStateChangedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                    this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
+                    const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, new Date(), dataMode);
+                    
+                    if (history && history.historyDataList) {
+                        for (let i = 0; i < history.historyDataList.length; i++) {
+                            const data = history.historyDataList[i];
+                            const index = i.toString().padStart(2, '0');
+                            const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
+                            
+                            await this.setStateChangedAsync(`${prefix}.dataTime`, data.dataTime, true);
+                            await this.setStateChangedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
+                            await this.setStateChangedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
+                            await this.setStateChangedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+                            await this.setStateChangedAsync(`${prefix}.consumption`, data.consumption, true);
+                            await this.setStateChangedAsync(`${prefix}.cost`, data.cost, true);
+                            await this.setStateChangedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
+                            await this.setStateChangedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                        }
                     }
-                }
                 } catch(e) {
                     this.log.warn(`Failed to fetch history ${modeName} for ${deviceInfo.name}: ${e}`);
                 }
@@ -155,7 +154,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.debug(`${device.name}: ${stateDef.id} => ${value}.`)
             
             if (value !== undefined) {
-                 await this.setStateChangedAsync(
+                await this.setStateChangedAsync(
                     `${device.name}.${stateDef.id}`,
                     value,
                     true
