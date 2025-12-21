@@ -24,7 +24,7 @@ It is recommended that a second account, for which the devices have been shared,
 
 ## Changelog
 ### **WORK IN PROGRESS**
-* update library panasonic-comfort-cloud-client to 2.1.2
+* update library panasonic-comfort-cloud-client to 2.1.4
 * modernize code (remove lodash, use async/await, split state definitions)
 * replace deprecated methods with modern equivalents
 * improve unit tests and remove deprecated test wrapper

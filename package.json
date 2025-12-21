@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.2",
-    "panasonic-comfort-cloud-client": "^2.1.2",
+    "panasonic-comfort-cloud-client": "^2.1.4",
     "ts-enum-util": "^4.0.2"
   },
   "devDependencies": {
@@ -67,6 +67,7 @@
   ],
   "scripts": {
     "dev:server": "dev-server run",
+    "dev:watch": "dev-server watch",
     "dev:setup": "dev-server setup",
     "dev:debug": "dev-server run --debug",
     "dev:admin": "dev-server watch-admin",

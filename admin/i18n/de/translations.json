@@ -8,5 +8,6 @@
     "adapterCommands": "Befehle zur Steuerung des Adapters",
     "manualRefresh": "Gerätehandbuch aktualisieren",
     "appVersionFromAppStore": "App -Version für API aus dem App Store geladen",
-    "useAppVersionFromAppStore": "Verwenden Sie die App -Version, die aus dem App Store geladen wurde"
+    "useAppVersionFromAppStore": "Verwenden Sie die App -Version, die aus dem App Store geladen wurde",
+    "historyEnabled": "Historische Daten abrufen (Verbrauch, Temperatur)"
 }

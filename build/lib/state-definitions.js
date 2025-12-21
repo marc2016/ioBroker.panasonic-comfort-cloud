@@ -19,6 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var state_definitions_exports = {};
 __export(state_definitions_exports, {
   deviceStates: () => deviceStates,
+  getHistoryStates: () => getHistoryStates,
   readonlyStateNames: () => readonlyStateNames
 });
 module.exports = __toCommonJS(state_definitions_exports);
@@ -151,9 +152,30 @@ const deviceStates = [
   }
 ];
 const readonlyStateNames = deviceStates.filter((s) => !s.write).map((s) => s.id);
+function getHistoryStates() {
+  const states = {};
+  const modes = ["day"];
+  const limit = { day: 24 };
+  for (const mode of modes) {
+    for (let i = 0; i <= limit[mode]; i++) {
+      const index = i.toString().padStart(2, "0");
+      const prefix = `history.${mode}.${index}`;
+      states[`${prefix}.dataTime`] = { role: "value.time", name: "Data Time", type: "string", read: true, write: false, def: "" };
+      states[`${prefix}.averageSettingTemp`] = { role: "value.temperature", name: "Average Setting Temp", type: "number", unit: "\xB0C", read: true, write: false, def: 0 };
+      states[`${prefix}.averageInsideTemp`] = { role: "value.temperature", name: "Average Inside Temp", type: "number", unit: "\xB0C", read: true, write: false, def: 0 };
+      states[`${prefix}.averageOutsideTemp`] = { role: "value.temperature", name: "Average Outside Temp", type: "number", unit: "\xB0C", read: true, write: false, def: 0 };
+      states[`${prefix}.consumption`] = { role: "value.power.consumption", name: "Consumption", type: "number", unit: "kWh", read: true, write: false, def: 0 };
+      states[`${prefix}.cost`] = { role: "value.cost", name: "Cost", type: "number", read: true, write: false, def: 0 };
+      states[`${prefix}.heatConsumptionRate`] = { role: "value", name: "Heat Consumption Rate", type: "number", read: true, write: false, def: 0 };
+      states[`${prefix}.coolConsumptionRate`] = { role: "value", name: "Cool Consumption Rate", type: "number", read: true, write: false, def: 0 };
+    }
+  }
+  return states;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   deviceStates,
+  getHistoryStates,
   readonlyStateNames
 });
 //# sourceMappingURL=state-definitions.js.map

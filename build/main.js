@@ -30,13 +30,14 @@ class PanasonicComfortCloud extends utils.Adapter {
     });
     this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
     this.refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
+    this.historyRefreshIntervalInMinutes = 60;
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     await this.setStateAsync("info.connection", false, true);
@@ -74,8 +75,48 @@ class PanasonicComfortCloud extends utils.Adapter {
         if ((_o = this.config) == null ? void 0 : _o.automaticRefreshEnabled) {
           this.setupRefreshTimeout();
         }
+        if ((_p = this.config) == null ? void 0 : _p.historyEnabled) {
+          this.log.debug(`History enabled. Refreshing history.`);
+          await this.refreshHistory(groups);
+          this.setupHistoryRefreshTimeout();
+        }
       } catch (error) {
         await this.handleClientError(error);
+      }
+    }
+  }
+  async refreshHistory(groups) {
+    const devicesFromService = groups.flatMap((g) => g.devices);
+    const deviceInfos = devicesFromService.map((d) => {
+      return { guid: d.guid, name: d.name };
+    });
+    for (const deviceInfo of deviceInfos) {
+      const historyStates = (0, import_state_definitions.getHistoryStates)();
+      const modes = {
+        "day": import_panasonic_comfort_cloud_client.DataMode.Day
+      };
+      for (const [modeName, dataMode] of Object.entries(modes)) {
+        try {
+          this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
+          const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, new Date(), dataMode);
+          if (history && history.historyDataList) {
+            for (let i = 0; i < history.historyDataList.length; i++) {
+              const data = history.historyDataList[i];
+              const index = i.toString().padStart(2, "0");
+              const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
+              await this.setStateChangedAsync(`${prefix}.dataTime`, data.dataTime, true);
+              await this.setStateChangedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
+              await this.setStateChangedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
+              await this.setStateChangedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+              await this.setStateChangedAsync(`${prefix}.consumption`, data.consumption, true);
+              await this.setStateChangedAsync(`${prefix}.cost`, data.cost, true);
+              await this.setStateChangedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
+              await this.setStateChangedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+            }
+          }
+        } catch (e) {
+          this.log.warn(`Failed to fetch history ${modeName} for ${deviceInfo.name}: ${e}`);
+        }
       }
     }
   }
@@ -148,6 +189,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       return { guid: d.guid, name: d.name };
     });
     await Promise.all(deviceInfos.map(async (deviceInfo) => {
+      var _a;
       this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`);
       let device = null;
       try {
@@ -183,6 +225,21 @@ class PanasonicComfortCloud extends utils.Adapter {
           });
         }
         this.log.info(`Device ${deviceInfo.name} created.`);
+        if ((_a = this.config) == null ? void 0 : _a.historyEnabled) {
+          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history`, {
+            type: "channel",
+            common: { name: "History Data" },
+            native: {}
+          });
+          const historyStates = (0, import_state_definitions.getHistoryStates)();
+          for (const [id, def] of Object.entries(historyStates)) {
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.${id}`, {
+              type: "state",
+              common: def,
+              native: {}
+            });
+          }
+        }
       }
     }));
     this.log.debug("Device creation completed.");
@@ -223,6 +280,8 @@ class PanasonicComfortCloud extends utils.Adapter {
     try {
       if (this.refreshTimeout)
         clearTimeout(this.refreshTimeout);
+      if (this.refreshHistoryTimeout)
+        clearTimeout(this.refreshHistoryTimeout);
       this.log.info("cleaned everything up...");
       callback();
     } catch (e) {
@@ -246,6 +305,15 @@ class PanasonicComfortCloud extends utils.Adapter {
       if (stateName == "manualRefresh" && state.val) {
         try {
           await this.refreshDevices();
+          await this.setStateAsync(id, state, true);
+        } catch (error) {
+          await this.handleClientError(error);
+        }
+        await this.setStateAsync(id, false, true);
+      } else if (stateName == "refreshHistory" && state.val) {
+        try {
+          const groups = await this.comfortCloudClient.getGroups();
+          await this.refreshHistory(groups);
           await this.setStateAsync(id, state, true);
         } catch (error) {
           await this.handleClientError(error);
@@ -323,6 +391,25 @@ class PanasonicComfortCloud extends utils.Adapter {
       this.setupRefreshTimeout();
     } catch (error) {
       await this.handleClientError(error);
+    }
+  }
+  setupHistoryRefreshTimeout() {
+    this.log.debug("setupHistoryRefreshTimeout");
+    const refreshIntervalInMilliseconds = this.historyRefreshIntervalInMinutes * 60 * 1e3;
+    this.refreshHistoryTimeout = setTimeout(this.refreshHistoryTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+  }
+  async refreshHistoryTimeoutFunc() {
+    var _a;
+    this.log.debug(`refreshHistoryTimeoutFunc started.`);
+    try {
+      if ((_a = this.config) == null ? void 0 : _a.historyEnabled) {
+        const groups = await this.comfortCloudClient.getGroups();
+        await this.refreshHistory(groups);
+      }
+      this.setupHistoryRefreshTimeout();
+    } catch (error) {
+      this.log.warn(`Failed to refresh history: ${error}`);
+      this.setupHistoryRefreshTimeout();
     }
   }
   trimAll(text) {

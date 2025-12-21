@@ -164,7 +164,8 @@
     "automaticRefreshEnabled": true,
     "appVersion": "",
     "appVersionFromAppStore": "",
-    "useAppVersionFromAppStore": true
+    "useAppVersionFromAppStore": true,
+    "historyEnabled": true
   },
   "protectedNative": [
     "username",
@@ -210,6 +211,19 @@
       "common": {
         "role": "button",
         "name": "Refresh devices manual",
+        "type": "boolean",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "commands.refreshHistory",
+      "type": "state",
+      "common": {
+        "role": "button",
+        "name": "Refresh history data manual",
         "type": "boolean",
         "read": true,
         "write": true,

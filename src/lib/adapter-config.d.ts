@@ -14,6 +14,7 @@ declare global {
 					appVersion: string;
 					appVersionFromAppStore: string;
 					useAppVersionFromAppStore: boolean;
+					historyEnabled: boolean;
 			}
 	}
 }

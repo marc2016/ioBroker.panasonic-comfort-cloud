@@ -9,6 +9,15 @@
       "runtimeArgs": ["run", "dev:debug"],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Watch Adapter (dev-server)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:watch"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }

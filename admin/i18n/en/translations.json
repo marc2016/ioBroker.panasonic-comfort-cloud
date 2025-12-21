@@ -6,5 +6,6 @@
     "password": "Password",
     "refreshInterval": "Refresh interval (minutes)",
     "username": "Username",
-    "automaticRefreshEnabled": "Automatic refresh enabled"
+    "automaticRefreshEnabled": "Automatic refresh enabled",
+    "historyEnabled": "Fetch history data (consumption, temperature)"
 }
