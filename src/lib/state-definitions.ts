@@ -153,8 +153,8 @@ export const readonlyStateNames = deviceStates
 
 export function getHistoryStates(): Record<string, any> {
     const states: Record<string, any> = {};
-    const modes = ['day'];
-    const limit: Record<string, number> = { day: 24 };
+    const modes = ['day', 'month'];
+    const limit: Record<string, number> = { day: 24, month: 31 };
 
     for (const mode of modes) {
         for (let i = 0; i <= limit[mode]; i++) {
