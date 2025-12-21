@@ -92,7 +92,8 @@ class PanasonicComfortCloud extends utils.Adapter {
     });
     for (const deviceInfo of deviceInfos) {
       const modes = {
-        "day": import_panasonic_comfort_cloud_client.DataMode.Day
+        "day": import_panasonic_comfort_cloud_client.DataMode.Day,
+        "month": import_panasonic_comfort_cloud_client.DataMode.Month
       };
       for (const [modeName, dataMode] of Object.entries(modes)) {
         try {
@@ -103,7 +104,7 @@ class PanasonicComfortCloud extends utils.Adapter {
               const data = history.historyDataList[i];
               const index = i.toString().padStart(2, "0");
               const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
-              await this.setStateChangedAsync(`${prefix}.dataTime`, data.dataTime, true);
+              await this.setStateChangedAsync(`${prefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
               await this.setStateChangedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
               await this.setStateChangedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
               await this.setStateChangedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
@@ -118,6 +119,21 @@ class PanasonicComfortCloud extends utils.Adapter {
         }
       }
     }
+  }
+  formatHistoryDate(dataTime) {
+    if (dataTime.length === 10) {
+      const year = dataTime.substring(0, 4);
+      const month = dataTime.substring(4, 6);
+      const day = dataTime.substring(6, 8);
+      const hour = dataTime.substring(8, 10);
+      return `${year}-${month}-${day} ${hour}:00:00`;
+    } else if (dataTime.length === 8) {
+      const year = dataTime.substring(0, 4);
+      const month = dataTime.substring(4, 6);
+      const day = dataTime.substring(6, 8);
+      return `${year}-${month}-${day}`;
+    }
+    return dataTime;
   }
   async refreshDeviceStates(device) {
     this.log.debug(`Refresh device ${device.name} (${device.guid}).`);

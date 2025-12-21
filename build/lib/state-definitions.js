@@ -154,8 +154,8 @@ const deviceStates = [
 const readonlyStateNames = deviceStates.filter((s) => !s.write).map((s) => s.id);
 function getHistoryStates() {
   const states = {};
-  const modes = ["day"];
-  const limit = { day: 24 };
+  const modes = ["day", "month"];
+  const limit = { day: 24, month: 31 };
   for (const mode of modes) {
     for (let i = 0; i <= limit[mode]; i++) {
       const index = i.toString().padStart(2, "0");
