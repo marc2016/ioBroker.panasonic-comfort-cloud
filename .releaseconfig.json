@@ -1,4 +1,5 @@
 {
   "dry": false,
-  "plugins": ["iobroker", "license", "manual-review"]
+  "plugins": ["iobroker", "license", "manual-review"],
+  "branch": "main"
 }
