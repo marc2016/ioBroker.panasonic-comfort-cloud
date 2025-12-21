@@ -1,5 +1,6 @@
 # ioBroker.panasonic-comfort-cloud
 
+**⚠️ IMPORTANT: This adapter is for Air Conditioners only. It does NOT support Heat Pumps (Wärmepumpen).**
 
 ![Logo](admin/panasonic-comfort-cloud.png)
 
