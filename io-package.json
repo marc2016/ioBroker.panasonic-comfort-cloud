@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.2.1",
+    "version": "3.2.2",
     "news": {
+      "3.2.2": {
+        "en": "re-enable history data fetching (month mode)\nimplement improved history date format (YYYY-MM-DD HH:mm:ss)",
+        "de": "re-enable history data fetching (monatsmodus)\nverbessertes Geschichtsdatumsformat (YYYY-MM-DD HH:mm:ss)",
+        "ru": "повторное включение сбора исторических данных (месячный режим)\nвнедрение улучшенного формата даты истории (YYYY-MM-DD HH:mm:ss)",
+        "pt": "re- habilitar coleta de dados de histórico (modo mês)\nimplementar o formato de data do histórico melhorado (AAAA-MM-DD HH:mm:ss)",
+        "nl": "heractiveren van het ophalen van historische gegevens (maandmodus)\nimplementeer verbeterde datumformaat geschiedenis (JJJJ-MM-DD HH:mm:ss)",
+        "fr": "récupération de données historiques (mode mois)\nmettre en œuvre un format de date d'historique amélioré (AAAA-MM-JJ HH:mm:ss)",
+        "it": "recupero dati di storia (modalità mese)\nimplementare il formato data cronologia migliorato (YYYY-MM-DD HH:mm:ss)",
+        "es": "recuperar datos de historia (modo mes)\nmejorar el formato de la fecha de historia (YYYY-MM-DD HH:mm:ss)",
+        "pl": "ponowne włączenie pobierania danych z historii (tryb miesięczny)\nzaimplementuj poprawiony format daty historii (RRRR-MM-DD HH: mm: ss)",
+        "uk": "повторне копіювання даних історії (місячний режим)\nреалізувати покращений формат дати (YYYY-MM-DDH:mm:ss)",
+        "zh-cn": "重新获取历史数据(月模式)\n执行经改进的历史日期格式 (YYY-MM-DH:mm:s) (YYY-MM-DH:"
+      },
       "3.2.1": {
         "en": "implement history data fetching (day mode)\nadd historyEnabled configuration\nadd manual history refresh command\nfix eslint errors (indentation, unused vars)",
         "de": "durchführung von geschichtsdaten-fetching (tagesmodus)\ngeschichte hinzufügen Ermöglichte Konfiguration\nmanuelle geschichte aktualisieren befehl\neslint-fehler beheben (einfall, ungenutzte vars)",
@@ -80,19 +93,6 @@
         "pl": "Naprawiono błąd w odświeżającym tokenie oauth.",
         "uk": "Виправлена помилка в освіження носового токену.",
         "zh-cn": "刷新Oauth符号的固定错误 ."
-      },
-      "3.0.0": {
-        "en": "Added option to deactivate the automatic refresh.\nAdded state to manual refresh device infos.\nUpdated client version for OAuth support.",
-        "de": "Option hinzugefügt, um die automatische Erfrischung zu deaktivieren.\nZustand zu manuellen Refresh-Gerät Informationen hinzugefügt.\nAktualisierte Clientversion für OAuth-Unterstützung.",
-        "ru": "Добавлена опция для деактивации автоматического обновления.\nДобавлено состояние в ручную информацию об устройстве обновления.\nОбновленная клиентская версия для поддержки OAuth.",
-        "pt": "Adicionada opção para desativar a atualização automática.\nEstado adicionado para atualizar manualmente informações do dispositivo.\nVersão de cliente atualizada para suporte OAuth.",
-        "nl": "Toegevoegd optie om de automatische vernieuwing uit te schakelen.\nStatus toegevoegd aan handmatige verversen apparaatinformaties.\nBijgewerkte client versie voor OAuth ondersteuning.",
-        "fr": "Ajout d'une option pour désactiver la mise à jour automatique.\nAjout de l'état aux infos de rafraîchissement manuel de l'appareil.\nVersion client mise à jour pour le support OAuth.",
-        "it": "Aggiunta opzione per disattivare il aggiornamento automatico.\nAggiunta di stato alle informazioni del dispositivo di aggiornamento manuale.\nVersione client aggiornata per il supporto OAuth.",
-        "es": "Añadido opción para desactivar el refresco automático.\nAñadido estado a manual información del dispositivo de actualización.\nVersión actualizada del cliente para soporte OAuth.",
-        "pl": "Dodano opcję wyłączenia automatycznego odświeżania.\nDodano stan do instrukcji odświeżania urządzenia.\nAktualizacja wersji klienta dla wsparcia OAuth.",
-        "uk": "Додана можливість деактивувати автоматичне оновлення.\nДодано стан для ручного оновлення пристрою інформації.\nОновлена версія клієнта для підтримки OAuth.",
-        "zh-cn": "添加选项以关闭自动刷新 .\n添加到手动刷新设备信息中的状态 .\n更新了OAuth支持的客户端版本."
       }
     },
     "titleLang": {
