@@ -95,9 +95,12 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 
 ## Changelog
 ### **WORK IN PROGRESS**
-* (marc2016) fixed unit tests for history states
-* (marc2016) fix eslint errors in test files
-* (marc2016) improve documentation (configuration, examples)
+* fixed unit tests for history states
+* fix eslint errors in test files
+* improve documentation (configuration, examples)
+* update dependencies and repository configuration
+* fix CI issues
+* cleanup devDependencies
 
 ### 3.2.2 (2025-12-21)
 * re-enable history data fetching (month mode)
