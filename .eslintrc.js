@@ -59,9 +59,10 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['*.test.ts'],
+            files: ['*.test.ts', '*.test.js'],
             rules: {
                 '@typescript-eslint/explicit-function-return-type': 'off',
+                '@typescript-eslint/no-var-requires': 'off',
             },
         },
     ],
