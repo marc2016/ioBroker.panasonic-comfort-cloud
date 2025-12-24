@@ -20,6 +20,79 @@ To use the a adpter you need to enter your username and password in the configur
 With the method used, only one client can be logged on with the account at a time.
 It is recommended that a second account, for which the devices have been shared, is used.
 
+## Configuration
+1.  **Username**: Your Panasonic Comfort Cloud username (email).
+2.  **Password**: Your Panasonic Comfort Cloud password.
+3.  **Refresh Interval**: Time in minutes between updates from the cloud.
+4.  **Automatic Refresh Enabled**: Enable/Disable automatic refreshing of device states.
+5.  **Use App Version from App Store**: Automatically fetch the latest app version from the App Store (recommended).
+6.  **App Version**: Manually specify the app version (if "Use App Version from App Store" is disabled).
+7.  **History Enabled**: Enable fetching of energy consumption history (Day/Month).
+
+## Object Structure
+The adapter creates a hierarchy based on your Panasonic account structure:
+`panasonic-comfort-cloud.0.GroupId.DeviceId.StateId`
+
+## Usage Examples
+
+### Controlling a Device (JavaScript)
+You can control your devices using simple `setState` commands in scripts.
+
+```javascript
+/*
+ * Example: Controlling a Panasonic AC
+ * Replace 'YOUR_GROUP_ID' and 'YOUR_DEVICE_ID' with your actual IDs.
+ */
+
+const devicePath = 'panasonic-comfort-cloud.0.YOUR_GROUP_ID.YOUR_DEVICE_ID';
+
+// Turn on the air conditioner
+setState(`${devicePath}.operate`, 1); // 1 = On, 0 = Off
+
+// Set target temperature to 22°C
+setState(`${devicePath}.temperatureSet`, 22);
+
+// Set operation mode to Cool
+// 0=Auto, 1=Dry, 2=Cool, 3=Heat, 4=Fan
+setState(`${devicePath}.operationMode`, 2);
+
+// Set fan speed to Auto
+// 0=Auto, 1=Low, 2=LowMid, 3=Mid, 4=HighMid, 5=High
+setState(`${devicePath}.fanSpeed`, 0);
+
+// Enable Eco Mode
+// 0=Auto, 1=Powerful, 2=Quiet
+setState(`${devicePath}.ecoMode`, 2);
+```
+
+### Reading Sensor Data
+Access read-only states to get current environmental data.
+
+```javascript
+const devicePath = 'panasonic-comfort-cloud.0.YOUR_GROUP_ID.YOUR_DEVICE_ID';
+
+// Log current temperatures
+const insideTemp = getState(`${devicePath}.insideTemperature`).val;
+const outsideTemp = getState(`${devicePath}.outTemperature`).val;
+
+console.log(`Inside: ${insideTemp}°C, Outside: ${outsideTemp}°C`);
+```
+
+### Accessing History Data
+If `History Enabled` is active, you can access energy consumption and temperature logs.
+*   **Day Mode**: `history.day.00` to `history.day.24` (Hours 00:00 to 24:00)
+*   **Month Mode**: `history.month.01` to `history.month.31` (Days 1 to 31)
+
+```javascript
+// Example: Get energy consumption for 12:00 PM (Day Mode)
+const hour12 = getState('panasonic-comfort-cloud.0.YOUR_GROUP_ID.YOUR_DEVICE_ID.history.day.12.consumption').val;
+console.log(`Accumulated consumption at 12:00: ${hour12} kWh`);
+
+// Example: Get average outside temperature for the 15th of the month
+const day15Temp = getState('panasonic-comfort-cloud.0.YOUR_GROUP_ID.YOUR_DEVICE_ID.history.month.15.averageOutsideTemp').val;
+console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
+```
+
 ## Changelog
 ### **WORK IN PROGRESS**
 * fixed unit tests for history states
