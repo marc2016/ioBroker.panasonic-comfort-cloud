@@ -14,6 +14,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -23,19 +27,24 @@ var import_axios = __toESM(require("axios"));
 var import_state_definitions = require("./lib/state-definitions");
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5;
 class PanasonicComfortCloud extends utils.Adapter {
+  comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
+  refreshTimeout;
+  refreshHistoryTimeout;
+  refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
+  historyRefreshIntervalInMinutes = 60;
   constructor(options = {}) {
     super({
       ...options,
       name: "panasonic-comfort-cloud"
     });
-    this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
-    this.refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
-    this.historyRefreshIntervalInMinutes = 60;
     this.on("ready", this.onReady.bind(this));
     this.on("objectChange", this.onObjectChange.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
+  /**
+   * Is called when databases are connected and adapter received configuration.
+   */
   async onReady() {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
@@ -98,7 +107,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       for (const [modeName, dataMode] of Object.entries(modes)) {
         try {
           this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
-          const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, new Date(), dataMode);
+          const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, /* @__PURE__ */ new Date(), dataMode);
           if (history && history.historyDataList) {
             for (let i = 0; i < history.historyDataList.length; i++) {
               const data = history.historyDataList[i];
@@ -139,8 +148,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.log.debug(`Refresh device ${device.name} (${device.guid}).`);
     this.log.debug(`${device.name}: guid => ${device.guid}.`);
     for (const stateDef of import_state_definitions.deviceStates) {
-      if (stateDef.id === "guid")
-        continue;
+      if (stateDef.id === "guid") continue;
       const value = device[stateDef.id];
       this.log.debug(`${device.name}: ${stateDef.id} => ${value}.`);
       if (value !== void 0) {
@@ -228,6 +236,7 @@ class PanasonicComfortCloud extends utils.Adapter {
             write: stateDef.write,
             type: stateDef.type,
             read: stateDef.read !== void 0 ? stateDef.read : true,
+            // default read to true
             def: stateDef.id === "guid" ? deviceInfo.guid : stateDef.def !== void 0 ? stateDef.def : device[stateDef.id]
           };
           if (stateDef.states) {
@@ -291,6 +300,9 @@ class PanasonicComfortCloud extends utils.Adapter {
       }
     }
   }
+  /**
+   * Is called when adapter shuts down - callback has to be called under any circumstances!
+   */
   onUnload(callback) {
     try {
       if (this.refreshTimeout)
@@ -303,6 +315,9 @@ class PanasonicComfortCloud extends utils.Adapter {
       callback();
     }
   }
+  /**
+   * Is called if a subscribed object changes
+   */
   onObjectChange(id, obj) {
     if (obj) {
       this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
@@ -310,6 +325,9 @@ class PanasonicComfortCloud extends utils.Adapter {
       this.log.info(`object ${id} deleted`);
     }
   }
+  /**
+   * Is called if a subscribed state changes
+   */
   async onStateChange(id, state) {
     if (!state || state.ack) {
       return;

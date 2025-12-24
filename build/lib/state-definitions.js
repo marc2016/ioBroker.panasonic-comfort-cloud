@@ -31,6 +31,7 @@ const deviceStates = [
     write: false,
     type: "string",
     def: void 0
+    // Will be set dynamically from device info
   },
   {
     id: "operate",
