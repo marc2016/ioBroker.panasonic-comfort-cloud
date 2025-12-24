@@ -6,12 +6,12 @@ describe('getHistoryStates', () => {
         const states = getHistoryStates();
         expect(states).to.be.an('object');
         
-        // check day
+        // check day and month
         expect(states['history.day.00.consumption']).to.exist;
-        expect(states['history.day.24.consumption']).to.exist; 
-        
-        // check absence of month, week and year
-        expect(states['history.month.01.consumption']).to.not.exist;
+        expect(states['history.day.24.consumption']).to.exist;
+        expect(states['history.month.01.consumption']).to.exist;
+
+        // check absence of week and year
         expect(states['history.week.00.consumption']).to.not.exist;
         expect(states['history.year.01.consumption']).to.not.exist;
     });

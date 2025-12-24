@@ -21,6 +21,9 @@ With the method used, only one client can be logged on with the account at a tim
 It is recommended that a second account, for which the devices have been shared, is used.
 
 ## Changelog
+### **WORK IN PROGRESS**
+* (marc2016) fixed unit tests for history states
+
 ### 3.2.2 (2025-12-21)
 * re-enable history data fetching (month mode)
 * implement improved history date format (YYYY-MM-DD HH:mm:ss)
