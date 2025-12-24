@@ -29,19 +29,7 @@
         "uk": "реалізація історичних даних (денного режиму)\nісторія Увімкнути конфігурацію\nдодати ручну історію оновленої команди\nвиправити помилки eslint (зняття, невикористані вари)",
         "zh-cn": "执行历史数据获取(日模式)\n添加历史 启用配置\n添加手动历史更新命令\n修复 eslint 错误(缩进,未使用 vars)"
       },
-      "3.2.0": {
-        "en": "update library panasonic-comfort-cloud-client to 2.1.4\nmodernize code (remove lodash, use async/await, split state definitions)\nreplace deprecated methods with modern equivalents\nimprove unit tests and remove deprecated test wrapper\nadd mocked client tests to verify connection logic",
-        "de": "aktualisierung der bibliothek panasonic-comfort-cloud-client auf 2.1.4\nmodernisieren sie code (entfernen sie lodash, verwenden sie async/await, spaltzustandsdefinitionen)\nabgeschriebene methoden durch moderne äquivalente ersetzen\nverbessern sie unit-tests und entfernen sie deprecierte test-wrapper\nmocked client-tests hinzufügen, um die verbindungslogik zu überprüfen",
-        "ru": "обновить библиотеку панасон-комфорт-облако-клиента до 2.1.4\nмодернизировать код (удалить лодаш, использовать асинхронизацию/ожидание, разделять определения состояния)\nзаменить устаревшие методы современными эквивалентами\nулучшить единичные тесты и удалить устаревшую тестовую обертку\nдобавьте издевательские тесты клиентов для проверки логики подключения",
-        "pt": "atualizar biblioteca panasonic-comfort-cloud-client para 2.1.4\nmodernizar código (remover lodash, use assync/await, split state definitions)\nsubstituir métodos obsoletos por equivalentes modernos\nmelhorar os testes unitários e remover o invólucro de teste obsoleto\nadicionar os testes simulados do cliente para verificar a lógica da ligação",
-        "nl": "bibliotheek panasonic-comfort-cloud-client bijwerken naar 2.1.4\nmodernisering code (verwijder lodash, gebruik async/wacht, split state definities)\nverouderde methoden vervangen door moderne equivalenten\nverbeteren van de eenheidstests en verwijderen van verouderde testwikkel\ntoevoegen van gespot client testen om verbinding logica te verifiëren",
-        "fr": "mettre à jour la bibliothèque panasonic-confort-cloud-client au 2.1.4\nmoderniser le code (supprimer lodash, utiliser async/attendu, définitions de l'état fractionné)\nremplacer les méthodes obsolètes par des équivalents modernes\naméliorer les essais unitaires et enlever l'emballage d'essai déprécié\najouter des tests client simulés pour vérifier la logique de connexion",
-        "it": "aggiornamento libreria panasonic-comfort-cloud-client a 2.1.4\nmodernizzare il codice (rimuovere lodash, usare asinc/aspettato, definizioni di stato divise)\nsostituire metodi deprecati con equivalenti moderni\nmigliorare i test delle unità e rimuovere l'involucro di prova deprecato\naggiungere test client mocked per verificare la logica di connessione",
-        "es": "actualización de la biblioteca panasonic-comfort-cloud-client a 2.1.4\nmodernizar código (remove lodash, use async/await, definiciones de estado divididas)\nsustituir los métodos deprecated con equivalentes modernos\nmejorar las pruebas de unidad y eliminar envoltura de prueba deprecatada\nañadir pruebas de cliente mocked para verificar la lógica de conexión",
-        "pl": "aktualizacja biblioteki panasonic- comfort-cloud- cloud- client do 2.1.4\nmodernizować kod (usunąć lodash, użyć async / wait, podzielić definicje stanu)\nzastąpić przestarzałe metody nowoczesnymi odpowiednikami\nulepszenie badań jednostkowych i usunięcie zdepregowanego opakowania testowego\ndodać wyśmiewane testy klientów do weryfikacji logiki połączenia",
-        "uk": "javascript licenses api веб-сайт go1.13.8\nмодернізуйте код (видалення lodash, використання async/await, розбити визначення стану)\nзаміну депресованих методів з сучасними еквівалентами\nполіпшення тестів і видалення знезаражених тестових обгортань\nдодавати тести з'єднання, які були залучені",
-        "zh-cn": "将全音响-舒适-云客户端更新为2.1.4\n现代化的代码( 移动lodash, 使用 async/await, 分裂状态定义)\n用现代等效方法取代折旧方法\n改进单位测试,并删除贬值的测试包装\n添加模拟客户端测试以验证连接逻辑"
-      },
+
       "3.1.0": {
         "en": "read app version from App Store.",
         "de": "lesen Sie die App-Version von App Store.",
@@ -153,7 +141,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=5.0.0"
+        "admin": ">=6.17.14"
       }
     ]
   },
