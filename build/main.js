@@ -113,24 +113,24 @@ class PanasonicComfortCloud extends utils.Adapter {
               const data = history.historyDataList[i];
               const index = i.toString().padStart(2, "0");
               const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
-              await this.setStateChangedAsync(`${prefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
-              await this.setStateChangedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
-              await this.setStateChangedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
-              await this.setStateChangedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
-              await this.setStateChangedAsync(`${prefix}.consumption`, data.consumption, true);
-              await this.setStateChangedAsync(`${prefix}.cost`, data.cost, true);
-              await this.setStateChangedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
-              await this.setStateChangedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
-              if (modeName === "day" && i === (/* @__PURE__ */ new Date()).getHours()) {
+              await this.setStateChangedIfDefinedAsync(`${prefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.consumption`, data.consumption, true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.cost`, data.cost, true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
+              await this.setStateChangedIfDefinedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+              if (modeName === "day" && this.isCurrentHour(data.dataTime)) {
                 const currentPrefix = `${deviceInfo.name}.history.current`;
-                await this.setStateChangedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
-                await this.setStateChangedAsync(`${currentPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
-                await this.setStateChangedAsync(`${currentPrefix}.averageInsideTemp`, data.averageInsideTemp, true);
-                await this.setStateChangedAsync(`${currentPrefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
-                await this.setStateChangedAsync(`${currentPrefix}.consumption`, data.consumption, true);
-                await this.setStateChangedAsync(`${currentPrefix}.cost`, data.cost, true);
-                await this.setStateChangedAsync(`${currentPrefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
-                await this.setStateChangedAsync(`${currentPrefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageInsideTemp`, data.averageInsideTemp, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.consumption`, data.consumption, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.cost`, data.cost, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
+                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
               }
             }
           }
@@ -139,6 +139,23 @@ class PanasonicComfortCloud extends utils.Adapter {
         }
       }
     }
+  }
+  async setStateChangedIfDefinedAsync(id, val, ack) {
+    if (val !== void 0 && val !== null) {
+      await this.setStateChangedAsync(id, val, ack);
+    }
+  }
+  isCurrentHour(dataTime) {
+    let hourStr = "";
+    if (dataTime.length === 10) {
+      hourStr = dataTime.substring(8, 10);
+    } else if (dataTime.length === 11) {
+      hourStr = dataTime.substring(9, 11);
+    } else {
+      return false;
+    }
+    const hour = parseInt(hourStr, 10);
+    return hour === (/* @__PURE__ */ new Date()).getHours();
   }
   formatHistoryDate(dataTime) {
     if (dataTime.length === 10) {
