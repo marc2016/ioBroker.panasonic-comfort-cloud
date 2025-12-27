@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.2.2",
+    "version": "3.3.0",
     "news": {
+      "3.3.0": {
+        "en": "fixed unit tests for history states\nfix eslint errors in test files\nimprove documentation (configuration, examples)\nupdate dependencies and repository configuration\nfix CI issues\ncleanup devDependencies\nadd history.current channel\nensure correct roles for history objects\nfix history date format for current history\nfix undefined state value in history\nfix current history logic",
+        "de": "festeinheitentests für geschichtszustände\neslint-fehler in testdateien beheben\nverbesserung der dokumentation (konfiguration, beispiele)\naktualisierung von abhängigkeiten und repository-konfiguration\ncI-Probleme beheben\ncleanup devDependancen\ngeschichte hinzufügen. stromkanal\nkorrekte rollen für geschichtsobjekte sicherstellen\nfixe geschichte datumsformat für aktuelle geschichte\nundefinierten zustandswert in der geschichte beheben\ndie aktuelle geschichte logik",
+        "ru": "фиксированные единичные тесты для исторических государств\nисправление ошибок eslint в тестовых файлах\nулучшение документации (конфигурация, примеры)\nзависимости обновления и конфигурация репозитория\nустранение проблем CI\nочистка Девзависимости\nдобавьте историю. текущий канал\nобеспечение правильных ролей для исторических объектов\nформат фиксации даты истории для текущей истории\nнеопределенная государственная ценность в истории\nисправить логику текущей истории",
+        "pt": "testes unitários fixos para estados de história\ncorrigir erros de eslint nos arquivos de teste\nmelhorar a documentação (configuração, exemplos)\natualizar dependências e configuração do repositório\ncorrigir problemas de IC\ndevDependências de limpeza\nadicionar histórico. canal atual\nassegurar funções corretas para objetos de histórico\ncorrigir o formato da data do histórico para o histórico atual\ncorrigir o valor indefinido do estado no histórico\ncorrigir a lógica do histórico atual",
+        "nl": "vaste eenheidstests voor geschiedenistoestanden\neslint-fouten in testbestanden herstellen\nde documentatie verbeteren (configuratie, voorbeelden)\nafhankelijkheden en configuratie van de repository bijwerken\ncI-problemen oplossen\ncleanup devDependencies\ngeschiedenis toevoegen. huidige kanaal\nzorgen voor correcte rollen voor historische objecten\nfix geschiedenis datumformaat voor de huidige geschiedenis\nongedefinieerde statuswaarde in de geschiedenis herstellen\nhuidige geschiedenislogica herstellen",
+        "fr": "tests à unités fixes pour les états historiques\ncorrection d'erreurs d'essence dans les fichiers de test\naméliorer la documentation (configuration, exemples)\nmettre à jour les dépendances et la configuration du dépôt\ncorriger les problèmes d'IC\ndépendances de nettoyage\najouter l'historique. canal actuel\nassurer des rôles corrects pour les objets d'historique\ncorriger le format de date d'historique pour l'historique actuel\ncorriger la valeur d'état non définie dans l'historique\ncorriger la logique d'historique actuelle",
+        "it": "test di unità fissi per gli stati storici\ncorreggere gli errori eslint nei file di test\nmigliorare la documentazione (configurazione, esempi)\naggiornamento dipendenze e configurazione del repository\nrisolvere problemi CI\npulizia devDependens\naggiungere la storia. canale corrente\ngarantire ruoli corretti per oggetti di storia\nfissare il formato della data di storia per la storia corrente\nfissare il valore di stato non definito nella storia\ncorreggere la logica della storia corrente",
+        "es": "pruebas de unidad fija para estados de historia\ncorrige errores de eslint en los archivos de prueba\nmejorar la documentación (configuración, ejemplos)\nactualizar las dependencias y la configuración del repositorio\nsolucionar problemas de CI\nlimpieza devDependencias\nañadir historia. canal actual\ngarantizar funciones correctas para objetos de historia\narreglar el formato de fecha de historia para la historia actual\nfijar el valor estatal indefinido en la historia\nsolucionar la lógica de la historia actual",
+        "pl": "testy jednostek stałych dla stanów historii\nnaprawić błędy eslintu w plikach testowych\npoprawić dokumentację (konfiguracja, przykłady)\naktualizacja zależności i konfiguracji repozytorium\nrozwiązać problemy z CI\ncleanup devDevendences\ndodaj historię. bieżący kanał\nzapewnienie poprawnych ról obiektów historii\nnaprawić format daty historii dla bieżącej historii\nfix niezdefiniowana wartość stanu w historii\nnaprawić bieżącą logikę historii",
+        "uk": "стаціонарні тести для історичних станів\nвиправити помилки eslint в тестових файлах\nполіпшення документації (конфігурація, приклади)\nоновлення залежності та конфігурації репозиторій\nвиправити проблеми CI\nочищення devDependencies\nдодати історію. поточний канал\nзабезпечити правильні ролі для об'єктів історії\nформат дати фіксації історії для поточної історії\nвиправлено невизнане державне значення в історії\nвиправити логіку поточної історії",
+        "zh-cn": "历史状态固定单位测试\n修复测试文件中的 eslint 错误\n改进文档(配置、实例)\n更新依赖性和寄存器配置\n解决问题\n清理相互依存关系\n添加历史。 当前频道\n确保历史对象的正确作用\n固定当前历史的历史日期格式\n修复历史中未定义的状态值\n修正当前历史逻辑"
+      },
       "3.2.2": {
         "en": "re-enable history data fetching (month mode)\nimplement improved history date format (YYYY-MM-DD HH:mm:ss)",
         "de": "re-enable history data fetching (monatsmodus)\nverbessertes Geschichtsdatumsformat (YYYY-MM-DD HH:mm:ss)",
@@ -29,7 +42,6 @@
         "uk": "реалізація історичних даних (денного режиму)\nісторія Увімкнути конфігурацію\nдодати ручну історію оновленої команди\nвиправити помилки eslint (зняття, невикористані вари)",
         "zh-cn": "执行历史数据获取(日模式)\n添加历史 启用配置\n添加手动历史更新命令\n修复 eslint 错误(缩进,未使用 vars)"
       },
-
       "3.1.0": {
         "en": "read app version from App Store.",
         "de": "lesen Sie die App-Version von App Store.",
