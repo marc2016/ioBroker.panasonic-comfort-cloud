@@ -147,6 +147,12 @@ class PanasonicComfortCloud extends utils.Adapter {
       const day = dataTime.substring(6, 8);
       const hour = dataTime.substring(8, 10);
       return `${year}-${month}-${day} ${hour}:00:00`;
+    } else if (dataTime.length === 11) {
+      const year = dataTime.substring(0, 4);
+      const month = dataTime.substring(4, 6);
+      const day = dataTime.substring(6, 8);
+      const hour = dataTime.substring(9, 11);
+      return `${year}-${month}-${day} ${hour}:00:00`;
     } else if (dataTime.length === 8) {
       const year = dataTime.substring(0, 4);
       const month = dataTime.substring(4, 6);
@@ -263,9 +269,40 @@ class PanasonicComfortCloud extends utils.Adapter {
         if ((_a = this.config) == null ? void 0 : _a.historyEnabled) {
           await this.setObjectNotExistsAsync(`${deviceInfo.name}.history`, {
             type: "channel",
-            common: { name: "History Data" },
+            common: { name: "History Data", role: "info" },
             native: {}
           });
+          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.current`, {
+            type: "channel",
+            common: { name: "Current Hourly History", role: "info" },
+            native: {}
+          });
+          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day`, {
+            type: "channel",
+            common: { name: "Daily History", role: "info" },
+            native: {}
+          });
+          for (let i = 0; i <= 24; i++) {
+            const index = i.toString().padStart(2, "0");
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day.${index}`, {
+              type: "channel",
+              common: { name: `Hour ${index}`, role: "info" },
+              native: {}
+            });
+          }
+          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month`, {
+            type: "channel",
+            common: { name: "Monthly History", role: "info" },
+            native: {}
+          });
+          for (let i = 0; i <= 31; i++) {
+            const index = i.toString().padStart(2, "0");
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month.${index}`, {
+              type: "channel",
+              common: { name: `Day ${index}`, role: "info" },
+              native: {}
+            });
+          }
           const historyStates = (0, import_state_definitions.getHistoryStates)();
           for (const [id, def] of Object.entries(historyStates)) {
             await this.setObjectNotExistsAsync(`${deviceInfo.name}.${id}`, {
