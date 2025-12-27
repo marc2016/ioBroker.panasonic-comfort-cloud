@@ -135,6 +135,19 @@ class PanasonicComfortCloud extends utils.Adapter {
                             await this.setStateChangedAsync(`${prefix}.cost`, data.cost, true);
                             await this.setStateChangedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
                             await this.setStateChangedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+
+                            // Update current hour
+                            if (modeName === 'day' && i === new Date().getHours()) {
+                                const currentPrefix = `${deviceInfo.name}.history.current`;
+                                await this.setStateChangedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
+                                await this.setStateChangedAsync(`${currentPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
+                                await this.setStateChangedAsync(`${currentPrefix}.averageInsideTemp`, data.averageInsideTemp, true);
+                                await this.setStateChangedAsync(`${currentPrefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+                                await this.setStateChangedAsync(`${currentPrefix}.consumption`, data.consumption, true);
+                                await this.setStateChangedAsync(`${currentPrefix}.cost`, data.cost, true);
+                                await this.setStateChangedAsync(`${currentPrefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
+                                await this.setStateChangedAsync(`${currentPrefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                            }
                         }
                     }
                 } catch(e) {

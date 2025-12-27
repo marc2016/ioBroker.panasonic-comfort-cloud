@@ -23,4 +23,13 @@ describe('getHistoryStates', () => {
         expect(consumption.unit).to.equal('kWh');
         expect(consumption.type).to.equal('number');
     });
+    it('should generate states for current history', () => {
+        const states = getHistoryStates();
+        expect(states['history.current.consumption']).to.exist;
+        expect(states['history.current.averageOutsideTemp']).to.exist;
+        
+        const consumption = states['history.current.consumption'];
+        expect(consumption.role).to.equal('value.power.consumption');
+        expect(consumption.unit).to.equal('kWh');
+    });
 });

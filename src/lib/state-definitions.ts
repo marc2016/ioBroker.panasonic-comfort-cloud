@@ -171,5 +171,16 @@ export function getHistoryStates(): Record<string, any> {
             states[`${prefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
         }
     }
+
+    const currentPrefix = `history.current`;
+    states[`${currentPrefix}.dataTime`] = { role: 'value.time', name: 'Data Time', type: 'string', read: true, write: false, def: '' };
+    states[`${currentPrefix}.averageSettingTemp`] = { role: 'value.temperature', name: 'Average Setting Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.averageInsideTemp`] = { role: 'value.temperature', name: 'Average Inside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.averageOutsideTemp`] = { role: 'value.temperature', name: 'Average Outside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.consumption`] = { role: 'value.power.consumption', name: 'Consumption', type: 'number', unit: 'kWh', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.cost`] = { role: 'value.cost', name: 'Cost', type: 'number', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.heatConsumptionRate`] = { role: 'value', name: 'Heat Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+
     return states;
 }

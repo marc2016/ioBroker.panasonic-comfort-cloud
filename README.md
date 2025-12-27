@@ -101,6 +101,7 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 * update dependencies and repository configuration
 * fix CI issues
 * cleanup devDependencies
+* add history.current channel
 
 ### 3.2.2 (2025-12-21)
 * re-enable history data fetching (month mode)
