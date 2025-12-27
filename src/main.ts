@@ -160,12 +160,20 @@ class PanasonicComfortCloud extends utils.Adapter {
     private formatHistoryDate(dataTime: string): string {
         // Format YYYYMMDDHH to YYYY-MM-DD HH:mm:ss
         // or YYYYMMDD to YYYY-MM-DD
+        // or YYYYMMDD HH to YYYY-MM-DD HH:mm:ss
         if (dataTime.length === 10) {
             // YYYYMMDDHH
             const year = dataTime.substring(0, 4);
             const month = dataTime.substring(4, 6);
             const day = dataTime.substring(6, 8);
             const hour = dataTime.substring(8, 10);
+            return `${year}-${month}-${day} ${hour}:00:00`;
+        } else if (dataTime.length === 11) {
+            // YYYYMMDD HH
+            const year = dataTime.substring(0, 4);
+            const month = dataTime.substring(4, 6);
+            const day = dataTime.substring(6, 8);
+            const hour = dataTime.substring(9, 11);
             return `${year}-${month}-${day} ${hour}:00:00`;
         } else if (dataTime.length === 8) {
             // YYYYMMDD
