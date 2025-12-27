@@ -137,7 +137,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                             await this.setStateChangedIfDefinedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
 
                             // Update current hour
-                            if (modeName === 'day' && i === new Date().getHours()) {
+                            if (modeName === 'day' && this.isCurrentHour(data.dataTime)) {
                                 const currentPrefix = `${deviceInfo.name}.history.current`;
                                 await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
                                 await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
@@ -165,6 +165,22 @@ class PanasonicComfortCloud extends utils.Adapter {
         if (val !== undefined && val !== null) {
             await this.setStateChangedAsync(id, val, ack);
         }
+    }
+
+    private isCurrentHour(dataTime: string): boolean {
+        let hourStr = '';
+        if (dataTime.length === 10) {
+            // YYYYMMDDHH
+            hourStr = dataTime.substring(8, 10);
+        } else if (dataTime.length === 11) {
+            // YYYYMMDD HH
+            hourStr = dataTime.substring(9, 11);
+        } else {
+            return false;
+        }
+
+        const hour = parseInt(hourStr, 10);
+        return hour === new Date().getHours();
     }
 
     private formatHistoryDate(dataTime: string): string {
