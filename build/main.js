@@ -51,7 +51,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     refreshTimeout;
     refreshHistoryTimeout;
     refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
-    historyRefreshIntervalInMinutes = 60;
+    historyRefreshIntervalInMinutes = 15;
     constructor(options = {}) {
         super({
             ...options,
@@ -128,6 +128,7 @@ class PanasonicComfortCloud extends utils.Adapter {
                     this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
                     const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, new Date(), dataMode);
                     if (history && history.historyDataList) {
+                        let latestData = null;
                         for (let i = 0; i < history.historyDataList.length; i++) {
                             const data = history.historyDataList[i];
                             const index = i.toString().padStart(2, '0');
@@ -141,17 +142,27 @@ class PanasonicComfortCloud extends utils.Adapter {
                             await this.setStateChangedIfDefinedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
                             await this.setStateChangedIfDefinedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
                             // Update current hour
-                            if (modeName === 'day' && this.isCurrentHour(data.dataTime)) {
-                                const currentPrefix = `${deviceInfo.name}.history.current`;
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageInsideTemp`, data.averageInsideTemp, true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.consumption`, data.consumption, true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.cost`, data.cost, true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
-                                await this.setStateChangedIfDefinedAsync(`${currentPrefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                            // We use the latest available data for "current" to handle API lag
+                            // The API returns -255 for future/invalid values, so we must filter those out
+                            if (modeName === 'day') {
+                                if (data.consumption !== -255) {
+                                    if (!latestData || data.dataTime > latestData.dataTime) {
+                                        latestData = data;
+                                    }
+                                }
                             }
+                        }
+                        if (modeName === 'day' && latestData) {
+                            this.log.debug(`Updating history.current using latest available data: ${latestData.dataTime}`);
+                            const currentPrefix = `${deviceInfo.name}.history.current`;
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(latestData.dataTime), true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageSettingTemp`, latestData.averageSettingTemp, true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageInsideTemp`, latestData.averageInsideTemp, true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageOutsideTemp`, latestData.averageOutsideTemp, true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.consumption`, latestData.consumption, true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.cost`, latestData.cost, true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.heatConsumptionRate`, latestData.heatConsumptionRate, true);
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.coolConsumptionRate`, latestData.coolConsumptionRate, true);
                         }
                     }
                 }
