@@ -292,9 +292,44 @@ class PanasonicComfortCloud extends utils.Adapter {
                 if (this.config?.historyEnabled) {
                     await this.setObjectNotExistsAsync(`${deviceInfo.name}.history`, {
                         type: 'channel',
-                        common: { name: 'History Data' },
+                        common: { name: 'History Data', role: 'info' },
                         native: {}
                     });
+
+                    // Create sub-channels
+                    await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.current`, {
+                        type: 'channel',
+                        common: { name: 'Current Hourly History', role: 'info' },
+                        native: {}
+                    });
+                    
+                    await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day`, {
+                        type: 'channel',
+                        common: { name: 'Daily History', role: 'info' },
+                        native: {}
+                    });
+                    for (let i = 0; i <= 24; i++) {
+                        const index = i.toString().padStart(2, '0');
+                        await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day.${index}`, {
+                            type: 'channel',
+                            common: { name: `Hour ${index}`, role: 'info' },
+                            native: {}
+                        });
+                    }
+
+                    await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month`, {
+                        type: 'channel',
+                        common: { name: 'Monthly History', role: 'info' },
+                        native: {}
+                    });
+                    for (let i = 0; i <= 31; i++) {
+                        const index = i.toString().padStart(2, '0');
+                        await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month.${index}`, {
+                            type: 'channel',
+                            common: { name: `Day ${index}`, role: 'info' },
+                            native: {}
+                        });
+                    }
 
                     const historyStates = getHistoryStates();
                     for (const [id, def] of Object.entries(historyStates)) {
