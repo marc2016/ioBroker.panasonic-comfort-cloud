@@ -97,6 +97,8 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 ### **WORK IN PROGRESS**
 * fixed history.current updates by using latest available data (handle API lag)
 * increased history refresh rate to 15min
+* improved history.current timestamp to show harvest time (minute precision)
+* added history.lastHour to show values of the previously completed hour
 
 ### 3.3.0 (2025-12-27)
 * fixed unit tests for history states

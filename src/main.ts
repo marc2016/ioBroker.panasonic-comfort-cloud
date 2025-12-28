@@ -146,13 +146,49 @@ class PanasonicComfortCloud extends utils.Adapter {
                                         latestData = data;
                                     }
                                 }
+
+                                // Update lastHour
+                                // We check if the data entry corresponds to the previous hour
+                                const currentHour = new Date().getHours();
+                                const previousHour = currentHour === 0 ? 23 : currentHour - 1;
+                                // Only check for same day previous hour (0-23 if same day, or 23 if we had yesterday's data but we don't here)
+                                // Since we only requested TODAY's data, we can only fill lastHour if previousHour >= 0 AND it is same day.
+                                // Limitation: At 00:xx we probably won't find data for 23:xx of yesterday because we only fetched today.
+                                if (currentHour > 0) {
+                                    let hourStr = '';
+                                    if (data.dataTime.length === 10) {
+                                        // YYYYMMDDHH
+                                        hourStr = data.dataTime.substring(8, 10);
+                                    } else if (data.dataTime.length === 11) {
+                                        // YYYYMMDD HH
+                                        hourStr = data.dataTime.substring(9, 11);
+                                    }
+                                    
+                                    const dataHour = parseInt(hourStr, 10);
+                                    if (dataHour === previousHour) {
+                                        const lastHourPrefix = `${deviceInfo.name}.history.lastHour`;
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.averageInsideTemp`, data.averageInsideTemp, true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.consumption`, data.consumption, true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.cost`, data.cost, true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
+                                        await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                                    }
+                                }
                             }
                         }
 
                         if (modeName === 'day' && latestData) {
                             this.log.debug(`Updating history.current using latest available data: ${latestData.dataTime}`);
                             const currentPrefix = `${deviceInfo.name}.history.current`;
-                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, this.formatHistoryDate(latestData.dataTime), true);
+                            // User requested minute precision for the timestamp to track updates
+                            // We use current system time to indicate WHEN we fetched this value
+                            const now = new Date();
+                            const formattedTime = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                            
+                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, formattedTime, true);
                             await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageSettingTemp`, latestData.averageSettingTemp, true);
                             await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageInsideTemp`, latestData.averageInsideTemp, true);
                             await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageOutsideTemp`, latestData.averageOutsideTemp, true);
