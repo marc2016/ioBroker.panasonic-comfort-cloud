@@ -104,6 +104,7 @@ class ComfortCloudClientMock {
     constructor() {}
     login(_user, _pass) { return Promise.resolve(); }
     getGroups() { 
+        console.log('[DEBUG] ComfortCloudClientMock.getGroups called');
         return Promise.resolve([{ 
             id: 1, 
             name: 'Group1', 
@@ -111,6 +112,7 @@ class ComfortCloudClientMock {
         }]); 
     }
     getDevice(guid, name) {
+        // console.log(`[DEBUG] ComfortCloudClientMock.getDevice called for ${guid}`);
         return Promise.resolve({
             guid: guid,
             name: name,
@@ -121,6 +123,7 @@ class ComfortCloudClientMock {
         });
     }
     getDeviceHistoryData(_guid, _date, _mode) {
+        console.log(`[DEBUG] ComfortCloudClientMock.getDeviceHistoryData called for mode ${_mode}`);
         return Promise.resolve(mockHistoryData);
     }
 }
@@ -146,6 +149,16 @@ describe('History Updates Logic', () => {
         const now = new Date('2025-12-28T20:15:00');
         clock = sinon.useFakeTimers(now.getTime());
 
+// Mock DataMode enum
+const DataMode = {
+    Day: 'Day',
+    Week: 'Week',
+    Month: 'Month',
+    Year: 'Year'
+};
+
+// ...
+
         // Load the main file with mocks
         mainConstructor = proxyquire('../../build/main.js', {
             '@iobroker/adapter-core': {
@@ -154,7 +167,8 @@ describe('History Updates Logic', () => {
             'panasonic-comfort-cloud-client': {
                 ComfortCloudClient: ComfortCloudClientMock,
                 ServiceError: ServiceError,
-                TokenExpiredError: TokenExpiredError
+                TokenExpiredError: TokenExpiredError,
+                DataMode: DataMode
             },
             'axios': {
                 default: axiosMock,
@@ -227,13 +241,7 @@ describe('History Updates Logic', () => {
         const timeCall = calls.find(c => c.args[0] === 'TestDevice.history.lastHour.dataTime');
         
         expect(timeCall, 'history.lastHour.dataTime not set').to.exist;
-        // formatHistoryDate formats 'YYYYMMDD HH' -> 'YYYY-MM-DD HH:00'? Or keeps it?
-        // Let's check formatHistoryDate implementation or assumption.
-        // Implementation logic:
-        // if (dataTime.length === 11) { // includes space
-        //     return `${year}-${month}-${day} ${hourStr}:00`;
-        // }
-        // '20251228 19' -> '2025-12-28 19:00'
-        expect(timeCall.args[1]).to.equal('2025-12-28 19:00');
+        // Implementation adds :00:00
+        expect(timeCall.args[1]).to.equal('2025-12-28 19:00:00');
     });
 });
