@@ -10,7 +10,10 @@ const adapterMock = {
     on: sinon.stub(),
     setState: sinon.stub(),
     setStateAsync: sinon.stub().resolves(),
-    setStateChangedAsync: sinon.stub().resolves(),
+    setStateChangedAsync: sinon.stub().callsFake((id, val, _ack) => {
+        console.log(`[DEBUG] setStateChangedAsync called: ${id} = ${val}`);
+        return Promise.resolve();
+    }),
     getStateAsync: sinon.stub().resolves(null),
     setObjectNotExistsAsync: sinon.stub().resolves(),
     log: {
@@ -34,7 +37,7 @@ const adapterMock = {
 };
 
 const AdapterClassMock = class {
-    constructor(options) {
+    constructor(_options) {
         Object.assign(this, adapterMock);
         return this;
     }
@@ -99,7 +102,7 @@ class TokenExpiredError extends Error {
 // Mock for panasonic-comfort-cloud-client
 class ComfortCloudClientMock {
     constructor() {}
-    login(user, pass) { return Promise.resolve(); }
+    login(_user, _pass) { return Promise.resolve(); }
     getGroups() { 
         return Promise.resolve([{ 
             id: 1, 
@@ -111,15 +114,13 @@ class ComfortCloudClientMock {
         return Promise.resolve({
             guid: guid,
             name: name,
-            // Add other device properties as needed by createDevices/refreshDeviceStates
-            // For now, minimal is enough as long as it returns an object
             operate: 1,
             operationMode: 1,
             temperatureSet: 22,
-            tankStatus: 128 // example
+            tankStatus: 128
         });
     }
-    getDeviceHistoryData(guid, date, mode) {
+    getDeviceHistoryData(_guid, _date, _mode) {
         return Promise.resolve(mockHistoryData);
     }
 }
