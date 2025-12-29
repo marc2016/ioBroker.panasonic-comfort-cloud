@@ -384,6 +384,12 @@ class PanasonicComfortCloud extends utils.Adapter {
                         common: { name: 'Current Hourly History', role: 'info' },
                         native: {}
                     });
+
+                    await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.lastHour`, {
+                        type: 'channel',
+                        common: { name: 'Last Completed Hour History', role: 'info' },
+                        native: {}
+                    });
                     
                     await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day`, {
                         type: 'channel',

@@ -182,5 +182,15 @@ export function getHistoryStates(): Record<string, any> {
     states[`${currentPrefix}.heatConsumptionRate`] = { role: 'value', name: 'Heat Consumption Rate', type: 'number', read: true, write: false, def: 0 };
     states[`${currentPrefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
 
+    const lastHourPrefix = `history.lastHour`;
+    states[`${lastHourPrefix}.dataTime`] = { role: 'value.time', name: 'Data Time', type: 'string', read: true, write: false, def: '' };
+    states[`${lastHourPrefix}.averageSettingTemp`] = { role: 'value.temperature', name: 'Average Setting Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.averageInsideTemp`] = { role: 'value.temperature', name: 'Average Inside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.averageOutsideTemp`] = { role: 'value.temperature', name: 'Average Outside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.consumption`] = { role: 'value.power.consumption', name: 'Consumption', type: 'number', unit: 'kWh', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.cost`] = { role: 'value.cost', name: 'Cost', type: 'number', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.heatConsumptionRate`] = { role: 'value', name: 'Heat Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+
     return states;
 }
