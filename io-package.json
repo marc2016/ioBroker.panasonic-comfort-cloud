@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "panasonic-comfort-cloud",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "news": {
+      "3.4.0": {
+        "en": "fixed history.current updates by using latest available data (handle API lag)\nincreased history refresh rate to 15min\nimproved history.current timestamp to show harvest time (minute precision)\nadded history.lastHour to show values of the previously completed hour",
+        "de": "eine feste Geschichte. aktuelle Updates durch Nutzung der neuesten verfügbaren Daten (Handle API lag)\nerhöhte geschichte erfrischungsrate auf 15min\nverbesserte geschichte. aktueller zeitstempel, um erntezeit (minutengenauigkeit) zu zeigen\ngeschichte hinzugefügt.last Hour, um Werte der zuvor abgeschlossenen Stunde anzuzeigen",
+        "ru": "фиксированная история. Текущие обновления с использованием последних доступных данных (handle API lag)\nувеличение частоты обновления истории до 15 минут\nулучшение истории. текущая метка времени, чтобы показать время сбора урожая (минутная точность)\nдобавлена история.last Час, чтобы показать значения ранее завершенного часа",
+        "pt": "história fixa. atualizações atuais usando os dados mais recentes disponíveis (manusear defasagem API)\naumento da taxa de atualização da história para 15min\nhistória melhorada. hora atual para mostrar o tempo de colheita (precisão de minutos)\nadicionado history.last Hora para mostrar os valores da hora previamente concluída",
+        "nl": "een vaste geschiedenis. huidige updates door gebruik te maken van de nieuwste beschikbare gegevens (afhandeling API vertraging)\nverhoogde geschiedenisverversingssnelheid tot 15min\nbetere geschiedenis. huidige tijdstempel om oogsttijd te tonen (minuut precisie)\nhistorie.last toegevoegd Uur om waarden van het eerder voltooide uur te tonen",
+        "fr": "histoire fixe. mises à jour actuelles en utilisant les dernières données disponibles (manipuler le décalage API)\naugmentation du taux de rafraîchissement historique à 15min\nl'histoire améliorée. horodatage actuel pour montrer le temps de récolte (précision minute)\najouté historique.dernier Heure pour afficher les valeurs de l'heure précédente",
+        "it": "storia fissa. aggiornamenti attuali utilizzando i dati disponibili più recenti (handle API lag)\nmaggiore frequenza di aggiornamento storia a 15min\nuna storia migliorata. attuale timestamp per mostrare il tempo di raccolta (accuratezza del minuto)\naggiunto storia.last Ore per mostrare i valori dell'ora precedentemente completata",
+        "es": "historia fija. actualizaciones actuales mediante el uso de los últimos datos disponibles (manle API lag)\nmayor tasa de actualización de historia a 15min\nmejoró la historia. timetamp actual para mostrar tiempo de cosecha (minuto precisión)\nhistoria añadida.último Hora de mostrar los valores de la hora ya terminada",
+        "pl": "naprawiona historia. aktualne aktualizacje przy użyciu najnowszych dostępnych danych (handle API lag)\nzwiększona częstość odświeżania historii do 15min\npoprawiła historię. bieżący znacznik czasu, aby pokazać czas zbiorów (precyzja minuta)\ndodano history.last Godzina wyświetlania wartości wcześniej zakończonej godziny",
+        "uk": "фіксована історія. Поточні оновлення за допомогою останніх доступних даних (handle API lag)\nзбільшення частоти оновлення історії до 15 хв\nполіпшення історії. поточний час, щоб показати час збору врожаю (хвилинна точність)\nдодано історію.last Години показувати значення попередньо заповненої години",
+        "zh-cn": "固定历史。 使用最新可用数据进行当前更新(处理 API 滞后)\n历史更新率提高到15min\n改善历史。 显示收获时间的当前时间戳(分钟精确度)\n添加历史。 last 显示先前完成的小时值的小时"
+      },
       "3.3.0": {
         "en": "fixed unit tests for history states\nfix eslint errors in test files\nimprove documentation (configuration, examples)\nupdate dependencies and repository configuration\nfix CI issues\ncleanup devDependencies\nadd history.current channel\nensure correct roles for history objects\nfix history date format for current history\nfix undefined state value in history\nfix current history logic",
         "de": "festeinheitentests für geschichtszustände\neslint-fehler in testdateien beheben\nverbesserung der dokumentation (konfiguration, beispiele)\naktualisierung von abhängigkeiten und repository-konfiguration\ncI-Probleme beheben\ncleanup devDependancen\ngeschichte hinzufügen. stromkanal\nkorrekte rollen für geschichtsobjekte sicherstellen\nfixe geschichte datumsformat für aktuelle geschichte\nundefinierten zustandswert in der geschichte beheben\ndie aktuelle geschichte logik",
@@ -80,19 +93,6 @@
         "pl": "Naprawiono błąd w orzeźwiającym tokenie oauth ponownie.",
         "uk": "Виправлена помилка в оновленні токени знову.",
         "zh-cn": "重新刷新Oauth信号的固定错误 ."
-      },
-      "3.0.1": {
-        "en": "Fixed bug in refreshing oauth token.",
-        "de": "Fehler beim erfrischenden Oauth-Token behoben.",
-        "ru": "Фиксированный жучок в освежающем токене.",
-        "pt": "Corrigido o erro no token de oauth refrescante.",
-        "nl": "Fixed bug in verfrissende oauth token.",
-        "fr": "Correction d'un bug dans un jeton rafraîchissant.",
-        "it": "Corretto bug in rinfrescante oauth token.",
-        "es": "Insecto fijo en refrescante token oauth.",
-        "pl": "Naprawiono błąd w odświeżającym tokenie oauth.",
-        "uk": "Виправлена помилка в освіження носового токену.",
-        "zh-cn": "刷新Oauth符号的固定错误 ."
       }
     },
     "titleLang": {
