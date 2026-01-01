@@ -259,7 +259,7 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 
 MIT License
 
-Copyright (c) 2025 marc <marc@lammers.dev>
+Copyright (c) 2025-2026 marc <marc@lammers.dev>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
