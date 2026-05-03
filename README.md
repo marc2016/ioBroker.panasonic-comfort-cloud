@@ -255,6 +255,8 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 
 * States insideTemperature, outTemperature and Nanoe added.
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
