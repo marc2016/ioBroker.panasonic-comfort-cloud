@@ -477,10 +477,12 @@ class PanasonicComfortCloud extends utils.Adapter {
      */
     private onUnload(callback: () => void): void {
         try {
-            if(this.refreshTimeout)
-                clearTimeout(this.refreshTimeout)
-            if(this.refreshHistoryTimeout)
-                clearTimeout(this.refreshHistoryTimeout)
+            if (this.refreshTimeout) {
+                this.clearTimeout(this.refreshTimeout);
+            }
+            if (this.refreshHistoryTimeout) {
+                this.clearTimeout(this.refreshHistoryTimeout);
+            }
 
             this.log.info('cleaned everything up...')
             callback()
@@ -609,7 +611,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.log.debug('setupRefreshTimeout')
         const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000
         this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`)
-        this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+        this.refreshTimeout = this.setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
     }
 
     private async refreshTimeoutFunc(): Promise<void> {
@@ -626,7 +628,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     private setupHistoryRefreshTimeout(): void {
         this.log.debug('setupHistoryRefreshTimeout')
         const refreshIntervalInMilliseconds = this.historyRefreshIntervalInMinutes * 60 * 1000
-        this.refreshHistoryTimeout = setTimeout(this.refreshHistoryTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+        this.refreshHistoryTimeout = this.setTimeout(this.refreshHistoryTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
     }
 
     private async refreshHistoryTimeoutFunc(): Promise<void> {

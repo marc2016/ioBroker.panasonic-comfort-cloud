@@ -153,7 +153,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.6.17"
+        "admin": ">=7.6.20"
       }
     ]
   },
@@ -212,7 +212,7 @@
         "role": "button",
         "name": "Refresh devices manual",
         "type": "boolean",
-        "read": true,
+        "read": false,
         "write": true,
         "def": false
       },
@@ -225,7 +225,7 @@
         "role": "button",
         "name": "Refresh history data manual",
         "type": "boolean",
-        "read": true,
+        "read": false,
         "write": true,
         "def": false
       },
