@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2",
-    "axios": "^1.6.2",
+    "axios": "^1.18.1",
     "panasonic-comfort-cloud-client": "^2.1.5"
   },
   "devDependencies": {
