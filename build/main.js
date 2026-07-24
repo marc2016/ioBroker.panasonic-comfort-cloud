@@ -53,7 +53,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     const loadedAppVersion = await this.getCurrentAppVersion();
     this.log.info(`Loaded app version from App store: ${loadedAppVersion}`);
     if (loadedAppVersion && this.trimAll((_c = this.config) == null ? void 0 : _c.appVersionFromAppStore) != this.trimAll(loadedAppVersion)) {
-      this.updateConfig({ appVersionFromAppStore: this.trimAll(loadedAppVersion), password: this.encrypt((_d = this.config) == null ? void 0 : _d.password) });
+      this.updateConfig({
+        appVersionFromAppStore: this.trimAll(loadedAppVersion),
+        password: this.encrypt((_d = this.config) == null ? void 0 : _d.password)
+      });
       return;
     }
     if (!((_e = this.config) == null ? void 0 : _e.username) || !((_f = this.config) == null ? void 0 : _f.password)) {
@@ -71,10 +74,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       }
       try {
         this.log.debug(`Try to login with username ${this.config.username}.`);
-        await this.comfortCloudClient.login(
-          this.config.username,
-          this.config.password
-        );
+        await this.comfortCloudClient.login(this.config.username, this.config.password);
         this.log.info("Login successful.");
         await this.setStateAsync("info.connection", true, true);
         this.log.debug("Create devices.");
@@ -101,27 +101,55 @@ class PanasonicComfortCloud extends utils.Adapter {
     });
     for (const deviceInfo of deviceInfos) {
       const modes = {
-        "day": import_panasonic_comfort_cloud_client.DataMode.Day,
-        "month": import_panasonic_comfort_cloud_client.DataMode.Month
+        day: import_panasonic_comfort_cloud_client.DataMode.Day,
+        month: import_panasonic_comfort_cloud_client.DataMode.Month
       };
       for (const [modeName, dataMode] of Object.entries(modes)) {
         try {
           this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
-          const history = await this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, /* @__PURE__ */ new Date(), dataMode);
+          const history = await this.comfortCloudClient.getDeviceHistoryData(
+            deviceInfo.guid,
+            /* @__PURE__ */ new Date(),
+            dataMode
+          );
           if (history && history.historyDataList) {
             let latestData = null;
             for (let i = 0; i < history.historyDataList.length; i++) {
               const data = history.historyDataList[i];
               const index = i.toString().padStart(2, "0");
               const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
-              await this.setStateChangedIfDefinedAsync(`${prefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
-              await this.setStateChangedIfDefinedAsync(`${prefix}.averageSettingTemp`, data.averageSettingTemp, true);
-              await this.setStateChangedIfDefinedAsync(`${prefix}.averageInsideTemp`, data.averageInsideTemp, true);
-              await this.setStateChangedIfDefinedAsync(`${prefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
+              await this.setStateChangedIfDefinedAsync(
+                `${prefix}.dataTime`,
+                this.formatHistoryDate(data.dataTime),
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${prefix}.averageSettingTemp`,
+                data.averageSettingTemp,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${prefix}.averageInsideTemp`,
+                data.averageInsideTemp,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${prefix}.averageOutsideTemp`,
+                data.averageOutsideTemp,
+                true
+              );
               await this.setStateChangedIfDefinedAsync(`${prefix}.consumption`, data.consumption, true);
               await this.setStateChangedIfDefinedAsync(`${prefix}.cost`, data.cost, true);
-              await this.setStateChangedIfDefinedAsync(`${prefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
-              await this.setStateChangedIfDefinedAsync(`${prefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+              await this.setStateChangedIfDefinedAsync(
+                `${prefix}.heatConsumptionRate`,
+                data.heatConsumptionRate,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${prefix}.coolConsumptionRate`,
+                data.coolConsumptionRate,
+                true
+              );
               if (modeName === "day") {
                 if (data.consumption !== -255) {
                   if (!latestData || data.dataTime > latestData.dataTime) {
@@ -140,35 +168,93 @@ class PanasonicComfortCloud extends utils.Adapter {
                   const dataHour = parseInt(hourStr, 10);
                   if (dataHour === previousHour) {
                     const lastHourPrefix = `${deviceInfo.name}.history.lastHour`;
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.dataTime`, this.formatHistoryDate(data.dataTime), true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.averageSettingTemp`, data.averageSettingTemp, true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.averageInsideTemp`, data.averageInsideTemp, true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.averageOutsideTemp`, data.averageOutsideTemp, true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.consumption`, data.consumption, true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.cost`, data.cost, true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.heatConsumptionRate`, data.heatConsumptionRate, true);
-                    await this.setStateChangedIfDefinedAsync(`${lastHourPrefix}.coolConsumptionRate`, data.coolConsumptionRate, true);
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.dataTime`,
+                      this.formatHistoryDate(data.dataTime),
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.averageSettingTemp`,
+                      data.averageSettingTemp,
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.averageInsideTemp`,
+                      data.averageInsideTemp,
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.averageOutsideTemp`,
+                      data.averageOutsideTemp,
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.consumption`,
+                      data.consumption,
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.cost`,
+                      data.cost,
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.heatConsumptionRate`,
+                      data.heatConsumptionRate,
+                      true
+                    );
+                    await this.setStateChangedIfDefinedAsync(
+                      `${lastHourPrefix}.coolConsumptionRate`,
+                      data.coolConsumptionRate,
+                      true
+                    );
                   }
                 }
               }
             }
             if (modeName === "day" && latestData) {
-              this.log.debug(`Updating history.current using latest available data: ${latestData.dataTime}`);
+              this.log.debug(
+                `Updating history.current using latest available data: ${latestData.dataTime}`
+              );
               const currentPrefix = `${deviceInfo.name}.history.current`;
               const now = /* @__PURE__ */ new Date();
               const formattedTime = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
               await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, formattedTime, true);
-              await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageSettingTemp`, latestData.averageSettingTemp, true);
-              await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageInsideTemp`, latestData.averageInsideTemp, true);
-              await this.setStateChangedIfDefinedAsync(`${currentPrefix}.averageOutsideTemp`, latestData.averageOutsideTemp, true);
-              await this.setStateChangedIfDefinedAsync(`${currentPrefix}.consumption`, latestData.consumption, true);
+              await this.setStateChangedIfDefinedAsync(
+                `${currentPrefix}.averageSettingTemp`,
+                latestData.averageSettingTemp,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${currentPrefix}.averageInsideTemp`,
+                latestData.averageInsideTemp,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${currentPrefix}.averageOutsideTemp`,
+                latestData.averageOutsideTemp,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${currentPrefix}.consumption`,
+                latestData.consumption,
+                true
+              );
               await this.setStateChangedIfDefinedAsync(`${currentPrefix}.cost`, latestData.cost, true);
-              await this.setStateChangedIfDefinedAsync(`${currentPrefix}.heatConsumptionRate`, latestData.heatConsumptionRate, true);
-              await this.setStateChangedIfDefinedAsync(`${currentPrefix}.coolConsumptionRate`, latestData.coolConsumptionRate, true);
+              await this.setStateChangedIfDefinedAsync(
+                `${currentPrefix}.heatConsumptionRate`,
+                latestData.heatConsumptionRate,
+                true
+              );
+              await this.setStateChangedIfDefinedAsync(
+                `${currentPrefix}.coolConsumptionRate`,
+                latestData.coolConsumptionRate,
+                true
+              );
             }
           }
         } catch (e) {
-          this.log.warn(`Failed to fetch history ${modeName} for ${deviceInfo.name}: ${e}`);
+          this.log.warn(`Failed to fetch history ${modeName} for ${deviceInfo.name}: ${String(e)}`);
         }
       }
     }
@@ -215,21 +301,15 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.log.debug(`Refresh device ${device.name} (${device.guid}).`);
     this.log.debug(`${device.name}: guid => ${device.guid}.`);
     for (const stateDef of import_state_definitions.deviceStates) {
-      if (stateDef.id === "guid") continue;
+      if (stateDef.id === "guid") {
+        continue;
+      }
       const value = device[stateDef.id];
       this.log.debug(`${device.name}: ${stateDef.id} => ${value}.`);
       if (value !== void 0) {
-        await this.setStateChangedAsync(
-          `${device.name}.${stateDef.id}`,
-          value,
-          true
-        );
+        await this.setStateChangedAsync(`${device.name}.${stateDef.id}`, value, true);
       } else if (stateDef.id === "connected") {
-        await this.setStateChangedAsync(
-          `${device.name}.connected`,
-          true,
-          true
-        );
+        await this.setStateChangedAsync(`${device.name}.connected`, true, true);
       }
     }
     this.log.debug(`Refresh device ${device.name} finished.`);
@@ -257,18 +337,20 @@ class PanasonicComfortCloud extends utils.Adapter {
       const deviceInfos = devices.map((d) => {
         return { guid: d.guid, name: d.name };
       });
-      await Promise.all(deviceInfos.map(async (deviceInfo) => {
-        try {
-          const device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
-          if (device != null) {
-            device.name = deviceInfo.name;
-            device.guid = deviceInfo.guid;
-            await this.refreshDeviceStates(device);
+      await Promise.all(
+        deviceInfos.map(async (deviceInfo) => {
+          try {
+            const device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
+            if (device != null) {
+              device.name = deviceInfo.name;
+              device.guid = deviceInfo.guid;
+              await this.refreshDeviceStates(device);
+            }
+          } catch (error) {
+            await this.handleDeviceError(deviceInfo.name, error);
           }
-        } catch (error) {
-          await this.handleDeviceError(deviceInfo.name, error);
-        }
-      }));
+        })
+      );
     } catch (error) {
       await this.handleClientError(error);
     }
@@ -278,97 +360,99 @@ class PanasonicComfortCloud extends utils.Adapter {
     const deviceInfos = devicesFromService.map((d) => {
       return { guid: d.guid, name: d.name };
     });
-    await Promise.all(deviceInfos.map(async (deviceInfo) => {
-      var _a;
-      this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`);
-      let device = null;
-      try {
-        device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
-      } catch (error) {
-        await this.handleDeviceError(deviceInfo.name, error);
-        return;
-      }
-      if (device != null) {
-        await this.setObjectNotExistsAsync(deviceInfo.name, {
-          type: "device",
-          common: {
-            name: deviceInfo.name
-          },
-          native: {}
-        });
-        for (const stateDef of import_state_definitions.deviceStates) {
-          const common = {
-            name: stateDef.id,
-            role: stateDef.role,
-            write: stateDef.write,
-            type: stateDef.type,
-            read: stateDef.read !== void 0 ? stateDef.read : true,
-            // default read to true
-            def: stateDef.id === "guid" ? deviceInfo.guid : stateDef.def !== void 0 ? stateDef.def : device[stateDef.id]
-          };
-          if (stateDef.states) {
-            common.states = stateDef.states;
-          }
-          await this.setObjectNotExistsAsync(`${deviceInfo.name}.${stateDef.id}`, {
-            type: "state",
-            common,
-            native: {}
-          });
+    await Promise.all(
+      deviceInfos.map(async (deviceInfo) => {
+        var _a;
+        this.log.debug(`Device info from group ${deviceInfo.guid}, ${deviceInfo.name}.`);
+        let device = null;
+        try {
+          device = await this.comfortCloudClient.getDevice(deviceInfo.guid, deviceInfo.name);
+        } catch (error) {
+          await this.handleDeviceError(deviceInfo.name, error);
+          return;
         }
-        this.log.info(`Device ${deviceInfo.name} created.`);
-        if ((_a = this.config) == null ? void 0 : _a.historyEnabled) {
-          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history`, {
-            type: "channel",
-            common: { name: "History Data", role: "info" },
+        if (device != null) {
+          await this.setObjectNotExistsAsync(deviceInfo.name, {
+            type: "device",
+            common: {
+              name: deviceInfo.name
+            },
             native: {}
           });
-          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.current`, {
-            type: "channel",
-            common: { name: "Current Hourly History", role: "info" },
-            native: {}
-          });
-          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.lastHour`, {
-            type: "channel",
-            common: { name: "Last Completed Hour History", role: "info" },
-            native: {}
-          });
-          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day`, {
-            type: "channel",
-            common: { name: "Daily History", role: "info" },
-            native: {}
-          });
-          for (let i = 0; i <= 24; i++) {
-            const index = i.toString().padStart(2, "0");
-            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day.${index}`, {
-              type: "channel",
-              common: { name: `Hour ${index}`, role: "info" },
-              native: {}
-            });
-          }
-          await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month`, {
-            type: "channel",
-            common: { name: "Monthly History", role: "info" },
-            native: {}
-          });
-          for (let i = 0; i <= 31; i++) {
-            const index = i.toString().padStart(2, "0");
-            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month.${index}`, {
-              type: "channel",
-              common: { name: `Day ${index}`, role: "info" },
-              native: {}
-            });
-          }
-          const historyStates = (0, import_state_definitions.getHistoryStates)();
-          for (const [id, def] of Object.entries(historyStates)) {
-            await this.setObjectNotExistsAsync(`${deviceInfo.name}.${id}`, {
+          for (const stateDef of import_state_definitions.deviceStates) {
+            const common = {
+              name: stateDef.id,
+              role: stateDef.role,
+              write: stateDef.write,
+              type: stateDef.type,
+              read: stateDef.read !== void 0 ? stateDef.read : true,
+              // default read to true
+              def: stateDef.id === "guid" ? deviceInfo.guid : stateDef.def !== void 0 ? stateDef.def : device[stateDef.id]
+            };
+            if (stateDef.states) {
+              common.states = stateDef.states;
+            }
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.${stateDef.id}`, {
               type: "state",
-              common: def,
+              common,
               native: {}
             });
           }
+          this.log.info(`Device ${deviceInfo.name} created.`);
+          if ((_a = this.config) == null ? void 0 : _a.historyEnabled) {
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history`, {
+              type: "channel",
+              common: { name: "History Data", role: "info" },
+              native: {}
+            });
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.current`, {
+              type: "channel",
+              common: { name: "Current Hourly History", role: "info" },
+              native: {}
+            });
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.lastHour`, {
+              type: "channel",
+              common: { name: "Last Completed Hour History", role: "info" },
+              native: {}
+            });
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day`, {
+              type: "channel",
+              common: { name: "Daily History", role: "info" },
+              native: {}
+            });
+            for (let i = 0; i <= 24; i++) {
+              const index = i.toString().padStart(2, "0");
+              await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.day.${index}`, {
+                type: "channel",
+                common: { name: `Hour ${index}`, role: "info" },
+                native: {}
+              });
+            }
+            await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month`, {
+              type: "channel",
+              common: { name: "Monthly History", role: "info" },
+              native: {}
+            });
+            for (let i = 0; i <= 31; i++) {
+              const index = i.toString().padStart(2, "0");
+              await this.setObjectNotExistsAsync(`${deviceInfo.name}.history.month.${index}`, {
+                type: "channel",
+                common: { name: `Day ${index}`, role: "info" },
+                native: {}
+              });
+            }
+            const historyStates = (0, import_state_definitions.getHistoryStates)();
+            for (const [id, def] of Object.entries(historyStates)) {
+              await this.setObjectNotExistsAsync(`${deviceInfo.name}.${id}`, {
+                type: "state",
+                common: def,
+                native: {}
+              });
+            }
+          }
         }
-      }
-    }));
+      })
+    );
     this.log.debug("Device creation completed.");
   }
   async updateDevice(deviceName, stateName, state) {
@@ -382,9 +466,7 @@ class PanasonicComfortCloud extends utils.Adapter {
         return;
       }
       const guidState = await this.getStateAsync(`${deviceName}.guid`);
-      this.log.debug(
-        `Update device guid=${guidState == null ? void 0 : guidState.val} state=${stateName}`
-      );
+      this.log.debug(`Update device guid=${guidState == null ? void 0 : guidState.val} state=${stateName}`);
       const parameters = {};
       parameters[stateName] = state.val;
       if (!(guidState == null ? void 0 : guidState.val)) {
@@ -392,10 +474,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       }
       try {
         this.log.debug(`Set device parameter ${JSON.stringify(parameters)} for device ${guidState == null ? void 0 : guidState.val}`);
-        await this.comfortCloudClient.setParameters(
-          guidState == null ? void 0 : guidState.val,
-          parameters
-        );
+        await this.comfortCloudClient.setParameters(guidState == null ? void 0 : guidState.val, parameters);
         this.log.debug(`Refresh device ${deviceName}`);
         await this.refreshDevice(guidState == null ? void 0 : guidState.val, deviceName);
       } catch (error) {
@@ -405,21 +484,28 @@ class PanasonicComfortCloud extends utils.Adapter {
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
+   *
+   * @param callback
    */
   onUnload(callback) {
     try {
-      if (this.refreshTimeout)
-        clearTimeout(this.refreshTimeout);
-      if (this.refreshHistoryTimeout)
-        clearTimeout(this.refreshHistoryTimeout);
+      if (this.refreshTimeout) {
+        this.clearTimeout(this.refreshTimeout);
+      }
+      if (this.refreshHistoryTimeout) {
+        this.clearTimeout(this.refreshHistoryTimeout);
+      }
       this.log.info("cleaned everything up...");
       callback();
-    } catch (e) {
+    } catch {
       callback();
     }
   }
   /**
    * Is called if a subscribed object changes
+   *
+   * @param id
+   * @param obj
    */
   onObjectChange(id, obj) {
     if (obj) {
@@ -430,6 +516,9 @@ class PanasonicComfortCloud extends utils.Adapter {
   }
   /**
    * Is called if a subscribed state changes
+   *
+   * @param id
+   * @param state
    */
   async onStateChange(id, state) {
     if (!state || state.ack) {
@@ -465,25 +554,20 @@ class PanasonicComfortCloud extends utils.Adapter {
       } catch (error) {
         await this.handleClientError(error);
       }
-      this.log.info(
-        `state ${id} changed: ${state.val} (ack = ${state.ack})`
-      );
+      this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
     }
   }
   async getCurrentAppVersion() {
     const response = await import_axios.default.get("https://itunes.apple.com/lookup?id=1348640525");
-    if (response.status !== 200)
+    if (response.status !== 200) {
       return "";
+    }
     const version = await response.data.results[0].version;
     return version;
   }
   async handleDeviceError(deviceName, error) {
     this.log.debug(`Try to handle device error for ${deviceName}.`);
-    await this.setStateChangedAsync(
-      `${deviceName}.connected`,
-      false,
-      true
-    );
+    await this.setStateChangedAsync(`${deviceName}.connected`, false, true);
     if (error instanceof import_panasonic_comfort_cloud_client.ServiceError) {
       this.log.error(
         `Service error when connecting to device ${deviceName}: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
@@ -499,17 +583,12 @@ class PanasonicComfortCloud extends utils.Adapter {
         `Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`
       );
       await this.setStateAsync("info.connection", false, true);
-      await this.comfortCloudClient.login(
-        this.config.username,
-        this.config.password
-      );
+      await this.comfortCloudClient.login(this.config.username, this.config.password);
       await this.setStateAsync("info.connection", true, true);
       this.log.info("Login successful.");
     } else if (error instanceof import_panasonic_comfort_cloud_client.ServiceError) {
       await this.setStateAsync("info.connection", false, true);
-      this.log.error(
-        `Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
-      );
+      this.log.error(`Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`);
     } else if (error instanceof Error) {
       this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`);
     }
@@ -518,7 +597,7 @@ class PanasonicComfortCloud extends utils.Adapter {
     this.log.debug("setupRefreshTimeout");
     const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1e3;
     this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`);
-    this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+    this.refreshTimeout = this.setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
   }
   async refreshTimeoutFunc() {
     this.log.debug(`refreshTimeoutFunc started.`);
@@ -532,7 +611,10 @@ class PanasonicComfortCloud extends utils.Adapter {
   setupHistoryRefreshTimeout() {
     this.log.debug("setupHistoryRefreshTimeout");
     const refreshIntervalInMilliseconds = this.historyRefreshIntervalInMinutes * 60 * 1e3;
-    this.refreshHistoryTimeout = setTimeout(this.refreshHistoryTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
+    this.refreshHistoryTimeout = this.setTimeout(
+      this.refreshHistoryTimeoutFunc.bind(this),
+      refreshIntervalInMilliseconds
+    );
   }
   async refreshHistoryTimeoutFunc() {
     var _a;
@@ -544,7 +626,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       }
       this.setupHistoryRefreshTimeout();
     } catch (error) {
-      this.log.warn(`Failed to refresh history: ${error}`);
+      this.log.warn(`Failed to refresh history: ${String(error)}`);
       this.setupHistoryRefreshTimeout();
     }
   }
