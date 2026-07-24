@@ -1,12 +1,11 @@
 {
     "appVersion": "Nova versão do aplicativo para API",
+    "appVersionFromAppStore": "Versão do aplicativo para API carregada na App Store",
+    "useAppVersionFromAppStore": "Usar a versão do aplicativo carregada na App Store",
     "panasonic-comfort-cloud adapter settings": "Configurações do adaptador para panasonic-comfort-cloud",
     "password": "Senha",
     "refreshInterval": "Intervalo de atualização (minutos)",
     "username": "Nome de usuário",
     "automaticRefreshEnabled": "Atualização automática ativada",
-    "adapterCommands": "Comandos para controlar o adaptador",
-    "manualRefresh": "Atualizar manual de dispositivos",
-    "appVersionFromAppStore": "Versão do aplicativo para API carregada na App Store",
-    "useAppVersionFromAppStore": "Use a versão do aplicativo carregada na App Store"
+    "historyEnabled": "Buscar dados históricos (consumo, temperatura)"
 }

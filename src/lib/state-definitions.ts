@@ -6,8 +6,8 @@ import {
     EcoMode,
     OperationMode,
     FanSpeed,
-    NanoeMode
-} from 'panasonic-comfort-cloud-client'
+    NanoeMode,
+} from 'panasonic-comfort-cloud-client';
 
 export interface StateDefinition {
     id: string;
@@ -25,32 +25,32 @@ export const deviceStates: StateDefinition[] = [
         role: 'info.address',
         write: false,
         type: 'string',
-        def: undefined // Will be set dynamically from device info
+        def: undefined, // Will be set dynamically from device info
     },
     {
         id: 'operate',
         role: 'switch.power',
         write: true,
         type: 'number',
-        states: { 0: Power[0], 1: Power[1] }
+        states: { 0: Power[0], 1: Power[1] },
     },
     {
         id: 'temperatureSet',
         role: 'level.temperature',
         write: true,
-        type: 'number'
+        type: 'number',
     },
     {
         id: 'insideTemperature',
         role: 'level.temperature',
         write: false,
-        type: 'number'
+        type: 'number',
     },
     {
         id: 'outTemperature',
         role: 'level.temperature',
         write: false,
-        type: 'number'
+        type: 'number',
     },
     {
         id: 'airSwingLR',
@@ -63,7 +63,7 @@ export const deviceStates: StateDefinition[] = [
             2: AirSwingLR[2],
             3: AirSwingLR[3],
             4: AirSwingLR[4],
-        }
+        },
     },
     {
         id: 'airSwingUD',
@@ -76,7 +76,7 @@ export const deviceStates: StateDefinition[] = [
             2: AirSwingUD[2],
             3: AirSwingUD[3],
             4: AirSwingUD[4],
-        }
+        },
     },
     {
         id: 'fanAutoMode',
@@ -88,14 +88,14 @@ export const deviceStates: StateDefinition[] = [
             1: FanAutoMode[1],
             2: FanAutoMode[2],
             3: FanAutoMode[3],
-        }
+        },
     },
     {
         id: 'ecoMode',
         role: 'state',
         write: true,
         type: 'number',
-        states: { 0: EcoMode[0], 1: EcoMode[1], 2: EcoMode[2] }
+        states: { 0: EcoMode[0], 1: EcoMode[1], 2: EcoMode[2] },
     },
     {
         id: 'operationMode',
@@ -108,7 +108,7 @@ export const deviceStates: StateDefinition[] = [
             2: OperationMode[2],
             3: OperationMode[3],
             4: OperationMode[4],
-        }
+        },
     },
     {
         id: 'fanSpeed',
@@ -122,7 +122,7 @@ export const deviceStates: StateDefinition[] = [
             3: FanSpeed[3],
             4: FanSpeed[4],
             5: FanSpeed[5],
-        }
+        },
     },
     {
         id: 'actualNanoe',
@@ -135,7 +135,7 @@ export const deviceStates: StateDefinition[] = [
             2: NanoeMode[2],
             3: NanoeMode[3],
             4: NanoeMode[4],
-        }
+        },
     },
     {
         id: 'connected',
@@ -143,13 +143,11 @@ export const deviceStates: StateDefinition[] = [
         write: false,
         read: true,
         type: 'boolean',
-        def: false
-    }
+        def: false,
+    },
 ];
 
-export const readonlyStateNames = deviceStates
-    .filter(s => !s.write)
-    .map(s => s.id);
+export const readonlyStateNames = deviceStates.filter(s => !s.write).map(s => s.id);
 
 export function getHistoryStates(): Record<string, any> {
     const states: Record<string, any> = {};
@@ -161,36 +159,216 @@ export function getHistoryStates(): Record<string, any> {
             const index = i.toString().padStart(2, '0');
             const prefix = `history.${mode}.${index}`;
 
-            states[`${prefix}.dataTime`] = { role: 'value.time', name: 'Data Time', type: 'string', read: true, write: false, def: '' };
-            states[`${prefix}.averageSettingTemp`] = { role: 'value.temperature', name: 'Average Setting Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-            states[`${prefix}.averageInsideTemp`] = { role: 'value.temperature', name: 'Average Inside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-            states[`${prefix}.averageOutsideTemp`] = { role: 'value.temperature', name: 'Average Outside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-            states[`${prefix}.consumption`] = { role: 'value.power.consumption', name: 'Consumption', type: 'number', unit: 'kWh', read: true, write: false, def: 0 };
-            states[`${prefix}.cost`] = { role: 'value.cost', name: 'Cost', type: 'number', read: true, write: false, def: 0 };
-            states[`${prefix}.heatConsumptionRate`] = { role: 'value', name: 'Heat Consumption Rate', type: 'number', read: true, write: false, def: 0 };
-            states[`${prefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+            states[`${prefix}.dataTime`] = {
+                role: 'value.time',
+                name: 'Data Time',
+                type: 'string',
+                read: true,
+                write: false,
+                def: '',
+            };
+            states[`${prefix}.averageSettingTemp`] = {
+                role: 'value.temperature',
+                name: 'Average Setting Temp',
+                type: 'number',
+                unit: '°C',
+                read: true,
+                write: false,
+                def: 0,
+            };
+            states[`${prefix}.averageInsideTemp`] = {
+                role: 'value.temperature',
+                name: 'Average Inside Temp',
+                type: 'number',
+                unit: '°C',
+                read: true,
+                write: false,
+                def: 0,
+            };
+            states[`${prefix}.averageOutsideTemp`] = {
+                role: 'value.temperature',
+                name: 'Average Outside Temp',
+                type: 'number',
+                unit: '°C',
+                read: true,
+                write: false,
+                def: 0,
+            };
+            states[`${prefix}.consumption`] = {
+                role: 'value.power.consumption',
+                name: 'Consumption',
+                type: 'number',
+                unit: 'kWh',
+                read: true,
+                write: false,
+                def: 0,
+            };
+            states[`${prefix}.cost`] = {
+                role: 'value.cost',
+                name: 'Cost',
+                type: 'number',
+                read: true,
+                write: false,
+                def: 0,
+            };
+            states[`${prefix}.heatConsumptionRate`] = {
+                role: 'value',
+                name: 'Heat Consumption Rate',
+                type: 'number',
+                read: true,
+                write: false,
+                def: 0,
+            };
+            states[`${prefix}.coolConsumptionRate`] = {
+                role: 'value',
+                name: 'Cool Consumption Rate',
+                type: 'number',
+                read: true,
+                write: false,
+                def: 0,
+            };
         }
     }
 
     const currentPrefix = `history.current`;
-    states[`${currentPrefix}.dataTime`] = { role: 'value.time', name: 'Data Time', type: 'string', read: true, write: false, def: '' };
-    states[`${currentPrefix}.averageSettingTemp`] = { role: 'value.temperature', name: 'Average Setting Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-    states[`${currentPrefix}.averageInsideTemp`] = { role: 'value.temperature', name: 'Average Inside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-    states[`${currentPrefix}.averageOutsideTemp`] = { role: 'value.temperature', name: 'Average Outside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-    states[`${currentPrefix}.consumption`] = { role: 'value.power.consumption', name: 'Consumption', type: 'number', unit: 'kWh', read: true, write: false, def: 0 };
-    states[`${currentPrefix}.cost`] = { role: 'value.cost', name: 'Cost', type: 'number', read: true, write: false, def: 0 };
-    states[`${currentPrefix}.heatConsumptionRate`] = { role: 'value', name: 'Heat Consumption Rate', type: 'number', read: true, write: false, def: 0 };
-    states[`${currentPrefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+    states[`${currentPrefix}.dataTime`] = {
+        role: 'value.time',
+        name: 'Data Time',
+        type: 'string',
+        read: true,
+        write: false,
+        def: '',
+    };
+    states[`${currentPrefix}.averageSettingTemp`] = {
+        role: 'value.temperature',
+        name: 'Average Setting Temp',
+        type: 'number',
+        unit: '°C',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${currentPrefix}.averageInsideTemp`] = {
+        role: 'value.temperature',
+        name: 'Average Inside Temp',
+        type: 'number',
+        unit: '°C',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${currentPrefix}.averageOutsideTemp`] = {
+        role: 'value.temperature',
+        name: 'Average Outside Temp',
+        type: 'number',
+        unit: '°C',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${currentPrefix}.consumption`] = {
+        role: 'value.power.consumption',
+        name: 'Consumption',
+        type: 'number',
+        unit: 'kWh',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${currentPrefix}.cost`] = {
+        role: 'value.cost',
+        name: 'Cost',
+        type: 'number',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${currentPrefix}.heatConsumptionRate`] = {
+        role: 'value',
+        name: 'Heat Consumption Rate',
+        type: 'number',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${currentPrefix}.coolConsumptionRate`] = {
+        role: 'value',
+        name: 'Cool Consumption Rate',
+        type: 'number',
+        read: true,
+        write: false,
+        def: 0,
+    };
 
     const lastHourPrefix = `history.lastHour`;
-    states[`${lastHourPrefix}.dataTime`] = { role: 'value.time', name: 'Data Time', type: 'string', read: true, write: false, def: '' };
-    states[`${lastHourPrefix}.averageSettingTemp`] = { role: 'value.temperature', name: 'Average Setting Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-    states[`${lastHourPrefix}.averageInsideTemp`] = { role: 'value.temperature', name: 'Average Inside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-    states[`${lastHourPrefix}.averageOutsideTemp`] = { role: 'value.temperature', name: 'Average Outside Temp', type: 'number', unit: '°C', read: true, write: false, def: 0 };
-    states[`${lastHourPrefix}.consumption`] = { role: 'value.power.consumption', name: 'Consumption', type: 'number', unit: 'kWh', read: true, write: false, def: 0 };
-    states[`${lastHourPrefix}.cost`] = { role: 'value.cost', name: 'Cost', type: 'number', read: true, write: false, def: 0 };
-    states[`${lastHourPrefix}.heatConsumptionRate`] = { role: 'value', name: 'Heat Consumption Rate', type: 'number', read: true, write: false, def: 0 };
-    states[`${lastHourPrefix}.coolConsumptionRate`] = { role: 'value', name: 'Cool Consumption Rate', type: 'number', read: true, write: false, def: 0 };
+    states[`${lastHourPrefix}.dataTime`] = {
+        role: 'value.time',
+        name: 'Data Time',
+        type: 'string',
+        read: true,
+        write: false,
+        def: '',
+    };
+    states[`${lastHourPrefix}.averageSettingTemp`] = {
+        role: 'value.temperature',
+        name: 'Average Setting Temp',
+        type: 'number',
+        unit: '°C',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${lastHourPrefix}.averageInsideTemp`] = {
+        role: 'value.temperature',
+        name: 'Average Inside Temp',
+        type: 'number',
+        unit: '°C',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${lastHourPrefix}.averageOutsideTemp`] = {
+        role: 'value.temperature',
+        name: 'Average Outside Temp',
+        type: 'number',
+        unit: '°C',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${lastHourPrefix}.consumption`] = {
+        role: 'value.power.consumption',
+        name: 'Consumption',
+        type: 'number',
+        unit: 'kWh',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${lastHourPrefix}.cost`] = {
+        role: 'value.cost',
+        name: 'Cost',
+        type: 'number',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${lastHourPrefix}.heatConsumptionRate`] = {
+        role: 'value',
+        name: 'Heat Consumption Rate',
+        type: 'number',
+        read: true,
+        write: false,
+        def: 0,
+    };
+    states[`${lastHourPrefix}.coolConsumptionRate`] = {
+        role: 'value',
+        name: 'Cool Consumption Rate',
+        type: 'number',
+        read: true,
+        write: false,
+        def: 0,
+    };
 
     return states;
 }

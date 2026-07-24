@@ -94,6 +94,26 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 ```
 
 ## Changelog
+<!--
+  Placeholder for the next version (at the beginning of the line):
+  ### **WORK IN PROGRESS**
+-->
+
+### **WORK IN PROGRESS**
+
+* updated release-script and plugins to 5.2.0
+* raised minimum Node.js version to 22
+* migrated to @iobroker/eslint-config (ESLint 9)
+* updated admin dependency to 7.6.20
+* fixed button roles for manualRefresh and refreshHistory (read=false)
+* removed unused dependencies (ts-enum-util, undici)
+* fixed i18n translations (historyEnabled, removed outdated keys)
+* added Dependabot and auto-merge configuration
+* updated CI workflow (Node 22/24, drop Node 20)
+* moved older changelog entries to CHANGELOG_OLD.md
+* removed obsolete .travis.yml and admin/style.css
+* replaced setTimeout with adapter this.setTimeout/this.clearTimeout
+
 ### 3.4.0 (2025-12-30)
 * fixed history.current updates by using latest available data (handle API lag)
 * increased history refresh rate to 15min
@@ -152,108 +172,7 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 * Added state to manual refresh device infos.
 * Updated client version for OAuth support.
 
-### 2.3.0 (2023-12-21)
-
-* Updated packages
-* Added connected state to devices
-
-### 2.2.4 (2023-10-18)
-
-* Fixed load AppVersion from Github.
-
-### 2.2.3 (2023-10-14)
-
-* Added support for admin 5 UI (jsonConfig).
-* Updated packages.
-* Fixed translation.
-
-### 2.2.2 (2023-09-16)
-
-* Fixed wrong version number.
-
-### 2.2.1 (2023-09-16)
-
-* panasonic-comfort-cloud-client updated to new version. New headers added.
-
-### 2.2.0
-
-* Added feature to automatically load the app version from GitHub.
-
-### 2.1.0
-
-* Added app version to settings.
-
-### 2.0.6
-
-* panasonic-comfort-cloud-client updated to new version. (appVersion changed again)
-
-### 2.0.5
-
-* Translation for news added.
-
-### 2.0.4
-
-* New version of dependencies installed.
-
-### 2.0.3
-
-* panasonic-comfort-cloud-client updated to new version. (appVersion changed again)
-
-### 2.0.2
-
-* panasonic-comfort-cloud-client updated to new version.
-
-### 2.0.1
-
-* Changed the type of some states from string to number.
-
-### 2.0.0
-
-* Added js-controller 3 dependency.
-* Added username and password to protectedNative and password to encryptedNative.
-* Added connection info.
-* Changed schdule to timeout for refresh.
-* Fixes for async await pattern.
-
-### 1.2.9
-
-* Error handling for get device added.
-
-### 1.2.8
-
-* Fixed bug in Comfort Cloud client.
-
-### 1.2.7
-
-* Comfort Cloud client updated.
-
-### 1.2.6
-
-* Fixed bug that guid is null in device creation.
-
-### 1.2.5
-
-* *Comfort Cloud client updated.
-
-### 1.2.4
-
-* Fixed bug with undefined guid. Log messages added.
-
-### 1.2.3
-
-* Set parameters only for writable states.
-
-### 1.2.2
-
-* *Fixed error handling and added stack info.
-
-### 1.2.1
-
-* Fixed bug in refesh device method.
-
-### 1.2.0
-
-* States insideTemperature, outTemperature and Nanoe added.
+Older changelog entries are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
 ## License
 
