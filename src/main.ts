@@ -21,6 +21,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     private refreshHistoryTimeout: ioBroker.Timeout | undefined;
     private refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     private readonly historyRefreshIntervalInMinutes = 15;
+    private deviceRefreshInProgress = false;
+    private historyRefreshInProgress = false;
+    private consecutiveRefreshErrors = 0;
+    private reauthenticationPromise: Promise<void> | undefined;
     public constructor(options: Partial<utils.AdapterOptions> = {}) {
         super({
             ...options,
@@ -41,7 +45,10 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.refreshIntervalInMinutes = this.config?.refreshInterval ?? REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
         this.subscribeStates('*');
 
+        await this.ensureDiagnosticStates();
         await this.setStateAsync('info.connection', false, true);
+        await this.setStateAsync('info.refreshInProgress', false, true);
+        await this.setStateAsync('info.historyRefreshInProgress', false, true);
 
         const loadedAppVersion = await this.getCurrentAppVersion();
         this.log.info(`Loaded app version from App store: ${loadedAppVersion}`);
@@ -93,189 +100,216 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async refreshHistory(groups: Group[]): Promise<void> {
-        const devicesFromService = groups.flatMap(g => g.devices);
-        const deviceInfos = devicesFromService.map(d => {
-            return { guid: d.guid, name: d.name };
-        });
+        if (this.historyRefreshInProgress) {
+            this.log.debug('Skip history refresh because another history refresh is still running.');
+            return;
+        }
 
-        for (const deviceInfo of deviceInfos) {
-            const modes: Record<string, DataMode> = {
-                day: DataMode.Day,
-                month: DataMode.Month,
-            };
+        this.historyRefreshInProgress = true;
+        await this.setStateAsync('info.historyRefreshInProgress', true, true);
+        await this.setStateAsync('info.lastHistoryRefreshAttempt', new Date().toISOString(), true);
 
-            for (const [modeName, dataMode] of Object.entries(modes)) {
-                try {
-                    this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
-                    const history = await this.comfortCloudClient.getDeviceHistoryData(
-                        deviceInfo.guid,
-                        new Date(),
-                        dataMode,
-                    );
+        try {
+            const devicesFromService = groups.flatMap(g => g.devices);
+            const deviceInfos = devicesFromService.map(d => {
+                return { guid: d.guid, name: d.name };
+            });
 
-                    if (history && history.historyDataList) {
-                        let latestData: any = null;
-                        for (let i = 0; i < history.historyDataList.length; i++) {
-                            const data = history.historyDataList[i];
-                            const index = i.toString().padStart(2, '0');
-                            const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
+            for (const deviceInfo of deviceInfos) {
+                const modes: Record<string, DataMode> = {
+                    day: DataMode.Day,
+                    month: DataMode.Month,
+                };
 
-                            await this.setStateChangedIfDefinedAsync(
-                                `${prefix}.dataTime`,
-                                this.formatHistoryDate(data.dataTime),
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${prefix}.averageSettingTemp`,
-                                data.averageSettingTemp,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${prefix}.averageInsideTemp`,
-                                data.averageInsideTemp,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${prefix}.averageOutsideTemp`,
-                                data.averageOutsideTemp,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(`${prefix}.consumption`, data.consumption, true);
-                            await this.setStateChangedIfDefinedAsync(`${prefix}.cost`, data.cost, true);
-                            await this.setStateChangedIfDefinedAsync(
-                                `${prefix}.heatConsumptionRate`,
-                                data.heatConsumptionRate,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${prefix}.coolConsumptionRate`,
-                                data.coolConsumptionRate,
-                                true,
-                            );
+                for (const [modeName, dataMode] of Object.entries(modes)) {
+                    try {
+                        this.log.debug(`Fetching ${modeName} history for ${deviceInfo.name}`);
+                        const history = await this.withTokenRetry(
+                            () => this.comfortCloudClient.getDeviceHistoryData(deviceInfo.guid, new Date(), dataMode),
+                            `fetch ${modeName} history for ${deviceInfo.name}`,
+                        );
 
-                            // Update current hour
-                            // We use the latest available data for "current" to handle API lag
-                            // The API returns -255 for future/invalid values, so we must filter those out
-                            if (modeName === 'day') {
-                                if (data.consumption !== -255) {
-                                    if (!latestData || data.dataTime > latestData.dataTime) {
-                                        latestData = data;
-                                    }
-                                }
+                        if (history && history.historyDataList) {
+                            let latestData: any = null;
+                            for (let i = 0; i < history.historyDataList.length; i++) {
+                                const data = history.historyDataList[i];
+                                const index = i.toString().padStart(2, '0');
+                                const prefix = `${deviceInfo.name}.history.${modeName}.${index}`;
 
-                                // Update lastHour
-                                // We check if the data entry corresponds to the previous hour
-                                const currentHour = new Date().getHours();
-                                const previousHour = currentHour === 0 ? 23 : currentHour - 1;
-                                // Only check for same day previous hour (0-23 if same day, or 23 if we had yesterday's data but we don't here)
-                                // Since we only requested TODAY's data, we can only fill lastHour if previousHour >= 0 AND it is same day.
-                                // Limitation: At 00:xx we probably won't find data for 23:xx of yesterday because we only fetched today.
-                                if (currentHour > 0) {
-                                    let hourStr = '';
-                                    if (data.dataTime.length === 10) {
-                                        // YYYYMMDDHH
-                                        hourStr = data.dataTime.substring(8, 10);
-                                    } else if (data.dataTime.length === 11) {
-                                        // YYYYMMDD HH
-                                        hourStr = data.dataTime.substring(9, 11);
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.dataTime`,
+                                    this.formatHistoryDate(data.dataTime),
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.averageSettingTemp`,
+                                    data.averageSettingTemp,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.averageInsideTemp`,
+                                    data.averageInsideTemp,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.averageOutsideTemp`,
+                                    data.averageOutsideTemp,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.consumption`,
+                                    data.consumption,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(`${prefix}.cost`, data.cost, true);
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.heatConsumptionRate`,
+                                    data.heatConsumptionRate,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${prefix}.coolConsumptionRate`,
+                                    data.coolConsumptionRate,
+                                    true,
+                                );
+
+                                // Update current hour
+                                // We use the latest available data for "current" to handle API lag
+                                // The API returns -255 for future/invalid values, so we must filter those out
+                                if (modeName === 'day') {
+                                    if (data.consumption !== -255) {
+                                        if (!latestData || data.dataTime > latestData.dataTime) {
+                                            latestData = data;
+                                        }
                                     }
 
-                                    const dataHour = parseInt(hourStr, 10);
-                                    if (dataHour === previousHour) {
-                                        const lastHourPrefix = `${deviceInfo.name}.history.lastHour`;
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.dataTime`,
-                                            this.formatHistoryDate(data.dataTime),
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.averageSettingTemp`,
-                                            data.averageSettingTemp,
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.averageInsideTemp`,
-                                            data.averageInsideTemp,
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.averageOutsideTemp`,
-                                            data.averageOutsideTemp,
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.consumption`,
-                                            data.consumption,
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.cost`,
-                                            data.cost,
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.heatConsumptionRate`,
-                                            data.heatConsumptionRate,
-                                            true,
-                                        );
-                                        await this.setStateChangedIfDefinedAsync(
-                                            `${lastHourPrefix}.coolConsumptionRate`,
-                                            data.coolConsumptionRate,
-                                            true,
-                                        );
+                                    // Update lastHour
+                                    // We check if the data entry corresponds to the previous hour
+                                    const currentHour = new Date().getHours();
+                                    const previousHour = currentHour === 0 ? 23 : currentHour - 1;
+                                    // Only check for same day previous hour (0-23 if same day, or 23 if we had yesterday's data but we don't here)
+                                    // Since we only requested TODAY's data, we can only fill lastHour if previousHour >= 0 AND it is same day.
+                                    // Limitation: At 00:xx we probably won't find data for 23:xx of yesterday because we only fetched today.
+                                    if (currentHour > 0) {
+                                        let hourStr = '';
+                                        if (data.dataTime.length === 10) {
+                                            // YYYYMMDDHH
+                                            hourStr = data.dataTime.substring(8, 10);
+                                        } else if (data.dataTime.length === 11) {
+                                            // YYYYMMDD HH
+                                            hourStr = data.dataTime.substring(9, 11);
+                                        }
+
+                                        const dataHour = parseInt(hourStr, 10);
+                                        if (dataHour === previousHour) {
+                                            const lastHourPrefix = `${deviceInfo.name}.history.lastHour`;
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.dataTime`,
+                                                this.formatHistoryDate(data.dataTime),
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.averageSettingTemp`,
+                                                data.averageSettingTemp,
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.averageInsideTemp`,
+                                                data.averageInsideTemp,
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.averageOutsideTemp`,
+                                                data.averageOutsideTemp,
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.consumption`,
+                                                data.consumption,
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.cost`,
+                                                data.cost,
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.heatConsumptionRate`,
+                                                data.heatConsumptionRate,
+                                                true,
+                                            );
+                                            await this.setStateChangedIfDefinedAsync(
+                                                `${lastHourPrefix}.coolConsumptionRate`,
+                                                data.coolConsumptionRate,
+                                                true,
+                                            );
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        if (modeName === 'day' && latestData) {
-                            this.log.debug(
-                                `Updating history.current using latest available data: ${latestData.dataTime}`,
-                            );
-                            const currentPrefix = `${deviceInfo.name}.history.current`;
-                            // User requested minute precision for the timestamp to track updates
-                            // We use current system time to indicate WHEN we fetched this value
-                            const now = new Date();
-                            const formattedTime = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                            if (modeName === 'day' && latestData) {
+                                this.log.debug(
+                                    `Updating history.current using latest available data: ${latestData.dataTime}`,
+                                );
+                                const currentPrefix = `${deviceInfo.name}.history.current`;
+                                // User requested minute precision for the timestamp to track updates
+                                // We use current system time to indicate WHEN we fetched this value
+                                const now = new Date();
+                                const formattedTime = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.dataTime`, formattedTime, true);
-                            await this.setStateChangedIfDefinedAsync(
-                                `${currentPrefix}.averageSettingTemp`,
-                                latestData.averageSettingTemp,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${currentPrefix}.averageInsideTemp`,
-                                latestData.averageInsideTemp,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${currentPrefix}.averageOutsideTemp`,
-                                latestData.averageOutsideTemp,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${currentPrefix}.consumption`,
-                                latestData.consumption,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(`${currentPrefix}.cost`, latestData.cost, true);
-                            await this.setStateChangedIfDefinedAsync(
-                                `${currentPrefix}.heatConsumptionRate`,
-                                latestData.heatConsumptionRate,
-                                true,
-                            );
-                            await this.setStateChangedIfDefinedAsync(
-                                `${currentPrefix}.coolConsumptionRate`,
-                                latestData.coolConsumptionRate,
-                                true,
-                            );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.dataTime`,
+                                    formattedTime,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.averageSettingTemp`,
+                                    latestData.averageSettingTemp,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.averageInsideTemp`,
+                                    latestData.averageInsideTemp,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.averageOutsideTemp`,
+                                    latestData.averageOutsideTemp,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.consumption`,
+                                    latestData.consumption,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.cost`,
+                                    latestData.cost,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.heatConsumptionRate`,
+                                    latestData.heatConsumptionRate,
+                                    true,
+                                );
+                                await this.setStateChangedIfDefinedAsync(
+                                    `${currentPrefix}.coolConsumptionRate`,
+                                    latestData.coolConsumptionRate,
+                                    true,
+                                );
+                            }
                         }
+                    } catch (e) {
+                        this.log.warn(`Failed to fetch history ${modeName} for ${deviceInfo.name}: ${String(e)}`);
                     }
-                } catch (e) {
-                    this.log.warn(`Failed to fetch history ${modeName} for ${deviceInfo.name}: ${String(e)}`);
                 }
             }
+
+            await this.setStateAsync('info.lastSuccessfulHistoryRefresh', new Date().toISOString(), true);
+        } finally {
+            this.historyRefreshInProgress = false;
+            await this.setStateAsync('info.historyRefreshInProgress', false, true);
         }
     }
 
@@ -358,7 +392,10 @@ class PanasonicComfortCloud extends utils.Adapter {
     private async refreshDevice(guid: string, deviceName: string): Promise<void> {
         try {
             const encodedGuid = this.encodeGuidForPath(guid);
-            const device = await this.comfortCloudClient.getDevice(encodedGuid, deviceName);
+            const device = await this.withTokenRetry(
+                () => this.comfortCloudClient.getDevice(encodedGuid, deviceName),
+                `refresh device ${deviceName}`,
+            );
             if (!device) {
                 return;
             }
@@ -372,9 +409,21 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async refreshDevices(): Promise<void> {
+        if (this.deviceRefreshInProgress) {
+            this.log.debug('Skip device refresh because another refresh is still running.');
+            return;
+        }
+
+        this.deviceRefreshInProgress = true;
+        await this.setStateAsync('info.refreshInProgress', true, true);
+        await this.setStateAsync('info.lastRefreshAttempt', new Date().toISOString(), true);
+
         try {
             this.log.debug('Refresh all devices.');
-            const groups = await this.comfortCloudClient.getGroups();
+            const groups = await this.withTokenRetry(
+                () => this.comfortCloudClient.getGroups(),
+                'refresh device groups',
+            );
             await this.setStateAsync('info.connection', true, true);
             const devices = groups.flatMap(g => g.devices);
             const deviceInfos = devices.map(d => {
@@ -384,7 +433,10 @@ class PanasonicComfortCloud extends utils.Adapter {
                 deviceInfos.map(async deviceInfo => {
                     try {
                         const encodedGuid = this.encodeGuidForPath(deviceInfo.guid);
-                        const device = await this.comfortCloudClient.getDevice(encodedGuid, deviceInfo.name);
+                        const device = await this.withTokenRetry(
+                            () => this.comfortCloudClient.getDevice(encodedGuid, deviceInfo.name),
+                            `refresh device ${deviceInfo.name}`,
+                        );
                         if (device != null) {
                             device.name = deviceInfo.name;
                             device.guid = deviceInfo.guid;
@@ -395,8 +447,18 @@ class PanasonicComfortCloud extends utils.Adapter {
                     }
                 }),
             );
+            this.consecutiveRefreshErrors = 0;
+            await this.setStateAsync('info.consecutiveErrors', 0, true);
+            await this.setStateAsync('info.lastError', '', true);
+            await this.setStateAsync('info.lastSuccessfulRefresh', new Date().toISOString(), true);
         } catch (error) {
+            this.consecutiveRefreshErrors++;
+            await this.setStateAsync('info.consecutiveErrors', this.consecutiveRefreshErrors, true);
+            await this.setStateAsync('info.lastError', this.formatError(error), true);
             await this.handleClientError(error);
+        } finally {
+            this.deviceRefreshInProgress = false;
+            await this.setStateAsync('info.refreshInProgress', false, true);
         }
     }
 
@@ -411,7 +473,10 @@ class PanasonicComfortCloud extends utils.Adapter {
                 let device: Device | null = null;
                 try {
                     const encodedGuid = this.encodeGuidForPath(deviceInfo.guid);
-                    device = await this.comfortCloudClient.getDevice(encodedGuid, deviceInfo.name);
+                    device = await this.withTokenRetry(
+                        () => this.comfortCloudClient.getDevice(encodedGuid, deviceInfo.name),
+                        `create device ${deviceInfo.name}`,
+                    );
                 } catch (error) {
                     await this.handleDeviceError(deviceInfo.name, error);
                     return;
@@ -538,7 +603,10 @@ class PanasonicComfortCloud extends utils.Adapter {
             }
             try {
                 this.log.debug(`Set device parameter ${JSON.stringify(parameters)} for device ${guidState?.val}`);
-                await this.comfortCloudClient.setParameters(guidState?.val as string, parameters);
+                await this.withTokenRetry(
+                    () => this.comfortCloudClient.setParameters(guidState?.val as string, parameters),
+                    `update ${deviceName}.${stateName}`,
+                );
                 this.log.debug(`Refresh device ${deviceName}`);
                 await this.refreshDevice(guidState?.val as string, deviceName);
             } catch (error) {
@@ -608,7 +676,10 @@ class PanasonicComfortCloud extends utils.Adapter {
                 await this.setStateAsync(id, false, true);
             } else if (stateName == 'refreshHistory' && state.val) {
                 try {
-                    const groups = await this.comfortCloudClient.getGroups();
+                    const groups = await this.withTokenRetry(
+                        () => this.comfortCloudClient.getGroups(),
+                        'manual history refresh',
+                    );
                     await this.refreshHistory(groups);
                     await this.setStateAsync(id, state, true);
                 } catch (error) {
@@ -632,12 +703,16 @@ class PanasonicComfortCloud extends utils.Adapter {
     }
 
     private async getCurrentAppVersion(): Promise<string> {
-        const response = await axios.get('https://itunes.apple.com/lookup?id=1348640525');
-        if (response.status !== 200) {
+        try {
+            const response = await axios.get('https://itunes.apple.com/lookup?id=1348640525', { timeout: 10000 });
+            if (response.status !== 200 || !response.data?.results?.[0]?.version) {
+                return '';
+            }
+            return response.data.results[0].version;
+        } catch (error) {
+            this.log.warn(`Could not load Panasonic app version: ${this.formatError(error)}`);
             return '';
         }
-        const version = await response.data.results[0].version;
-        return version;
     }
 
     private async handleDeviceError(deviceName: string, error: unknown): Promise<void> {
@@ -673,8 +748,119 @@ class PanasonicComfortCloud extends utils.Adapter {
         }
     }
 
+    private async withTokenRetry<T>(operation: () => Promise<T>, context: string): Promise<T> {
+        try {
+            return await operation();
+        } catch (error) {
+            if (!(error instanceof TokenExpiredError)) {
+                throw error;
+            }
+
+            this.log.warn(`Comfort Cloud token expired while trying to ${context}; logging in again.`);
+            await this.setStateAsync('info.connection', false, true);
+            await this.reauthenticate();
+            return operation();
+        }
+    }
+
+    private async reauthenticate(): Promise<void> {
+        if (!this.reauthenticationPromise) {
+            this.reauthenticationPromise = (async () => {
+                await this.comfortCloudClient.login(this.config.username, this.config.password);
+                await this.setStateAsync('info.connection', true, true);
+                this.log.info('Re-login successful.');
+            })().finally(() => {
+                this.reauthenticationPromise = undefined;
+            });
+        }
+        await this.reauthenticationPromise;
+    }
+
+    private formatError(error: unknown): string {
+        if (error instanceof ServiceError) {
+            return `${error.message}${error.code !== undefined ? ` (code ${error.code})` : ''}`;
+        }
+        return error instanceof Error ? error.message : String(error);
+    }
+
+    private async ensureDiagnosticStates(): Promise<void> {
+        const definitions: Record<string, ioBroker.StateCommon> = {
+            'info.lastRefreshAttempt': {
+                name: 'Last device refresh attempt',
+                role: 'date',
+                type: 'string',
+                read: true,
+                write: false,
+                def: '',
+            },
+            'info.lastSuccessfulRefresh': {
+                name: 'Last successful device refresh',
+                role: 'date',
+                type: 'string',
+                read: true,
+                write: false,
+                def: '',
+            },
+            'info.lastError': {
+                name: 'Last refresh error',
+                role: 'text',
+                type: 'string',
+                read: true,
+                write: false,
+                def: '',
+            },
+            'info.consecutiveErrors': {
+                name: 'Consecutive refresh errors',
+                role: 'value',
+                type: 'number',
+                read: true,
+                write: false,
+                def: 0,
+            },
+            'info.refreshInProgress': {
+                name: 'Device refresh in progress',
+                role: 'indicator.working',
+                type: 'boolean',
+                read: true,
+                write: false,
+                def: false,
+            },
+            'info.lastHistoryRefreshAttempt': {
+                name: 'Last history refresh attempt',
+                role: 'date',
+                type: 'string',
+                read: true,
+                write: false,
+                def: '',
+            },
+            'info.lastSuccessfulHistoryRefresh': {
+                name: 'Last successful history refresh',
+                role: 'date',
+                type: 'string',
+                read: true,
+                write: false,
+                def: '',
+            },
+            'info.historyRefreshInProgress': {
+                name: 'History refresh in progress',
+                role: 'indicator.working',
+                type: 'boolean',
+                read: true,
+                write: false,
+                def: false,
+            },
+        };
+
+        for (const [id, common] of Object.entries(definitions)) {
+            await this.setObjectNotExistsAsync(id, { type: 'state', common, native: {} });
+        }
+    }
+
     private setupRefreshTimeout(): void {
         this.log.debug('setupRefreshTimeout');
+        if (this.refreshTimeout) {
+            this.clearTimeout(this.refreshTimeout);
+        }
         const refreshIntervalInMilliseconds = this.refreshIntervalInMinutes * 60 * 1000;
         this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`);
         this.refreshTimeout = this.setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
@@ -692,6 +878,9 @@ class PanasonicComfortCloud extends utils.Adapter {
 
     private setupHistoryRefreshTimeout(): void {
         this.log.debug('setupHistoryRefreshTimeout');
+        if (this.refreshHistoryTimeout) {
+            this.clearTimeout(this.refreshHistoryTimeout);
+        }
         const refreshIntervalInMilliseconds = this.historyRefreshIntervalInMinutes * 60 * 1000;
         this.refreshHistoryTimeout = this.setTimeout(
             this.refreshHistoryTimeoutFunc.bind(this),
@@ -711,6 +900,11 @@ class PanasonicComfortCloud extends utils.Adapter {
             this.log.warn(`Failed to refresh history: ${String(error)}`);
             // Retry later even on error
             this.setupHistoryRefreshTimeout();
+        } finally {
+            if (this.historyRefreshInProgress) {
+                this.historyRefreshInProgress = false;
+                await this.setStateAsync('info.historyRefreshInProgress', false, true);
+            }
         }
     }
 

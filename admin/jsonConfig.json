@@ -20,7 +20,7 @@
         "lg": 4,
         "xl": 4
       },
-      "pollinterval": {
+      "refreshInterval": {
         "type": "number",
         "label": "refreshInterval",
         "xs": 12,
