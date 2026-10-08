@@ -32,7 +32,7 @@
     "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/dev-server": "^0.8.0",
     "@iobroker/eslint-config": "^2.0.1",
-    "@iobroker/testing": "^5.2.2",
+    "@iobroker/testing": "^6.3.0",
     "@tsconfig/node22": "^22.0.0",
     "@types/gulp": "^4.0.18",
     "@types/mocha": "^10.0.10",
