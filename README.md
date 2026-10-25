@@ -98,7 +98,7 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.5.0 (2026-10-25)
 
 * fixed login error 4106 "New version app has been published": the app version is now sent together with the matching platform; versions are read from Google Play and the App Store and tried in turn (#141)
 * added settings for the Google Play version and the platform of a manually configured app version
@@ -144,12 +144,6 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 ### 3.2.2 (2025-12-21)
 * re-enable history data fetching (month mode)
 * implement improved history date format (YYYY-MM-DD HH:mm:ss)
-
-### 3.2.1 (2025-12-21)
-* implement history data fetching (day mode)
-* add historyEnabled configuration
-* add manual history refresh command
-* fix eslint errors (indentation, unused vars)
 
 Older changelog entries are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

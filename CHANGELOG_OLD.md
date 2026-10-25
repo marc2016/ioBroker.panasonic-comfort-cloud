@@ -102,6 +102,12 @@
 ### 1.2.0
 
 * States insideTemperature, outTemperature and Nanoe added.
+## 3.2.1 (2025-12-21)
+* implement history data fetching (day mode)
+* add historyEnabled configuration
+* add manual history refresh command
+* fix eslint errors (indentation, unused vars)
+
 ## 3.2.0 (2025-12-21)
 * update library panasonic-comfort-cloud-client to 2.1.4
 * modernize code (remove lodash, use async/await, split state definitions)
