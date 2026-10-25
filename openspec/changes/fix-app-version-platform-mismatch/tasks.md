@@ -13,9 +13,9 @@
 
 ## 3. Config persistence fix (#140)
 
-- [ ] 3.1 Replace the `updateConfig` call in `onReady()` so it writes only changed `appVersionFromAppStore` / `appVersionFromPlayStore` values and never `password`/`username`; verify by restarting the dev-server instance twice with a changed stored version and confirming the login still succeeds
-- [ ] 3.2 Skip store lookups and config writes when `useAppVersionFromAppStore` is false; verify in the dev-server log that no lookup is logged in manual mode
-- [ ] 3.3 Add `appVersionFromPlayStore` (read-only) and `appType` (select android/ios, default android, hidden in automatic mode) to `io-package.json` `native`, `src/lib/adapter-config.d.ts`, `admin/jsonConfig.json`; relabel `useAppVersionFromAppStore`; run `npm run translate` and verify the admin UI shows the fields in the dev-server
+- [x] 3.1 Replace the `updateConfig` call in `onReady()` so it writes only changed `appVersionFromAppStore` / `appVersionFromPlayStore` values and never `password`/`username`; verify by restarting the dev-server instance twice with a changed stored version and confirming the login still succeeds
+- [x] 3.2 Skip store lookups and config writes when `useAppVersionFromAppStore` is false; verify in the dev-server log that no lookup is logged in manual mode
+- [x] 3.3 Add `appVersionFromPlayStore` (read-only) and `appType` (select android/ios, default android, hidden in automatic mode) to `io-package.json` `native`, `src/lib/adapter-config.d.ts`, `admin/jsonConfig.json`; relabel `useAppVersionFromAppStore`; run `npm run translate` and verify the admin UI shows the fields in the dev-server
 
 ## 4. Login with fallback
 
@@ -28,6 +28,6 @@
 ## 5. Verification and release
 
 - [x] 5.1 Run `npm run build`, `npm run lint`, `npm test`, `npm run test:integration`; all pass
-- [ ] 5.2 End-to-end in dev-server with a real account: automatic mode connects (`info.connection` true, log shows the used pair); manual mode with (5.1.0, android) and (5.1.1, ios) connects
+- [x] 5.2 End-to-end in dev-server with a real account: automatic mode connects (`info.connection` true, log shows the used pair); manual mode with (5.1.0, android) and (5.1.1, ios) connects
 - [x] 5.3 Add changelog entries under `### **WORK IN PROGRESS**` in `README.md` (platform mismatch fix #141, double encryption fix #140, note to re-enter the password once if affected); verify README renders
 - [ ] 5.4 Run the ioBroker adapter checker and confirm CI `test-and-release.yml` is green before the next release (3.5.0; 3.4.1 already shipped the #140 hotfix)
