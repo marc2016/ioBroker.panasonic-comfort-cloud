@@ -33,7 +33,7 @@
     "@iobroker/dev-server": "^0.8.0",
     "@iobroker/eslint-config": "^2.0.1",
     "@iobroker/testing": "^5.2.2",
-    "@tsconfig/node22": "^22.0.0",
+    "@tsconfig/node22": "^22.0.6",
     "@types/gulp": "^4.0.18",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.5",
