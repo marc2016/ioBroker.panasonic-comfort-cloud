@@ -23,8 +23,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_panasonic_comfort_cloud_client = require("panasonic-comfort-cloud-client");
-var import_axios = __toESM(require("axios"));
 var import_state_definitions = require("./lib/state-definitions");
+var import_app_version = require("./lib/app-version");
 const REFRESH_INTERVAL_IN_MINUTES_DEFAULT = 5;
 class PanasonicComfortCloud extends utils.Adapter {
   comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
@@ -32,6 +32,8 @@ class PanasonicComfortCloud extends utils.Adapter {
   refreshHistoryTimeout;
   refreshIntervalInMinutes = REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
   historyRefreshIntervalInMinutes = 15;
+  loggedInOnce = false;
+  restartRequested = false;
   constructor(options = {}) {
     super({
       ...options,
@@ -46,42 +48,61 @@ class PanasonicComfortCloud extends utils.Adapter {
    * Is called when databases are connected and adapter received configuration.
    */
   async onReady() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     await this.setStateAsync("info.connection", false, true);
-    const loadedAppVersion = await this.getCurrentAppVersion();
-    this.log.info(`Loaded app version from App store: ${loadedAppVersion}`);
-    if (loadedAppVersion && this.trimAll((_c = this.config) == null ? void 0 : _c.appVersionFromAppStore) != this.trimAll(loadedAppVersion)) {
-      await this.updateConfig({ appVersionFromAppStore: this.trimAll(loadedAppVersion) });
-      return;
+    const automatic = !!((_c = this.config) == null ? void 0 : _c.useAppVersionFromAppStore);
+    let playStoreVersion;
+    let appStoreVersion;
+    if (automatic) {
+      [playStoreVersion, appStoreVersion] = await Promise.all([(0, import_app_version.getPlayStoreVersion)(), (0, import_app_version.getAppStoreVersion)()]);
+      this.log.info(
+        `Loaded app versions: Google Play ${playStoreVersion != null ? playStoreVersion : "n/a"}, App Store ${appStoreVersion != null ? appStoreVersion : "n/a"}.`
+      );
+      if (!playStoreVersion || !appStoreVersion) {
+        this.log.warn("Could not load the app version from every store. Trying the remaining versions.");
+      }
+      const changes = {};
+      if (appStoreVersion && appStoreVersion !== this.trimAll((_e = (_d = this.config) == null ? void 0 : _d.appVersionFromAppStore) != null ? _e : "")) {
+        changes.appVersionFromAppStore = appStoreVersion;
+      }
+      if (playStoreVersion && playStoreVersion !== this.trimAll((_g = (_f = this.config) == null ? void 0 : _f.appVersionFromPlayStore) != null ? _g : "")) {
+        changes.appVersionFromPlayStore = playStoreVersion;
+      }
+      if (Object.keys(changes).length > 0) {
+        this.log.info("App versions changed. Saving them and restarting the adapter.");
+        await this.updateConfig(changes);
+        return;
+      }
     }
-    if (!((_d = this.config) == null ? void 0 : _d.username) || !((_e = this.config) == null ? void 0 : _e.password)) {
+    if (!((_h = this.config) == null ? void 0 : _h.username) || !((_i = this.config) == null ? void 0 : _i.password)) {
       this.log.error("Can not start without username or password. Please open config.");
     } else {
-      if (((_f = this.config) == null ? void 0 : _f.appVersionFromAppStore) != "" && ((_g = this.config) == null ? void 0 : _g.useAppVersionFromAppStore)) {
-        this.log.debug(`Use AppVersion from App Store ${(_h = this.config) == null ? void 0 : _h.appVersionFromAppStore}.`);
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_i = this.config) == null ? void 0 : _i.appVersionFromAppStore);
-      } else if (((_j = this.config) == null ? void 0 : _j.appVersion) != "") {
-        this.log.debug(`Use configured AppVersion ${(_k = this.config) == null ? void 0 : _k.appVersion}.`);
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_l = this.config) == null ? void 0 : _l.appVersion);
-      } else {
-        this.log.debug(`Use default AppVersion.`);
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
-      }
+      const candidates = (0, import_app_version.buildCandidates)({
+        automatic,
+        manualVersion: (_j = this.config) == null ? void 0 : _j.appVersion,
+        manualAppType: ((_k = this.config) == null ? void 0 : _k.appType) === "ios" ? import_panasonic_comfort_cloud_client.AppType.IOS : import_panasonic_comfort_cloud_client.AppType.ANDROID,
+        playStoreVersion,
+        appStoreVersion
+      });
       try {
         this.log.debug(`Try to login with username ${this.config.username}.`);
-        await this.comfortCloudClient.login(this.config.username, this.config.password);
-        this.log.info("Login successful.");
+        const client = await this.loginWithCandidates(candidates);
+        if (!client) {
+          return;
+        }
+        this.comfortCloudClient = client;
+        this.loggedInOnce = true;
         await this.setStateAsync("info.connection", true, true);
         this.log.debug("Create devices.");
         const groups = await this.comfortCloudClient.getGroups();
         await this.createDevices(groups);
-        this.log.debug(`Automativ refresh is set to ${(_m = this.config) == null ? void 0 : _m.automaticRefreshEnabled}.`);
-        if ((_n = this.config) == null ? void 0 : _n.automaticRefreshEnabled) {
+        this.log.debug(`Automativ refresh is set to ${(_l = this.config) == null ? void 0 : _l.automaticRefreshEnabled}.`);
+        if ((_m = this.config) == null ? void 0 : _m.automaticRefreshEnabled) {
           this.setupRefreshTimeout();
         }
-        if ((_o = this.config) == null ? void 0 : _o.historyEnabled) {
+        if ((_n = this.config) == null ? void 0 : _n.historyEnabled) {
           this.log.debug(`History enabled. Refreshing history.`);
           await this.refreshHistory(groups);
           this.setupHistoryRefreshTimeout();
@@ -495,6 +516,7 @@ class PanasonicComfortCloud extends utils.Adapter {
       if (this.refreshHistoryTimeout) {
         this.clearTimeout(this.refreshHistoryTimeout);
       }
+      this.comfortCloudClient.dispose();
       this.log.info("cleaned everything up...");
       callback();
     } catch {
@@ -557,18 +579,55 @@ class PanasonicComfortCloud extends utils.Adapter {
       this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
     }
   }
-  async getCurrentAppVersion() {
-    const response = await import_axios.default.get("https://itunes.apple.com/lookup?id=1348640525");
-    if (response.status !== 200) {
-      return "";
+  /**
+   * Tries the candidates in order and returns the first client the Comfort Cloud API accepts.
+   * Only a rejected app version (4106) moves on to the next candidate; any other error is thrown.
+   *
+   * @param candidates ordered (version, platform) pairs
+   */
+  async loginWithCandidates(candidates) {
+    const rejected = [];
+    for (const candidate of candidates) {
+      const client = new import_panasonic_comfort_cloud_client.ComfortCloudClient(candidate.version, candidate.appType, {
+        onTokenChange: () => this.log.debug("Comfort Cloud token was refreshed.")
+      });
+      const pair = `${client.appVersion} (${(0, import_app_version.platformName)(client.appType)})`;
+      try {
+        await client.login(this.config.username, this.config.password);
+        this.log.info(`Login successful with app version ${pair}.`);
+        return client;
+      } catch (error) {
+        client.dispose();
+        if (error instanceof import_panasonic_comfort_cloud_client.AppVersionRejectedError) {
+          this.log.warn(`App version ${pair} was rejected by Comfort Cloud. Code=${error.code}.`);
+          rejected.push(pair);
+          continue;
+        }
+        throw error;
+      }
     }
-    const version = await response.data.results[0].version;
-    return version;
+    this.log.error(
+      `Comfort Cloud rejected all app versions: ${rejected.join(", ")}. Code=4106. Set a current app version and platform manually in the adapter settings.`
+    );
+    return void 0;
+  }
+  restartOnRejectedAppVersion(error) {
+    this.log.warn(
+      `App version ${error.appVersion} (${(0, import_app_version.platformName)(error.appType)}) is no longer accepted. Code=${error.code}. Restarting the adapter to load the current app version.`
+    );
+    if (this.restartRequested) {
+      return;
+    }
+    this.restartRequested = true;
+    this.restart();
   }
   async handleDeviceError(deviceName, error) {
     this.log.debug(`Try to handle device error for ${deviceName}.`);
     await this.setStateChangedAsync(`${deviceName}.connected`, false, true);
-    if (error instanceof import_panasonic_comfort_cloud_client.ServiceError) {
+    if (error instanceof import_panasonic_comfort_cloud_client.AppVersionRejectedError && this.loggedInOnce) {
+      await this.setStateAsync("info.connection", false, true);
+      this.restartOnRejectedAppVersion(error);
+    } else if (error instanceof import_panasonic_comfort_cloud_client.ServiceError) {
       this.log.error(
         `Service error when connecting to device ${deviceName}: ${error.message}. Code=${error.code}. Stack: ${error.stack}`
       );
@@ -583,9 +642,30 @@ class PanasonicComfortCloud extends utils.Adapter {
         `Token of comfort cloud client expired. Trying to login again. Code=${error.code}. Stack: ${error.stack}`
       );
       await this.setStateAsync("info.connection", false, true);
-      await this.comfortCloudClient.login(this.config.username, this.config.password);
+      try {
+        await this.comfortCloudClient.login(this.config.username, this.config.password);
+      } catch (loginError) {
+        if (loginError instanceof import_panasonic_comfort_cloud_client.TokenExpiredError) {
+          this.log.error(`Login after expired token failed. Code=${loginError.code}.`);
+        } else {
+          await this.handleClientError(loginError);
+        }
+        return;
+      }
       await this.setStateAsync("info.connection", true, true);
       this.log.info("Login successful.");
+    } else if (error instanceof import_panasonic_comfort_cloud_client.AppVersionRejectedError) {
+      await this.setStateAsync("info.connection", false, true);
+      if (this.loggedInOnce) {
+        this.restartOnRejectedAppVersion(error);
+      } else {
+        this.log.error(
+          `App version ${error.appVersion} (${(0, import_app_version.platformName)(error.appType)}) was rejected. Code=${error.code}.`
+        );
+      }
+    } else if (error instanceof import_panasonic_comfort_cloud_client.AuthenticationError) {
+      await this.setStateAsync("info.connection", false, true);
+      this.log.error(`Login failed, please check username and password: ${error.message}`);
     } else if (error instanceof import_panasonic_comfort_cloud_client.ServiceError) {
       await this.setStateAsync("info.connection", false, true);
       this.log.error(`Service error: ${error.message}. Code=${error.code}. Stack: ${error.stack}`);

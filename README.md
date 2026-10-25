@@ -98,6 +98,14 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+* fixed login error 4106 "New version app has been published": the app version is now sent together with the matching platform; versions are read from Google Play and the App Store and tried in turn (#141)
+* added settings for the Google Play version and the platform of a manually configured app version
+* the adapter restarts itself once when a new app version is published while it is running
+* updated panasonic-comfort-cloud-client to 3.0.0 (stops token refresh on unload, clearer login errors, fixes `npm ci` with npm 10)
+* raised minimum Node.js version to 22.12
+
 ### 3.4.1 (2026-10-25)
 
 * fixed password being encrypted twice when a new App Store version was detected, which caused login error 401 (#140). If you were affected, please enter your password again once in the instance settings

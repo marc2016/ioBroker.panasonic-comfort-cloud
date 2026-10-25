@@ -13,6 +13,8 @@ declare global {
 					automaticRefreshEnabled: boolean;
 					appVersion: string;
 					appVersionFromAppStore: string;
+					appVersionFromPlayStore: string;
+					appType: 'android' | 'ios';
 					useAppVersionFromAppStore: boolean;
 					historyEnabled: boolean;
 			}

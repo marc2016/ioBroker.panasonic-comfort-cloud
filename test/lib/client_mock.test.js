@@ -71,11 +71,13 @@ describe('Client Mocking', () => {
                 Adapter: AdapterClassMock
             },
             'panasonic-comfort-cloud-client': {
+                ...require('panasonic-comfort-cloud-client'),
                 ComfortCloudClient: ComfortCloudClientMock
             },
-            'axios': {
-                default: axiosMock,
-                ...axiosMock
+            './lib/app-version': {
+                ...require('../../build/lib/app-version.js'),
+                getAppStoreVersion: () => Promise.resolve('0.0.0'),
+                getPlayStoreVersion: () => Promise.resolve(undefined)
             }
         });
 
@@ -125,23 +127,32 @@ describe('Client Mocking', () => {
 
 describe('App Store version change (#140)', () => {
     let onReady;
+    const originalAutomatic = adapterMock.config.useAppVersionFromAppStore;
 
     before(() => {
+        adapterMock.config.useAppVersionFromAppStore = true;
         const mainConstructor = proxyquire('../../build/main.js', {
             '@iobroker/adapter-core': {
                 Adapter: AdapterClassMock
             },
             'panasonic-comfort-cloud-client': {
+                ...require('panasonic-comfort-cloud-client'),
                 ComfortCloudClient: ComfortCloudClientMock
             },
-            'axios': {
-                get: sinon.stub().resolves({ status: 200, data: { results: [{ version: '9.9.9' }] } })
+            './lib/app-version': {
+                ...require('../../build/lib/app-version.js'),
+                getAppStoreVersion: () => Promise.resolve('9.9.9'),
+                getPlayStoreVersion: () => Promise.resolve(undefined)
             }
         });
 
         adapterMock.on.reset();
         mainConstructor();
         onReady = adapterMock.on.getCalls().find(call => call.args[0] === 'ready').args[1];
+    });
+
+    after(() => {
+        adapterMock.config.useAppVersionFromAppStore = originalAutomatic;
     });
 
     it('should save only the new app version and never the password', async () => {

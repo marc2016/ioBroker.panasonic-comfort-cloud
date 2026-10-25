@@ -57,6 +57,31 @@
         "lg": 4,
         "xl": 4
       },
+      "appType": {
+        "type": "select",
+        "label": "appType",
+        "options": [
+          { "label": "Android", "value": "android" },
+          { "label": "iOS", "value": "ios" }
+        ],
+        "default": "android",
+        "hidden": "data.useAppVersionFromAppStore",
+        "xs": 12,
+        "sm": 12,
+        "md": 6,
+        "lg": 4,
+        "xl": 4
+      },
+      "appVersionFromPlayStore": {
+        "type": "text",
+        "label": "appVersionFromPlayStore",
+        "readOnly": true,
+        "xs": 12,
+        "sm": 12,
+        "md": 6,
+        "lg": 4,
+        "xl": 4
+      },
       "useAppVersionFromAppStore": {
         "type": "checkbox",
         "label": "useAppVersionFromAppStore",

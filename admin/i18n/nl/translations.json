@@ -1,11 +1,13 @@
 {
+    "appType": "Platform van de handmatige app-versie",
     "appVersion": "Nieuwe versie van de app voor API",
     "appVersionFromAppStore": "App-versie voor API geladen vanuit App Store",
-    "useAppVersionFromAppStore": "Gebruik de app-versie geladen vanuit App Store",
+    "appVersionFromPlayStore": "App-versie voor API geladen vanuit Google Play",
+    "automaticRefreshEnabled": "Automatisch vernieuwen ingeschakeld",
+    "historyEnabled": "Historische gegevens ophalen (verbruik, temperatuur)",
     "panasonic-comfort-cloud adapter settings": "Adapterinstellingen voor panasonic-comfort-cloud",
     "password": "Wachtwoord",
     "refreshInterval": "Vernieuwingsinterval (minuten)",
-    "username": "Gebruikersnaam",
-    "automaticRefreshEnabled": "Automatisch vernieuwen ingeschakeld",
-    "historyEnabled": "Historische gegevens ophalen (verbruik, temperatuur)"
+    "useAppVersionFromAppStore": "App-versie automatisch detecteren (App Store / Google Play)",
+    "username": "Gebruikersnaam"
 }

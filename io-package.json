@@ -164,6 +164,8 @@
     "automaticRefreshEnabled": true,
     "appVersion": "",
     "appVersionFromAppStore": "",
+    "appVersionFromPlayStore": "",
+    "appType": "android",
     "useAppVersionFromAppStore": true,
     "historyEnabled": true
   },
