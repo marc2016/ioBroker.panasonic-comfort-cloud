@@ -101,6 +101,7 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 
 ### **WORK IN PROGRESS**
 
+* fixed password being encrypted twice when a new App Store version was detected, which caused login error 401 (#140). If you were affected, please enter your password again once in the instance settings
 * updated release-script and plugins to 5.2.0
 * raised minimum Node.js version to 22
 * migrated to @iobroker/eslint-config (ESLint 9)

@@ -46,28 +46,25 @@ class PanasonicComfortCloud extends utils.Adapter {
    * Is called when databases are connected and adapter received configuration.
    */
   async onReady() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
     this.refreshIntervalInMinutes = (_b = (_a = this.config) == null ? void 0 : _a.refreshInterval) != null ? _b : REFRESH_INTERVAL_IN_MINUTES_DEFAULT;
     this.subscribeStates("*");
     await this.setStateAsync("info.connection", false, true);
     const loadedAppVersion = await this.getCurrentAppVersion();
     this.log.info(`Loaded app version from App store: ${loadedAppVersion}`);
     if (loadedAppVersion && this.trimAll((_c = this.config) == null ? void 0 : _c.appVersionFromAppStore) != this.trimAll(loadedAppVersion)) {
-      this.updateConfig({
-        appVersionFromAppStore: this.trimAll(loadedAppVersion),
-        password: this.encrypt((_d = this.config) == null ? void 0 : _d.password)
-      });
+      await this.updateConfig({ appVersionFromAppStore: this.trimAll(loadedAppVersion) });
       return;
     }
-    if (!((_e = this.config) == null ? void 0 : _e.username) || !((_f = this.config) == null ? void 0 : _f.password)) {
+    if (!((_d = this.config) == null ? void 0 : _d.username) || !((_e = this.config) == null ? void 0 : _e.password)) {
       this.log.error("Can not start without username or password. Please open config.");
     } else {
-      if (((_g = this.config) == null ? void 0 : _g.appVersionFromAppStore) != "" && ((_h = this.config) == null ? void 0 : _h.useAppVersionFromAppStore)) {
-        this.log.debug(`Use AppVersion from App Store ${(_i = this.config) == null ? void 0 : _i.appVersionFromAppStore}.`);
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_j = this.config) == null ? void 0 : _j.appVersionFromAppStore);
-      } else if (((_k = this.config) == null ? void 0 : _k.appVersion) != "") {
-        this.log.debug(`Use configured AppVersion ${(_l = this.config) == null ? void 0 : _l.appVersion}.`);
-        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_m = this.config) == null ? void 0 : _m.appVersion);
+      if (((_f = this.config) == null ? void 0 : _f.appVersionFromAppStore) != "" && ((_g = this.config) == null ? void 0 : _g.useAppVersionFromAppStore)) {
+        this.log.debug(`Use AppVersion from App Store ${(_h = this.config) == null ? void 0 : _h.appVersionFromAppStore}.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_i = this.config) == null ? void 0 : _i.appVersionFromAppStore);
+      } else if (((_j = this.config) == null ? void 0 : _j.appVersion) != "") {
+        this.log.debug(`Use configured AppVersion ${(_k = this.config) == null ? void 0 : _k.appVersion}.`);
+        this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient((_l = this.config) == null ? void 0 : _l.appVersion);
       } else {
         this.log.debug(`Use default AppVersion.`);
         this.comfortCloudClient = new import_panasonic_comfort_cloud_client.ComfortCloudClient();
@@ -80,11 +77,11 @@ class PanasonicComfortCloud extends utils.Adapter {
         this.log.debug("Create devices.");
         const groups = await this.comfortCloudClient.getGroups();
         await this.createDevices(groups);
-        this.log.debug(`Automativ refresh is set to ${(_n = this.config) == null ? void 0 : _n.automaticRefreshEnabled}.`);
-        if ((_o = this.config) == null ? void 0 : _o.automaticRefreshEnabled) {
+        this.log.debug(`Automativ refresh is set to ${(_m = this.config) == null ? void 0 : _m.automaticRefreshEnabled}.`);
+        if ((_n = this.config) == null ? void 0 : _n.automaticRefreshEnabled) {
           this.setupRefreshTimeout();
         }
-        if ((_p = this.config) == null ? void 0 : _p.historyEnabled) {
+        if ((_o = this.config) == null ? void 0 : _o.historyEnabled) {
           this.log.debug(`History enabled. Refreshing history.`);
           await this.refreshHistory(groups);
           this.setupHistoryRefreshTimeout();

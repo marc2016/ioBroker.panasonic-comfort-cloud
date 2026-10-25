@@ -122,3 +122,34 @@ describe('Client Mocking', () => {
         expect(connectionTrue).to.exist;
     });
 });
+
+describe('App Store version change (#140)', () => {
+    let onReady;
+
+    before(() => {
+        const mainConstructor = proxyquire('../../build/main.js', {
+            '@iobroker/adapter-core': {
+                Adapter: AdapterClassMock
+            },
+            'panasonic-comfort-cloud-client': {
+                ComfortCloudClient: ComfortCloudClientMock
+            },
+            'axios': {
+                get: sinon.stub().resolves({ status: 200, data: { results: [{ version: '9.9.9' }] } })
+            }
+        });
+
+        adapterMock.on.reset();
+        mainConstructor();
+        onReady = adapterMock.on.getCalls().find(call => call.args[0] === 'ready').args[1];
+    });
+
+    it('should save only the new app version and never the password', async () => {
+        adapterMock.updateConfig.resetHistory();
+
+        await onReady();
+
+        expect(adapterMock.updateConfig.calledOnce).to.be.true;
+        expect(adapterMock.updateConfig.firstCall.args[0]).to.deep.equal({ appVersionFromAppStore: '9.9.9' });
+    });
+});

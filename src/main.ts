@@ -46,10 +46,8 @@ class PanasonicComfortCloud extends utils.Adapter {
         const loadedAppVersion = await this.getCurrentAppVersion();
         this.log.info(`Loaded app version from App store: ${loadedAppVersion}`);
         if (loadedAppVersion && this.trimAll(this.config?.appVersionFromAppStore) != this.trimAll(loadedAppVersion)) {
-            this.updateConfig({
-                appVersionFromAppStore: this.trimAll(loadedAppVersion),
-                password: this.encrypt(this.config?.password),
-            });
+            // updateConfig() encrypts encryptedNative fields itself, so never pass the password (#140)
+            await this.updateConfig({ appVersionFromAppStore: this.trimAll(loadedAppVersion) });
             return;
         }
 
