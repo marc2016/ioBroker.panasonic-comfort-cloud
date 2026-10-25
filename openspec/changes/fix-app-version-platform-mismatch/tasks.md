@@ -30,4 +30,4 @@
 - [x] 5.1 Run `npm run build`, `npm run lint`, `npm test`, `npm run test:integration`; all pass
 - [x] 5.2 End-to-end in dev-server with a real account: automatic mode connects (`info.connection` true, log shows the used pair); manual mode with (5.1.0, android) and (5.1.1, ios) connects
 - [x] 5.3 Add changelog entries under `### **WORK IN PROGRESS**` in `README.md` (platform mismatch fix #141, double encryption fix #140, note to re-enter the password once if affected); verify README renders
-- [ ] 5.4 Run the ioBroker adapter checker and confirm CI `test-and-release.yml` is green before the next release (3.5.0; 3.4.1 already shipped the #140 hotfix)
+- [x] 5.4 Run the ioBroker adapter checker and confirm CI `test-and-release.yml` is green before the next release (3.5.0; 3.4.1 already shipped the #140 hotfix)
