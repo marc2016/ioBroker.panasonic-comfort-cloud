@@ -98,8 +98,7 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 3.4.1 (2026-10-25)
 
 * fixed password being encrypted twice when a new App Store version was detected, which caused login error 401 (#140). If you were affected, please enter your password again once in the instance settings
 * updated release-script and plugins to 5.2.0
@@ -143,35 +142,6 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 * add historyEnabled configuration
 * add manual history refresh command
 * fix eslint errors (indentation, unused vars)
-
-### 3.2.0 (2025-12-21)
-* update library panasonic-comfort-cloud-client to 2.1.4
-* modernize code (remove lodash, use async/await, split state definitions)
-* replace deprecated methods with modern equivalents
-* improve unit tests and remove deprecated test wrapper
-* add mocked client tests to verify connection logic
-
-### 3.1.0 (2025-08-09)
-
-* read app version from App Store.
-
-### 3.0.3 (2024-11-08)
-
-* panasonic-comfort-cloud-client updated to new version. CFC generator for header added.
-
-### 3.0.2 (2024-07-10)
-
-* Fixed bug in refreshing oauth token again.
-
-### 3.0.1 (2024-07-01)
-
-* Fixed bug in refreshing oauth token.
-
-### 3.0.0 (2024-06-29)
-
-* Added option to deactivate the automatic refresh.
-* Added state to manual refresh device infos.
-* Updated client version for OAuth support.
 
 Older changelog entries are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 
