@@ -14,10 +14,10 @@
 ## 3. Release
 
 - [x] 3.1 Commit on `main` (`fix: avoid double encryption of password (#140)`), including `build/`; verify `git show --stat HEAD`
-- [ ] 3.2 Check the latest `test-and-release.yml` run on `main` after pushing; fix or explain a red run before releasing
-- [ ] 3.3 Release 3.4.1 with `npm run release patch` (requires explicit approval, publishes to GitHub/npm); verify `npm view iobroker.panasonic-comfort-cloud version` shows 3.4.1
+- [x] 3.2 Check the latest `test-and-release.yml` run on `main` after pushing; fix or explain a red run before releasing
+- [x] 3.3 Release 3.4.1 with `npm run release patch` (requires explicit approval, publishes to GitHub/npm); verify `npm view iobroker.panasonic-comfort-cloud version` shows 3.4.1
 
 ## 4. Restore the in-progress work
 
-- [ ] 4.1 `git stash pop`; resolve conflicts in `src/main.ts`, `build/main.js`, `README.md`, `test/lib/client_mock.test.js` by keeping the `fix-app-version-platform-mismatch` version and merging the changelog lines; verify `npm run build && npm test` pass
-- [ ] 4.2 After archiving this change, adjust `openspec/changes/fix-app-version-platform-mismatch/specs/config-persistence/spec.md` so the requirement "Encrypted settings are never re-written by the adapter" is no longer ADDED twice; verify `openspec validate fix-app-version-platform-mismatch --strict`
+- [x] 4.1 `git stash pop`; resolve conflicts in `src/main.ts`, `build/main.js`, `README.md`, `test/lib/client_mock.test.js` by keeping the `fix-app-version-platform-mismatch` version and merging the changelog lines; verify `npm run build && npm test` pass
+- [x] 4.2 After archiving this change, adjust `openspec/changes/fix-app-version-platform-mismatch/specs/config-persistence/spec.md` so the requirement "Encrypted settings are never re-written by the adapter" is no longer ADDED twice; verify `openspec validate fix-app-version-platform-mismatch --strict`
