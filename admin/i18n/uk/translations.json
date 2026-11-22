@@ -1,11 +1,13 @@
 {
+    "appType": "Платформа ручної версії програми",
     "appVersion": "Нова версія програми для API",
     "appVersionFromAppStore": "Версія додатка для API, завантажена з App Store",
-    "useAppVersionFromAppStore": "Використовувати версію додатка, завантажену з App Store",
+    "appVersionFromPlayStore": "Версія програми для API, завантажена з Google Play",
+    "automaticRefreshEnabled": "Автоматичне оновлення ввімкнено",
+    "historyEnabled": "Отримання історичних даних (споживання, температура)",
     "panasonic-comfort-cloud adapter settings": "Налаштування адаптера для panasonic-comfort-cloud",
     "password": "Пароль",
     "refreshInterval": "Інтервал оновлення (хв.)",
-    "username": "Ім'я користувача",
-    "automaticRefreshEnabled": "Автоматичне оновлення ввімкнено",
-    "historyEnabled": "Отримання історичних даних (споживання, температура)"
+    "useAppVersionFromAppStore": "Визначати версію програми автоматично (App Store / Google Play)",
+    "username": "Ім'я користувача"
 }

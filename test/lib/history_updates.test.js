@@ -165,14 +165,16 @@ const DataMode = {
                 Adapter: AdapterClassMock
             },
             'panasonic-comfort-cloud-client': {
+                ...require('panasonic-comfort-cloud-client'),
                 ComfortCloudClient: ComfortCloudClientMock,
                 ServiceError: ServiceError,
                 TokenExpiredError: TokenExpiredError,
                 DataMode: DataMode
             },
-            'axios': {
-                default: axiosMock,
-                ...axiosMock
+            './lib/app-version': {
+                ...require('../../build/lib/app-version.js'),
+                getAppStoreVersion: () => Promise.resolve('0.0.0'),
+                getPlayStoreVersion: () => Promise.resolve(undefined)
             }
         });
 

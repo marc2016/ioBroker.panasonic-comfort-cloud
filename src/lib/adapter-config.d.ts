@@ -10,9 +10,13 @@ declare global {
 					username: string;
 					password: string;
 					refreshInterval: number;
+					/** Legacy key written by older admin configs, migrated to refreshInterval on start */
+					pollinterval?: number | null;
 					automaticRefreshEnabled: boolean;
 					appVersion: string;
 					appVersionFromAppStore: string;
+					appVersionFromPlayStore: string;
+					appType: 'android' | 'ios';
 					useAppVersionFromAppStore: boolean;
 					historyEnabled: boolean;
 			}

@@ -98,9 +98,23 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
 ### **WORK IN PROGRESS**
 
+* fixed the refresh interval from the admin settings being ignored; an existing value is migrated automatically (#121)
+* device and history refreshes no longer overlap, and requests are retried once after re-login when the token expired (#121)
+* added diagnostic states for refresh attempts, successful refreshes, running refreshes and consecutive errors (#121)
+
+### 3.5.0 (2026-10-25)
+
+* fixed login error 4106 "New version app has been published": the app version is now sent together with the matching platform; versions are read from Google Play and the App Store and tried in turn (#141)
+* added settings for the Google Play version and the platform of a manually configured app version
+* the adapter restarts itself once when a new app version is published while it is running
+* updated panasonic-comfort-cloud-client to 3.0.0 (stops token refresh on unload, clearer login errors, fixes `npm ci` with npm 10)
+* raised minimum Node.js version to 22.12
+
+### 3.4.1 (2026-10-25)
+
+* fixed password being encrypted twice when a new App Store version was detected, which caused login error 401 (#140). If you were affected, please enter your password again once in the instance settings
 * updated release-script and plugins to 5.2.0
 * raised minimum Node.js version to 22
 * migrated to @iobroker/eslint-config (ESLint 9)
@@ -136,41 +150,6 @@ console.log(`Avg Outside Temp on the 15th: ${day15Temp}°C`);
 ### 3.2.2 (2025-12-21)
 * re-enable history data fetching (month mode)
 * implement improved history date format (YYYY-MM-DD HH:mm:ss)
-
-### 3.2.1 (2025-12-21)
-* implement history data fetching (day mode)
-* add historyEnabled configuration
-* add manual history refresh command
-* fix eslint errors (indentation, unused vars)
-
-### 3.2.0 (2025-12-21)
-* update library panasonic-comfort-cloud-client to 2.1.4
-* modernize code (remove lodash, use async/await, split state definitions)
-* replace deprecated methods with modern equivalents
-* improve unit tests and remove deprecated test wrapper
-* add mocked client tests to verify connection logic
-
-### 3.1.0 (2025-08-09)
-
-* read app version from App Store.
-
-### 3.0.3 (2024-11-08)
-
-* panasonic-comfort-cloud-client updated to new version. CFC generator for header added.
-
-### 3.0.2 (2024-07-10)
-
-* Fixed bug in refreshing oauth token again.
-
-### 3.0.1 (2024-07-01)
-
-* Fixed bug in refreshing oauth token.
-
-### 3.0.0 (2024-06-29)
-
-* Added option to deactivate the automatic refresh.
-* Added state to manual refresh device infos.
-* Updated client version for OAuth support.
 
 Older changelog entries are available in [CHANGELOG_OLD.md](CHANGELOG_OLD.md).
 

@@ -71,11 +71,13 @@ describe('Client Mocking', () => {
                 Adapter: AdapterClassMock
             },
             'panasonic-comfort-cloud-client': {
+                ...require('panasonic-comfort-cloud-client'),
                 ComfortCloudClient: ComfortCloudClientMock
             },
-            'axios': {
-                default: axiosMock,
-                ...axiosMock
+            './lib/app-version': {
+                ...require('../../build/lib/app-version.js'),
+                getAppStoreVersion: () => Promise.resolve('0.0.0'),
+                getPlayStoreVersion: () => Promise.resolve(undefined)
             }
         });
 
@@ -120,5 +122,45 @@ describe('Client Mocking', () => {
         const calls = adapterMock.setStateAsync.getCalls();
         const connectionTrue = calls.find(c => c.args[0] === 'info.connection' && c.args[1] === true);
         expect(connectionTrue).to.exist;
+    });
+});
+
+describe('App Store version change (#140)', () => {
+    let onReady;
+    const originalAutomatic = adapterMock.config.useAppVersionFromAppStore;
+
+    before(() => {
+        adapterMock.config.useAppVersionFromAppStore = true;
+        const mainConstructor = proxyquire('../../build/main.js', {
+            '@iobroker/adapter-core': {
+                Adapter: AdapterClassMock
+            },
+            'panasonic-comfort-cloud-client': {
+                ...require('panasonic-comfort-cloud-client'),
+                ComfortCloudClient: ComfortCloudClientMock
+            },
+            './lib/app-version': {
+                ...require('../../build/lib/app-version.js'),
+                getAppStoreVersion: () => Promise.resolve('9.9.9'),
+                getPlayStoreVersion: () => Promise.resolve(undefined)
+            }
+        });
+
+        adapterMock.on.reset();
+        mainConstructor();
+        onReady = adapterMock.on.getCalls().find(call => call.args[0] === 'ready').args[1];
+    });
+
+    after(() => {
+        adapterMock.config.useAppVersionFromAppStore = originalAutomatic;
+    });
+
+    it('should save only the new app version and never the password', async () => {
+        adapterMock.updateConfig.resetHistory();
+
+        await onReady();
+
+        expect(adapterMock.updateConfig.calledOnce).to.be.true;
+        expect(adapterMock.updateConfig.firstCall.args[0]).to.deep.equal({ appVersionFromAppStore: '9.9.9' });
     });
 });
